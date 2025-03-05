@@ -1,0 +1,55 @@
+﻿// <copyright file="Commentaire.cs" company="Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ">
+// Copyright (c) Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ. All rights reserved.
+// </copyright>
+
+namespace Webzine.Entity
+{
+    using System;
+    using System.ComponentModel.DataAnnotations;
+
+    /// <summary>
+    /// Entite des commentaire.
+    /// </summary>
+    public class Commentaire
+    {
+        /// <summary>
+        /// Obtient ou définit un Identifiant unique au commentaire.
+        /// </summary>
+        public int IdCommentaire { get; set; }
+
+        /// <summary>
+        /// Obtient ou définit le contenu d'un commentaire.
+        /// </summary>
+        [Required]
+        [MaxLength(1000)]
+        [MinLength(10)]
+        [Display(Name = "Commentaire")]
+        public required string Contenu { get; set; }
+
+        /// <summary>
+        /// Obtient ou définit l'auteur qui a écrit le message.
+        /// </summary>
+        [Required]
+        [MinLength(2)]
+        [MaxLength(30)]
+        [Display(Name = "Nom")]
+        public required string Auteur { get; set; }
+
+        /// <summary>
+        /// Obtient ou définit la date de publication du commentaire.
+        /// </summary>
+        [Required]
+        [Display(Name = "Date de création")]
+        public DateTime DateCreation { get; set; }
+
+        /// <summary>
+        /// Obtient ou définit l'identifiant du titre auquel le commentaire est associé.
+        /// </summary>
+        public int IdTitre { get; set; }
+
+        /// <summary>
+        /// Obtient ou définit le titre auquel le commentaire est associé.
+        /// </summary>
+        public required Titre Titre { get; set; }
+    }
+}

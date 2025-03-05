@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="~/lib/bootstrap-5.3.3-dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap-5.3.3-dist/css/all.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap-icons-1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="~/lib/fontawesome-free-6.7.2-web/css/fontawesome.css">
+    <link rel="stylesheet" href="~/lib/fontawesome-free-6.7.2-web/css/solid.css">
+    <link rel="icon" href="@Url.Content("~/favicon.ico")" type="image/x-icon" />
+    <title>@ViewBag.Title</title>
+</head>
+<body class="d-flex flex-column min-vh-100 pt-5">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">Webzine</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarScroll">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Index"><i class="fa-solid fa-house"></i> Accueil</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-solid fa-screwdriver-wrench"></i> Administration
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-area="Administration" asp-controller="Dashboard" asp-action="Index"><i class="fa-solid fa-gauge-high"></i> Tableau de bord</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" asp-area="Administration" asp-controller="Artiste" asp-action="Index"><i class="fa-solid fa-users"></i> Artistes</a></li>
+                                <li><a class="dropdown-item" asp-area="Administration" asp-controller="Commentaire" asp-action="Index"><i class="fa-solid fa-comments"></i> Commentaires</a></li>
+                                <li><a class="dropdown-item" asp-area="Administration" asp-controller="Style" asp-action="Index"><i class="fa-solid fa-tags"></i> Styles</a></li>
+                                <li><a class="dropdown-item" asp-area="Administration" asp-controller="Titre" asp-action="Index"><i class="fa-solid fa-music"></i> Titres</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Contact" asp-action="Index"><i class="fa-solid fa-envelope"></i> Contact</a>
+                        </li>
+                    </ul>
+                    <form class="d-flex" role="search" method="get" asp-controller="Recherche" asp-action="Index">
+                        <div class="input-group">
+                            <input class="form-control border-end-0" type="search" placeholder="Trouver un artiste / titre" aria-label="Search" name="recherche" required>
+                            <button class="btn btn-primary px-2" type="submit">
+                                <i class="fa-solid fa-magnifying-glass text-white"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main class="flex-shrink-0">
+        <div class="container mt-5">
+            @RenderBody()
+        </div>
+    </main>
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container">
+            <span class="text-muted">© ASP.NET Core - DIIAGE 2024 - 2025</span>
+        </div>
+    </footer>
+    <script src="~/lib/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
