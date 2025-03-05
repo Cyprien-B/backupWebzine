@@ -12,7 +12,6 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
     [Area("Administration")]
     public class ArtisteController : Controller
     {
-
         /// <summary>
         /// Administration principale des artistes.
         /// </summary>
@@ -20,7 +19,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return this.Ok("Not implemented Artiste");
+            return this.View();
         }
 
         /// <summary>
@@ -30,7 +29,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return this.Ok("Not implemented");
+            return this.View();
         }
 
         /// <summary>
@@ -52,7 +51,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            return this.Ok("Not implemented");
+            return this.View();
         }
 
         /// <summary>
@@ -74,7 +73,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            return this.Ok("Not implemented");
+            return this.View();
         }
 
         /// <summary>

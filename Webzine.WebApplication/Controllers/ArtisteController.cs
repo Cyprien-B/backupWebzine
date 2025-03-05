@@ -18,7 +18,7 @@ namespace Webzine.WebApplication.Controllers
         /// <returns>Renvois la vue de l'artiste demandé.</returns>
         public IActionResult Index(string artiste)
         {
-            return this.Ok("Not implemented");
+            return this.View();
         }
     }
 }
