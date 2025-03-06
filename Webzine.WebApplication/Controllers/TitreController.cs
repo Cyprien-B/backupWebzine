@@ -19,7 +19,7 @@ namespace Webzine.WebApplication.Controllers
         [HttpGet]
         public IActionResult Index(int id)
         {
-            return this.Ok("Not implemented");
+            return this.View();
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace Webzine.WebApplication.Controllers
         [HttpGet]
         public IActionResult Style(string nomStyle)
         {
-            return this.Ok($"Not implementented {nomStyle}");
+            return this.View();
         }
 
         /// <summary>

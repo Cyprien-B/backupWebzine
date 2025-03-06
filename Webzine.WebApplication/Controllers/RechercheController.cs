@@ -19,7 +19,7 @@ namespace Webzine.WebApplication.Controllers
         [HttpPost]
         public IActionResult Index([FromForm] string recherche)
         {
-            return this.Ok("Not implemented");
+            return this.View();
         }
     }
 }

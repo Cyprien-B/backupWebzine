@@ -18,7 +18,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         /// <returns>Une vue du dashboard.</returns>
         public IActionResult Index()
         {
-            return this.Ok("Non implémenté");
+            return this.View();
         }
     }
 }

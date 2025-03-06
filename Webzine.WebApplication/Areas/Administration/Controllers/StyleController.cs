@@ -19,7 +19,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return this.Ok("Not implemented style");
+            return this.View();
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return this.Ok("Not implemented");
+            return this.View();
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            return this.Ok("Not implemented");
+            return this.View();
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            return this.Ok("Not implemented");
+            return this.View();
         }
 
         /// <summary>

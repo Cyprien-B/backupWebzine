@@ -17,7 +17,7 @@ namespace Webzine.WebApplication.Controllers
         /// <returns>Retourne la vue des contacts.</returns>
         public IActionResult Index()
         {
-            return this.Ok("Not implemented");
+            return this.View();
         }
     }
 }

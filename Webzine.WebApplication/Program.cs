@@ -22,6 +22,11 @@ app.MapControllerRoute(
     defaults: new { controller = "Home", action = "Index" });
 
 app.MapControllerRoute(
+    name: "titre-id",
+    pattern: "titre/{id:int}",
+    defaults: new { controller = "Titre", action = "Style" });
+
+app.MapControllerRoute(
     name: "titre-style",
     pattern: "titres/style/{nomStyle}",
     defaults: new { controller = "Titre", action = "Style" });

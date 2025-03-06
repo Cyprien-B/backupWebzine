@@ -30,7 +30,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            return this.Ok("Not implemented");
+            return this.View();
         }
 
         /// <summary>

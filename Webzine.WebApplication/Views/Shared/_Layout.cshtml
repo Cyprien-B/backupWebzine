@@ -41,7 +41,7 @@
                             <a class="nav-link" asp-controller="Contact" asp-action="Index"><i class="fa-solid fa-envelope"></i> Contact</a>
                         </li>
                     </ul>
-                    <form class="d-flex" role="search" method="get" asp-controller="Recherche" asp-action="Index">
+                    <form class="d-flex" role="search" method="post" asp-controller="Recherche" asp-action="Index">
                         <div class="input-group">
                             <input class="form-control border-end-0" type="search" placeholder="Trouver un artiste / titre" aria-label="Search" name="recherche" required>
                             <button class="btn btn-primary px-2" type="submit">
