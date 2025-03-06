@@ -2,4 +2,79 @@
     this.ViewBag.Title = "Contacts";
 }
 
-<p>Page de contact</p>
+<div class="container">
+    <div class="row">
+        <!-- Contenu principal (70% sur grand écran, 100% sur petit écran) -->
+        <div class="col-lg-9 mb-4">
+            <h1 class="mb-4">Contact</h1>
+            <p class="mb-1">C.U.C.D.B - DIIAGE.</p>
+            <p class="mb-1">69 Avenue Aristide Briand.</p>
+            <p class="mb-3">21000 Dijon.</p>
+            <div class="d-flex align-items-center">
+                <i class="fa-solid fa-phone"></i>
+                <p class="ms-2 mb-0">03 80 73 45 90</p>
+            </div>
+            <div class="d-flex align-items-center mb-4">
+                <i class="fa-solid fa-envelope"></i>
+                <a href="mailto:contact@exemple.com" class="ms-2 text-decoration-none mb-0">secretariat@cucdb.fr</a>
+            </div>
+
+            <h2 class="mb-4 pt-2">Suivez-nous</h2>
+            <!-- Bloc des réseaux sociaux -->
+            <div class="row g-4">
+                <!-- Bloc Site officiel du DIIAGE -->
+                <div class="col-md-4">
+                    <div class="card border-0 text-center p-3 bg-light">
+                        <i class="fa-solid fa-link fs-2 text-primary"></i>
+                        <p class="mt-2 text-primary">Site officiel du DIIAGE</p>
+                    </div>
+                </div>
+
+                <!-- Bloc Facebook -->
+                <div class="col-md-4">
+                    <div class="card border-0 text-center p-3 bg-light">
+                        <i class="fab fa-facebook fs-2 text-primary"></i>
+                        <p class="mt-2 text-primary">Facebook</p>
+                    </div>
+                </div>
+
+                <!-- Bloc Instagram -->
+                <div class="col-md-4">
+                    <div class="card border-0 text-center p-3 bg-light">
+                        <i class="fab fa-instagram fs-2 text-primary"></i>
+                        <p class="mt-2 text-primary">Instagram</p>
+                    </div>
+                </div>
+
+                <!-- Bloc LinkedIn -->
+                <div class="col-md-4">
+                    <div class="card border-0 text-center p-3 bg-light">
+                        <i class="fab fa-linkedin fs-2 text-primary"></i>
+                        <p class="mt-2 text-primary">LinkedIn</p>
+                    </div>
+                </div>
+
+                <!-- Bloc Google Maps -->
+                <div class="col-md-4">
+                    <div class="card border-0 text-center p-3 bg-light">
+                        <i class="fa-solid fa-map fs-2 text-primary"></i>
+                        <p class="mt-2 text-primary">Google Maps</p>
+                    </div>
+                </div>
+
+                <!-- Bloc Twitter -->
+                <div class="col-md-4">
+                    <div class="card border-0 text-center p-3 bg-light">
+                        <i class="fab fa-twitter fs-2 text-primary"></i>
+                        <p class="mt-2 text-primary">Twitter</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar (30% sur grand écran, 100% sur petit écran) -->
+        <div class="col-lg-3">
+            @await Component.InvokeAsync("StylesSidebar")
+        </div>
+    </div>
+</div>
