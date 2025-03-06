@@ -1,4 +1,40 @@
-﻿@{
-    this.ViewBag.Title = "Home";
+﻿@model Webzine.WebApplication.ViewModels.HomeModel;
+
+@{
+    this.ViewBag.Title = "Accueil";
 }
-<h1 class="bg-danger">Test page home</h1>
+
+<div class="container">
+    <div class="row">
+        <!-- Contenu principal (70% sur grand écran, 100% sur petit écran) -->
+        <div class="col-lg-9 mb-4">
+            <h1 class="mb-4">Derniers titres chroniqués</h1>
+            <div class="d-flex flex-column">
+                @foreach (var titre in Model.TitresRecemmentsChroniques)
+                {
+                    <div class="bg-light p-3 mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="@titre.UrlJaquette" class="img-fluid rounded" alt="jaquette">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="ps-md-3">
+                                    <h5 class="mb-2">
+                                        <a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre" class="text-decoration-none">@titre.Libelle</a>
+                                    </h5>
+                                    <p class="mb-2">@titre.Chronique</p>
+                                    <a href="#" class="btn btn-primary">Lire la suite</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Sidebar (30% sur grand écran, 100% sur petit écran) -->
+        <div class="col-lg-3">
+            @await Component.InvokeAsync("StylesSidebar")
+        </div>
+    </div>
+</div>
