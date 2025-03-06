@@ -2,6 +2,8 @@
 // Copyright (c) Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ. All rights reserved.
 // </copyright>
 
+using Webzine.Entity.Fixtures;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -9,6 +11,9 @@ builder.Services.AddControllers();
 // Ajoute les services nécessaires pour permettre l'utilisation des
 // controllers avec des vues.
 builder.Services.AddControllersWithViews();
+
+// Ajoute un service pour générer les données fictives de Bogus
+builder.Services.AddSingleton<DataGenerator>();
 
 var app = builder.Build();
 
