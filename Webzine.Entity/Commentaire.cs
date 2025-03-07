@@ -24,7 +24,7 @@ namespace Webzine.Entity
         [MaxLength(1000)]
         [MinLength(10)]
         [Display(Name = "Commentaire")]
-        public required string Contenu { get; set; }
+        public string Contenu { get; set; } = string.Empty;
 
         /// <summary>
         /// Obtient ou définit l'auteur qui a écrit le message.
@@ -33,23 +33,23 @@ namespace Webzine.Entity
         [MinLength(2)]
         [MaxLength(30)]
         [Display(Name = "Nom")]
-        public required string Auteur { get; set; }
+        public string Auteur { get; set; } = string.Empty;
 
         /// <summary>
         /// Obtient ou définit la date de publication du commentaire.
         /// </summary>
         [Required]
         [Display(Name = "Date de création")]
-        public DateTime DateCreation { get; set; }
+        public DateTime DateCreation { get; set; } = DateTime.Now;
 
         /// <summary>
         /// Obtient ou définit l'identifiant du titre auquel le commentaire est associé.
         /// </summary>
-        public int IdTitre { get; set; }
+        public int IdTitre { get; set; } = 0;
 
         /// <summary>
         /// Obtient ou définit le titre auquel le commentaire est associé.
         /// </summary>
-        public required Titre Titre { get; set; }
+        public Titre Titre { get; set; } = new();
     }
 }

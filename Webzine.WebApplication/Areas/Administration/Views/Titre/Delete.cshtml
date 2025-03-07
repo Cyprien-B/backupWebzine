@@ -1,5 +1,18 @@
-﻿@{
+﻿@model Webzine.Entity.Titre
+
+@{
     this.ViewBag.Title = "Supprimer un titre";
 }
 
-<p class="bi-type-italic">Supprimer un titre.</p>
+<h1 class="mb-4">Supprimer un titre</h1>
+<hr />
+
+<form asp-controller="Titre" asp-action="Delete" method="post">
+    <input type="hidden" asp-for="IdTitre" />
+    <p>
+        Etes-vous sûr de vouloir supprimer le titre "@Model.Libelle" de @Model.Artiste.Nom ?
+    </p>
+    <button type="submit" class="btn btn-danger">Supprimer</button>
+</form>
+<br />
+<a asp-controller="Titre" asp-action="Index">Retour à l'administration des titres</a>

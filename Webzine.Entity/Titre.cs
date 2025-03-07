@@ -16,17 +16,17 @@ namespace Webzine.Entity
         /// <summary>
         /// Obtient ou définit un identifiant unique au titre.
         /// </summary>
-        public int IdTitre { get; set; }
+        public int IdTitre { get; set; } = 0;
 
         /// <summary>
         /// Obtient ou définit l'identifiant de l'Artiste qui a composé le titre.
         /// </summary>
-        public int IdArtiste { get; set; }
+        public int IdArtiste { get; set; } = 0;
 
         /// <summary>
         /// Obtient ou définit l'Artiste qui a composé le titre.
         /// </summary>
-        public required Artiste Artiste { get; set; }
+        public Artiste Artiste { get; set; } = new();
 
         /// <summary>
         /// Obtient ou définit le libellé du titre.
@@ -35,7 +35,7 @@ namespace Webzine.Entity
         [MinLength(1)]
         [MaxLength(200)]
         [Display(Name = "Titre")]
-        public required string Libelle { get; set; }
+        public string Libelle { get; set; } = string.Empty;
 
         /// <summary>
         /// Obtient ou définit la description de la chronique du titre.
@@ -43,28 +43,29 @@ namespace Webzine.Entity
         [Required]
         [MinLength(10)]
         [MaxLength(4000)]
-        public required string Chronique { get; set; }
+        public string Chronique { get; set; } = string.Empty;
 
         /// <summary>
         /// Obtient ou définit la date de création du titre.
         /// </summary>
         [Required]
         [Display(Name = "Date de création")]
-        public DateTime DateCreation { get; set; }
+        public DateTime DateCreation { get; set; } = DateTime.Now;
 
         /// <summary>
         /// Obtient ou définit la durée en secondes du titre.
         /// Ne doit pas être négatif.
         /// </summary>
+        [Range(1, int.MaxValue, ErrorMessage = "La durée doit être un nombre positif.")]
         [Display(Name = "Durée en secondes")]
-        public uint Duree { get; set; }
+        public uint Duree { get; set; } = 0;
 
         /// <summary>
         /// Obtient ou définit la date de sortie d'un titre.
         /// </summary>
         [Required]
         [Display(Name = "Date de sortie")]
-        public DateTime DateSortie { get; set; }
+        public DateTime DateSortie { get; set; } = DateTime.Now;
 
         /// <summary>
         /// Obtient ou définit l'URL de la jaquette de l'album.
@@ -72,7 +73,7 @@ namespace Webzine.Entity
         [Required]
         [MaxLength(250)]
         [Display(Name = "Jaquette de l'album")]
-        public required string UrlJaquette { get; set; }
+        public string UrlJaquette { get; set; } = string.Empty;
 
         /// <summary>
         /// Obtient ou définit l'URL d'écoute du titre.
@@ -80,31 +81,36 @@ namespace Webzine.Entity
         [MaxLength(250)]
         [MinLength(13)]
         [Display(Name = "URL d'écoute")]
-        public required string UrlEcoute { get; set; }
+        public string UrlEcoute { get; set; } = string.Empty;
 
         /// <summary>
         /// Obtient ou définit le nombre de fois que le titre a été écouté.
         /// </summary>
         [Required]
         [Display(Name = "Nombre de lectures")]
-        public uint NbLectures { get; set; }
+        public uint NbLectures { get; set; } = 0;
 
         /// <summary>
         /// Obtient ou définit le nombre de "likes" reçus par le titre.
         /// </summary>
         [Required]
         [Display(Name = "Nombre de likes")]
-        public uint NbLikes { get; set; }
+        public uint NbLikes { get; set; } = 0;
 
         /// <summary>
         /// Obtient ou définit le nom de l'album auquel appartient le titre.
         /// </summary>
         [Required]
-        public required string Album { get; set; }
+        public string Album { get; set; } = string.Empty;
 
         /// <summary>
         /// Obtient ou définit la collection des commentaires associés à ce titre.
         /// </summary>
-        public required ICollection<Commentaire> Commentaires { get; set; }
+        public ICollection<Commentaire> Commentaires { get; set; } = [];
+
+        /// <summary>
+        /// Obtient ou définit une liste de styles lié au titre automatiquement représentant le many to many.
+        /// </summary>
+        public List<Style> Styles { get; set; } = [];
     }
 }
