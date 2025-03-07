@@ -6,19 +6,31 @@ namespace Webzine.WebApplication.Controllers.Components
 {
     using Microsoft.AspNetCore.Mvc;
     using Webzine.Entity;
+    using Webzine.Entity.Fixtures;
 
     /// <summary>
     /// View component pour la liste des styles.
     /// </summary>
     public class StylesSidebarViewComponent : ViewComponent
     {
+        private readonly DataGenerator dataGenerator;
+
+        /// <summary>
+        /// Initialise une nouvelle instance de la classe <see cref="StylesSidebarViewComponent"/>.
+        /// </summary>
+        /// <param name="dataGenerator">Le générateur de données fictives.</param>
+        public StylesSidebarViewComponent(DataGenerator dataGenerator)
+        {
+            this.dataGenerator = dataGenerator;
+        }
+
         /// <summary>
         /// Injecte les styles à la composante de vue.
         /// </summary>
         /// <returns>Une composante de vue.</returns>
         public IViewComponentResult Invoke()
         {
-            List<Style> styles = [new Style { IdStyle = 0, Libelle = "Jazz", }, new Style { IdStyle = 1, Libelle = "Classique", }]; // Obtenez la liste des styles
+            var styles = this.dataGenerator.GenerateStyles(30);
             return this.View(styles);
         }
     }

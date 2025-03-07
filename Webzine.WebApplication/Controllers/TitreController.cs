@@ -5,12 +5,25 @@
 namespace Webzine.WebApplication.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using Webzine.Entity.Fixtures;
+    using Webzine.WebApplication.ViewModels;
 
     /// <summary>
     /// Contrôleur des titres.
     /// </summary>
     public class TitreController : Controller
     {
+        private readonly DataGenerator dataGenerator;
+
+        /// <summary>
+        /// Initialise une nouvelle instance de la classe <see cref="TitreController"/>.
+        /// </summary>
+        /// <param name="dataGenerator">Le générateur de données fictives.</param>
+        public TitreController(DataGenerator dataGenerator)
+        {
+            this.dataGenerator = dataGenerator;
+        }
+
         /// <summary>
         /// Titre en fonction de l'id.
         /// </summary>
@@ -19,7 +32,8 @@ namespace Webzine.WebApplication.Controllers
         [HttpGet]
         public IActionResult Index(int id)
         {
-            return this.View();
+            var model = new TitreModel(this.dataGenerator, id);
+            return this.View(model);
         }
 
         /// <summary>

@@ -8,7 +8,7 @@
     @foreach (Webzine.Entity.Style style in Model)
     {
         <li>
-            <a asp-controller="Titre" asp-action="Style" asp-route-nomStyle="@style.Libelle">@style.Libelle</a>
+            <a asp-controller="Titre" asp-action="Style" asp-route-nomStyle="@style.Libelle" class="text-decoration-none">@style.Libelle</a>
         </li>
     }
 </ul>

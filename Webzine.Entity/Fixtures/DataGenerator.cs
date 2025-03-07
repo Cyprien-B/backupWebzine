@@ -4,14 +4,14 @@
 
 namespace Webzine.Entity.Fixtures
 {
-    using Bogus; // Générateur de données fictives
+    using Bogus; // GÃ©nÃ©rateur de donnÃ©es fictives
 
     /// <summary>
-    /// Classe pour générer des données fictives.
+    /// Classe pour gÃ©nÃ©rer des donnÃ©es fictives.
     /// </summary>
     public class DataGenerator
     {
-        // Déclaration des générateurs de données fictives
+        // DÃ©claration des gÃ©nÃ©rateurs de donnÃ©es fictives
         private readonly Faker<Artiste> artisteFake;
         private readonly Faker<Titre> titreFake;
         private readonly Faker<Titre> titreIndividuelFake;
@@ -23,74 +23,74 @@ namespace Webzine.Entity.Fixtures
         /// </summary>
         public DataGenerator()
         {
-            // Initialisation du générateur aléatoire
+            // Initialisation du gÃ©nÃ©rateur alÃ©atoire
             Randomizer.Seed = new Random(123);
 
-            // Configuration du générateur pour les artistes
+            // Configuration du gÃ©nÃ©rateur pour les artistes
             this.artisteFake = new Faker<Artiste>()
                 .RuleFor(a => a.IdArtiste, f => f.IndexFaker + 1) // ID unique
                 .RuleFor(a => a.Nom, f => f.Name.FullName()) // Nom complet
-                .RuleFor(a => a.Biographie, f => f.Lorem.Sentences()) // Biographie aléatoire
+                .RuleFor(a => a.Biographie, f => f.Lorem.Sentences()) // Biographie alÃ©atoire
                 .RuleFor(a => a.Titres, f => new List<Titre>()); // Liste de titres vide
 
-            // Configuration du générateur pour les titres
+            // Configuration du gÃ©nÃ©rateur pour les titres
             this.titreFake = new Faker<Titre>()
                 .RuleFor(t => t.IdTitre, f => f.IndexFaker + 1) // ID unique
-                .RuleFor(t => t.Artiste, f => f.PickRandom(this.artisteFake)) // Artiste aléatoire
-                .RuleFor(t => t.Libelle, f => f.Lorem.Sentence(1, 3)) // Libellé aléatoire
-                .RuleFor(t => t.Chronique, f => f.Lorem.Sentences()) // Chronique aléatoire
-                .RuleFor(t => t.DateCreation, f => f.Date.Recent()) // Date de création passée
-                .RuleFor(t => t.Duree, f => f.Random.UInt(60, 300)) // Durée aléatoire entre 60 et 600 secondes
-                .RuleFor(t => t.DateSortie, f => f.Date.Past()) // Date de sortie passée
-                .RuleFor(t => t.UrlJaquette, f => f.Image.PicsumUrl()) // URL de jaquette aléatoire
-                .RuleFor(t => t.UrlEcoute, f => f.Internet.Url()) // URL d'écoute aléatoire
-                .RuleFor(t => t.NbLectures, f => f.Random.UInt(0, 100)) // Nombre de lectures aléatoire
-                .RuleFor(t => t.NbLikes, f => f.Random.UInt(0, 100)) // Nombre de likes aléatoire
-                .RuleFor(t => t.Album, f => f.Lorem.Word()) // Album aléatoire
+                .RuleFor(t => t.Artiste, f => f.PickRandom(this.artisteFake)) // Artiste alÃ©atoire
+                .RuleFor(t => t.Libelle, f => f.Lorem.Sentence(1, 3)) // LibellÃ© alÃ©atoire
+                .RuleFor(t => t.Chronique, f => f.Lorem.Sentences(10)) // Chronique alÃ©atoire
+                .RuleFor(t => t.DateCreation, f => f.Date.Recent().AddHours(f.Random.Int(0, 23)).AddMinutes(f.Random.Int(0, 59))) // Date et heure de crÃ©ation passÃ©e
+                .RuleFor(t => t.Duree, f => f.Random.UInt(60, 300)) // DurÃ©e alÃ©atoire entre 60 et 600 secondes
+                .RuleFor(t => t.DateSortie, f => f.Date.Past()) // Date de sortie passÃ©e
+                .RuleFor(t => t.UrlJaquette, f => f.Image.PicsumUrl()) // URL de jaquette alÃ©atoire
+                .RuleFor(t => t.UrlEcoute, f => f.Internet.Url()) // URL d'Ã©coute alÃ©atoire
+                .RuleFor(t => t.NbLectures, f => f.Random.UInt(0, 100)) // Nombre de lectures alÃ©atoire
+                .RuleFor(t => t.NbLikes, f => f.Random.UInt(0, 100)) // Nombre de likes alÃ©atoire
+                .RuleFor(t => t.Album, f => f.Lorem.Word()) // Album alÃ©atoire
                 .RuleFor(t => t.Commentaires, f => new List<Commentaire>()); // Liste de commentaires vide
 
-            // Configuration du générateur pour les titres individuels
+            // Configuration du gÃ©nÃ©rateur pour les titres individuels
             this.titreIndividuelFake = new Faker<Titre>()
                 .RuleFor(t => t.IdTitre, f => f.IndexFaker + 1) // ID unique
-                .RuleFor(t => t.Artiste, f => f.PickRandom(this.artisteFake)) // Artiste aléatoire
-                .RuleFor(t => t.Libelle, f => f.Lorem.Word()) // Libellé aléatoire
-                .RuleFor(t => t.Chronique, f => f.Lorem.Sentences()) // Chronique aléatoire
-                .RuleFor(t => t.DateCreation, f => f.Date.Past()) // Date de création passée
-                .RuleFor(t => t.Duree, f => f.Random.UInt(60, 300)) // Durée aléatoire entre 60 et 600 secondes
-                .RuleFor(t => t.DateSortie, f => f.Date.Past()) // Date de sortie passée
-                .RuleFor(t => t.UrlJaquette, f => f.Image.PicsumUrl()) // URL de jaquette aléatoire
-                .RuleFor(t => t.UrlEcoute, f => f.Internet.Url()) // URL d'écoute aléatoire
-                .RuleFor(t => t.NbLectures, f => f.Random.UInt(0, 100)) // Nombre de lectures aléatoire
-                .RuleFor(t => t.NbLikes, f => f.Random.UInt(0, 100)) // Nombre de likes aléatoire
-                .RuleFor(t => t.Album, f => f.Lorem.Word()) // Album aléatoire
+                .RuleFor(t => t.Artiste, f => f.PickRandom(this.artisteFake)) // Artiste alÃ©atoire
+                .RuleFor(t => t.Libelle, f => f.Lorem.Word()) // LibellÃ© alÃ©atoire
+                .RuleFor(t => t.Chronique, f => f.Lorem.Sentences(70)) // Chronique alÃ©atoire avec 15 phrases
+                .RuleFor(t => t.DateCreation, f => f.Date.Past().AddHours(f.Random.Int(0, 23)).AddMinutes(f.Random.Int(0, 59))) // Date et heure de crÃ©ation passÃ©e
+                .RuleFor(t => t.Duree, f => f.Random.UInt(60, 300)) // DurÃ©e alÃ©atoire entre 60 et 600 secondes
+                .RuleFor(t => t.DateSortie, f => f.Date.Past()) // Date de sortie passÃ©e
+                .RuleFor(t => t.UrlJaquette, f => f.Image.PicsumUrl()) // URL de jaquette alÃ©atoire
+                .RuleFor(t => t.UrlEcoute, f => "https://www.youtube.com/embed/" + f.Random.AlphaNumeric(11)) // URL YouTube alÃ©atoire
+                .RuleFor(t => t.NbLectures, f => f.Random.UInt(0, 100)) // Nombre de lectures alÃ©atoire
+                .RuleFor(t => t.NbLikes, f => f.Random.UInt(0, 100)) // Nombre de likes alÃ©atoire
+                .RuleFor(t => t.Album, f => f.Lorem.Word()) // Album alÃ©atoire
                 .RuleFor(t => t.Commentaires, f => new List<Commentaire>()); // Liste de commentaires vide
 
-            // Configuration du générateur pour les commentaires
+            // Configuration du gÃ©nÃ©rateur pour les commentaires
             this.commentaireFake = new Faker<Commentaire>()
                 .RuleFor(c => c.IdCommentaire, f => f.IndexFaker + 1) // ID unique
-                .RuleFor(c => c.Contenu, f => f.Lorem.Paragraphs(1, 3)) // Contenu aléatoire
-                .RuleFor(c => c.Auteur, f => f.Name.FirstName()) // Auteur aléatoire
-                .RuleFor(c => c.DateCreation, f => f.Date.Past()); // Date de création passée
+                .RuleFor(c => c.Contenu, f => f.Lorem.Paragraphs(1, 3)) // Contenu alÃ©atoire
+                .RuleFor(c => c.Auteur, f => f.Name.FirstName()) // Auteur alÃ©atoire
+                .RuleFor(c => c.DateCreation, f => f.Date.Past()); // Date de crÃ©ation passÃ©e
 
-            // Configuration du générateur pour les styles
+            // Configuration du gÃ©nÃ©rateur pour les styles
             this.styleFake = new Faker<Style>()
                 .RuleFor(s => s.IdStyle, f => f.IndexFaker + 1) // ID unique
-                .RuleFor(s => s.Libelle, f => f.Music.Genre()); // Genre musical aléatoire
+                .RuleFor(s => s.Libelle, f => f.Music.Genre()); // Genre musical alÃ©atoire
         }
 
         /// <summary>
-        /// Méthode pour générer un titre.
+        /// MÃ©thode pour gÃ©nÃ©rer un titre.
         /// </summary>
-        /// <returns> Titre généré. </returns>
+        /// <returns> Titre gÃ©nÃ©rÃ©. </returns>
         public Titre GenerateTitre()
         {
-            var titre = this.titreIndividuelFake.Generate(); // Générer un titre
+            var titre = this.titreIndividuelFake.Generate(); // GÃ©nÃ©rer un titre
             titre.IdArtiste = titre.Artiste.IdArtiste; // Assigner l'ID de l'artiste
-            titre.Artiste.Titres.Add(titre); // Ajouter le titre à la liste de l'artiste
+            titre.Artiste.Titres.Add(titre); // Ajouter le titre Ã  la liste de l'artiste
 
-            // Générer 2-3 commentaires pour le titre
-            var nbCommentaires = new Random().Next(2, 4); // Nombre aléatoire de commentaires
-            var commentaires = this.commentaireFake.Generate(nbCommentaires); // Générer les commentaires
+            // GÃ©nÃ©rer 2-3 commentaires pour le titre
+            var nbCommentaires = new Random().Next(2, 4); // Nombre alÃ©atoire de commentaires
+            var commentaires = this.commentaireFake.Generate(nbCommentaires); // GÃ©nÃ©rer les commentaires
             foreach (var commentaire in commentaires)
             {
                 commentaire.Titre = titre; // Assigner le titre au commentaire
@@ -98,68 +98,68 @@ namespace Webzine.Entity.Fixtures
                 titre.Commentaires.Add(commentaire); // Ajouter le commentaire au titre
             }
 
-            return titre; // Retourner le titre généré
+            return titre; // Retourner le titre gÃ©nÃ©rÃ©
         }
 
         /// <summary>
-        /// Méthode pour générer un artiste.
+        /// MÃ©thode pour gÃ©nÃ©rer un artiste.
         /// </summary>
         /// <returns> Un artiste. </returns>
         public Artiste GenerateArtiste()
         {
-            var artiste = this.artisteFake.Generate(); // Générer un artiste
+            var artiste = this.artisteFake.Generate(); // GÃ©nÃ©rer un artiste
 
-            // Générer et assigner des titres à l'artiste
-            var titres = this.titreFake.Generate(3); // Générer 3 titres
+            // GÃ©nÃ©rer et assigner des titres Ã  l'artiste
+            var titres = this.titreFake.Generate(3); // GÃ©nÃ©rer 3 titres
             foreach (var titre in titres)
             {
                 titre.Artiste = artiste; // Assigner l'artiste au titre
                 titre.IdArtiste = artiste.IdArtiste; // Assigner l'ID de l'artiste au titre
-                artiste.Titres.Add(titre); // Ajouter le titre à la liste de l'artiste
+                artiste.Titres.Add(titre); // Ajouter le titre Ã  la liste de l'artiste
             }
 
-            return artiste; // Retourner l'artiste généré
+            return artiste; // Retourner l'artiste gÃ©nÃ©rÃ©
         }
 
         /// <summary>
-        /// Méthode pour générer une liste d'artistes.
+        /// MÃ©thode pour gÃ©nÃ©rer une liste d'artistes.
         /// </summary>
-        /// <param name="count"> Nombre d'artistes à générer. </param>
-        /// <returns> Liste d'artistes générés. </returns>
+        /// <param name="count"> Nombre d'artistes Ã  gÃ©nÃ©rer. </param>
+        /// <returns> Liste d'artistes gÃ©nÃ©rÃ©s. </returns>
         public List<Artiste> GenerateArtistes(int count)
         {
-            var artistes = this.artisteFake.Generate(count); // Générer une liste d'artistes
+            var artistes = this.artisteFake.Generate(count); // GÃ©nÃ©rer une liste d'artistes
             foreach (var artiste in artistes)
             {
-                var titres = this.titreFake.Generate(3); // Générer 3 titres pour chaque artiste
+                var titres = this.titreFake.Generate(3); // GÃ©nÃ©rer 3 titres pour chaque artiste
                 foreach (var titre in titres)
                 {
                     titre.Artiste = artiste; // Assigner l'artiste au titre
                     titre.IdArtiste = artiste.IdArtiste; // Assigner l'ID de l'artiste au titre
-                    artiste.Titres.Add(titre); // Ajouter le titre à la liste de l'artiste
+                    artiste.Titres.Add(titre); // Ajouter le titre Ã  la liste de l'artiste
                 }
             }
 
-            return artistes; // Retourner la liste d'artistes générés
+            return artistes; // Retourner la liste d'artistes gÃ©nÃ©rÃ©s
         }
 
         /// <summary>
-        /// Méthode pour générer un style.
+        /// MÃ©thode pour gÃ©nÃ©rer un style.
         /// </summary>
-        /// <returns> Un style généré. </returns>
+        /// <returns> Un style gÃ©nÃ©rÃ©. </returns>
         public Style GenerateStyle()
         {
-            return this.styleFake.Generate(); // Retourner un style généré
+            return this.styleFake.Generate(); // Retourner un style gÃ©nÃ©rÃ©
         }
 
         /// <summary>
-        /// Méthode pour générer une liste de styles.
+        /// MÃ©thode pour gÃ©nÃ©rer une liste de styles.
         /// </summary>
-        /// <param name="count"> Nombre de style à générer. </param>
-        /// <returns> Liste des styles générés. </returns>
+        /// <param name="count"> Nombre de style Ã  gÃ©nÃ©rer. </param>
+        /// <returns> Liste des styles gÃ©nÃ©rÃ©s. </returns>
         public List<Style> GenerateStyles(int count)
         {
-            return this.styleFake.Generate(count); // Retourner une liste de styles générés
+            return this.styleFake.Generate(count); // Retourner une liste de styles gÃ©nÃ©rÃ©s
         }
     }
 }

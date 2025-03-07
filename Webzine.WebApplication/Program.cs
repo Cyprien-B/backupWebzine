@@ -8,11 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-// Ajoute les services nécessaires pour permettre l'utilisation des
+// Ajoute les services nï¿½cessaires pour permettre l'utilisation des
 // controllers avec des vues.
 builder.Services.AddControllersWithViews();
 
-// Ajoute un service pour générer les données fictives de Bogus
+// Ajoute un service pour gï¿½nï¿½rer les donnï¿½es fictives de Bogus
 builder.Services.AddSingleton<DataGenerator>();
 
 var app = builder.Build();
@@ -29,7 +29,7 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "titre-id",
     pattern: "titre/{id:int}",
-    defaults: new { controller = "Titre", action = "Style" });
+    defaults: new { controller = "Titre", action = "Index" });
 
 app.MapControllerRoute(
     name: "titre-style",
