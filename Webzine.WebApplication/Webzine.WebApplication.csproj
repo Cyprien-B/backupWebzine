@@ -29,7 +29,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Areas\Administration\ViewModels\" />
 		<Folder Include="wwwroot\data\" />
 		<Folder Include="wwwroot\images\" />
 		<Folder Include="wwwroot\js\" />

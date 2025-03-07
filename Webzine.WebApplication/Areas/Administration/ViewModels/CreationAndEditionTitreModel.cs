@@ -1,0 +1,35 @@
+﻿// <copyright file="CreationAndEditionTitreModel.cs" company="Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ">
+// Copyright (c) Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ. All rights reserved.
+// </copyright>
+
+namespace Webzine.WebApplication.Areas.Administration.ViewModels
+{
+    using System.ComponentModel.DataAnnotations;
+    using Webzine.Entity;
+
+    /// <summary>
+    /// Model pour la création et l'édition d'un titre.
+    /// </summary>
+    public class CreationAndEditionTitreModel
+    {
+        /// <summary>
+        /// Obtient ou définit la liste des styles sélectionnables.
+        /// </summary>
+        public List<Style> Styles { get; set; } = [];
+
+        /// <summary>
+        /// Obtient ou définit la liste des artistes sélectionnables.
+        /// </summary>
+        public List<Artiste> Artistes { get; set; } = [];
+
+        /// <summary>
+        /// Obtient ou définit un artiste pour un formulaire typé, et obtenir les types de variable lié à un artiste.
+        /// </summary>
+        public Artiste Artiste { get; set; } = new();
+
+        /// <summary>
+        /// Obtient ou définit le titre à poster.
+        /// </summary>
+        public Titre Titre { get; set; } = new();
+    }
+}

@@ -14,7 +14,7 @@ namespace Webzine.Entity
         /// <summary>
         /// Obtient ou définit l'identifiant unique d'un style.
         /// </summary>
-        public int IdStyle { get; set; }
+        public int IdStyle { get; set; } = 0;
 
         /// <summary>
         /// Obtient ou définit le libellé d'un style (rap, jazz, classique...).
@@ -23,6 +23,11 @@ namespace Webzine.Entity
         [MaxLength(50)]
         [MinLength(2)]
         [Display(Name = "Libellé")]
-        public required string Libelle { get; set; }
+        public string Libelle { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Obtient ou définit une liste de titres lié au style automatiquement représentant le many to many.
+        /// </summary>
+        public List<Titre> Titres { get; set; } = [];
     }
 }
