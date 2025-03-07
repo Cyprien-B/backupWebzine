@@ -31,14 +31,14 @@
                             <h4>@album.Nom</h4>
                             <table class="table">
                                     <tr>
-                                    <th scope="col">Durée</th>
+                                    <th class="w-15" scope="col">Durée</th>
                                     <th scope="col">Titre</th>
                                     </tr>
                                     @foreach (var titre in album.Titres)
                                     {
                                     <tr class="">
-                                            <td>@TimeSpan.FromSeconds(titre.Duree).ToString(@"mm\:ss")</td>
-                                            <td><a href="@titre.UrlEcoute" class="text-decoration-none">@titre.Libelle</a></td>
+                                            <td class="w-15" >@TimeSpan.FromSeconds(titre.Duree).ToString(@"mm\:ss")</td>
+                                            <td><a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre" class="text-decoration-none">@titre.Libelle</a></td>
                                         </tr>
                                     }
                             </table>
