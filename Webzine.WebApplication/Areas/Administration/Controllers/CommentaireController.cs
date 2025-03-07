@@ -5,6 +5,8 @@
 namespace Webzine.WebApplication.Areas.Administration.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using Webzine.Entity;
+    using Webzine.WebApplication.Areas.Administration.ViewModels;
 
     /// <summary>
     /// Contrôleur de commentaire.
@@ -19,7 +21,11 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return this.Ok("Not implemented commentaire");
+            AdministrationCommentairesModel model = new()
+            {
+                Commentaires = [new() { Auteur = "Jack", Contenu = "Trop cool", DateCreation = DateTime.Now, IdCommentaire = 1, IdTitre = 1, Titre = new() { Libelle = "Vivre Ailleur" } }],
+            };
+            return this.View(model);
         }
 
         /// <summary>
@@ -30,7 +36,11 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            return this.View();
+            Commentaire commentaire = new()
+            {
+                Auteur = "Jack", Contenu = "Trop cool", DateCreation = DateTime.Now, IdCommentaire = 1, IdTitre = 1, Titre = new() { Libelle = "Vivre Ailleur" },
+            };
+            return this.View(commentaire);
         }
 
         /// <summary>
@@ -39,9 +49,9 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         /// <param name="result">L'identifiant du commentaire à supprimer.</param>
         /// <returns>Le résultat de la suppression d'un commentaire.</returns>
         [HttpPost]
-        public IActionResult Delete([FromForm] object result)
+        public IActionResult Delete([FromForm] Commentaire result)
         {
-            return this.Ok("Not implemented");
+            return this.RedirectToAction(nameof(this.Index));
         }
     }
 }

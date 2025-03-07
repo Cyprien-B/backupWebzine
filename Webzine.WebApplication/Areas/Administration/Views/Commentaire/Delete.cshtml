@@ -1,5 +1,20 @@
-﻿@{
-    this.ViewBag.Title = "Supprimer un commentaire";
+﻿@model Webzine.Entity.Commentaire
+
+@{
+    this.ViewBag.Title = "Supprimer un Commentaire";
 }
 
-<p class="bi-type-italic">Supprimer un commentaire.</p>
+<h1 class="mb-4">Supprimer un commentaire</h1>
+<hr />
+
+<form asp-controller="Commentaire" asp-action="Delete" method="post">
+    <input type="hidden" asp-for="IdCommentaire" />
+    <p>
+        Etes-vous sûr de vouloir supprimer le commentaire suivant ?
+    </p>
+    <b>@Model.Contenu</b>
+    <p class="text-secondary">— <b>@Model.Auteur</b> le @Model.DateCreation sur <i>@Model.Titre.Libelle</i></p>
+    <button type="submit" class="btn btn-danger">Supprimer</button>
+</form>
+<br />
+<a asp-controller="Commentaire" asp-action="Index">Retour à l'administration des commentaires</a>
