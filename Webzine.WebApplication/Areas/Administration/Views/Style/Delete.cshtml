@@ -1,5 +1,18 @@
-﻿@{
-    this.ViewBag.Title = "Supprimer un style";
+﻿@model Webzine.Entity.Style
+
+@{
+    this.ViewBag.Title = "Supprimer un Style";
 }
 
-<p class="bi-type-italic">Supprimer un style.</p>
+<h1 class="mb-4">Supprimer un style</h1>
+<hr />
+
+<form asp-controller="Style" asp-action="Delete" method="post">
+    <input type="hidden" asp-for="IdStyle" />
+    <p>
+        Etes-vous sûr de vouloir supprimer le style de musique "@Model.Libelle" ?
+    </p>
+    <button type="submit" class="btn btn-danger">Supprimer</button>
+</form>
+<br />
+<a asp-controller="Style" asp-action="Index">Retour à l'administration des styles</a>

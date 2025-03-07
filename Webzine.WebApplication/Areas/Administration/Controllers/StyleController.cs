@@ -5,6 +5,8 @@
 namespace Webzine.WebApplication.Areas.Administration.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using Webzine.Entity;
+    using Webzine.WebApplication.Areas.Administration.ViewModels;
 
     /// <summary>
     /// Contrôleur de style.
@@ -19,7 +21,11 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return this.View();
+            AdministrationStylesModel model = new()
+            {
+                Styles = [new Style() { Libelle = "Jazz", IdStyle = 1 },],
+            };
+            return this.View(model);
         }
 
         /// <summary>
@@ -29,7 +35,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return this.View();
+            return this.View(new Style());
         }
 
         /// <summary>
@@ -38,9 +44,9 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         /// <param name="result">Les données de l'artiste à créer.</param>
         /// <returns>Le résultat de la création de l'artiste.</returns>
         [HttpPost]
-        public IActionResult Create([FromForm] object result)
+        public IActionResult Create([FromForm] Style result)
         {
-            return this.Ok("Not implemented");
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         /// <summary>
@@ -51,7 +57,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            return this.View();
+            return this.View(new Style());
         }
 
         /// <summary>
@@ -60,9 +66,9 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         /// <param name="result">L'identifiant de l'artiste à supprimer.</param>
         /// <returns>Le résultat de la suppression de l'artiste.</returns>
         [HttpPost]
-        public IActionResult Delete([FromForm] object result)
+        public IActionResult Delete([FromForm] Style result)
         {
-            return this.Ok("Not implemented");
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         /// <summary>
@@ -73,7 +79,12 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            return this.View();
+            Style style = new()
+            {
+                Libelle = "Rap",
+                IdStyle = 1,
+            };
+            return this.View(style);
         }
 
         /// <summary>
@@ -82,9 +93,9 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         /// <param name="result">L'identifiant de l'artiste à éditer.</param>
         /// <returns>Le résultat de l'édition de l'artiste.</returns>
         [HttpPost]
-        public IActionResult Edit([FromForm] object result)
+        public IActionResult Edit([FromForm] Style result)
         {
-            return this.Ok("Not implemented");
+            return this.RedirectToAction(nameof(this.Index));
         }
     }
 }
