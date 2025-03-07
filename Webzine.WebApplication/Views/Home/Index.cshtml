@@ -1,0 +1,67 @@
+﻿@model Webzine.WebApplication.ViewModels.HomeModel;
+
+@{
+    this.ViewBag.Title = "Accueil";
+}
+
+<div class="container">
+    <div class="row">
+        <!-- Contenu principal (70% sur grand écran, 100% sur petit écran) -->
+        <div class="col-lg-9 mb-4">
+            <h1 class="mb-4">Derniers titres chroniqués</h1>
+            <div class="d-flex flex-column">
+                @foreach (var titre in Model.TitresRecemmentsChroniques)
+                {
+                    <div class="bg-light p-3 mb-3 overflow-hidden">
+                        <div class="row g-0 h-100">
+                            <div class="col-12 col-md-3 mb-3 mb-md-0 d-flex align-items-center">
+                                <a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre" class="w-100">
+                                    <img src="@titre.UrlJaquette" class="img-fluid rounded w-100" alt="jaquette" style="object-fit: cover; max-height: 300px;">
+                                </a>
+                            </div>
+                            <div class="col-12 col-md-9 d-flex flex-column">
+                                <div class="ps-md-3 pe-md-3 h-100 d-flex flex-column justify-content-between">
+                                    <div>
+                                        <h5 class="mb-2">
+                                            <a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre" class="text-decoration-none">@titre.Libelle</a>
+                                        </h5>
+                                        <p class="mb-2">@titre.Chronique</p>
+                                    </div>
+                                    <div class="mt-auto">
+                                        <a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre" class="btn btn-primary">Lire la suite</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <h1 class="mb-4">Titres les plus populaires</h1>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+                @foreach (var titre in Model.TitresPopulaires)
+                {
+                    <div class="col">
+                        <div class="card h-100">
+                            <img src="@titre.UrlJaquette" alt="jaquette" class="card-img-top">
+                            <div class="card-body">
+                                <h5 class="card-title mb-2">
+                                    <a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre" class="text-decoration-none">@titre.Libelle</a>
+                                </h5>
+                                <p class="card-text mb-0 text-muted">
+                                    par
+                                    <a asp-controller="Artiste" asp-action="Index" asp-route-artiste="@titre.Artiste.Nom" class="text-decoration-none">@titre.Artiste.Nom</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Sidebar (30% sur grand écran, 100% sur petit écran) -->
+        <div class="col-lg-3">
+            @await Component.InvokeAsync("StylesSidebar")
+        </div>
+    </div>
+</div>

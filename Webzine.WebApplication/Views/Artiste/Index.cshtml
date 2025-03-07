@@ -1,0 +1,56 @@
+﻿@* // <copyright file="ApiController.cs" company="Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ">
+// Copyright (c) Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ. All rights reserved.
+// </copyright> *@
+@{
+    ViewBag.Title = "Biographie " + Model.Nom;
+}
+
+@model Webzine.WebApplication.ViewModels.ArtisteViewModel.Artiste
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-9">
+            <!-- Section Artiste -->
+            <div class="mb-4">
+                <h1>@Model.Nom</h1>
+                <hr>
+                <p>@Model.Biographie</p>
+            </div>
+
+            <!-- Section Albums -->
+            <div>
+                <h2>Albums</h2>
+                <hr>
+                @foreach (var album in Model.Albums)
+                {
+                    <div class="row align-items-start mb-4">
+                        <div class="col-md-2">
+                            <img src="@album.ImageUrl" class="img-fluid rounded" alt="@album.Nom">
+                        </div>
+                        <div class="col-md-10">
+                            <h4>@album.Nom</h4>
+                            <table class="table">
+                                    <tr>
+                                    <th class="w-15" scope="col">Durée</th>
+                                    <th scope="col">Titre</th>
+                                    </tr>
+                                    @foreach (var titre in album.Titres)
+                                    {
+                                    <tr class="">
+                                            <td class="w-15" >@TimeSpan.FromSeconds(titre.Duree).ToString(@"mm\:ss")</td>
+                                            <td><a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre" class="text-decoration-none">@titre.Libelle</a></td>
+                                        </tr>
+                                    }
+                            </table>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Sidebar (3 colonnes) -->
+        <div class="col-lg-3">
+            @await Component.InvokeAsync("StylesSidebar")
+        </div>
+    </div>
+</div>

@@ -1,0 +1,127 @@
+﻿@model Webzine.WebApplication.ViewModels.TitreModel
+
+@{
+    this.ViewBag.Title = Model.Titre.Libelle;
+}
+
+<div class="container-fluid mt-4 mt-md-5">
+    <div class="row">
+        <!-- Contenu principal -->
+        <div class="col-12 col-lg-10 mb-4">
+            <div>
+                <h1 class="h2 mb-3">
+                    <a asp-controller="Artiste" asp-action="Index" asp-route-id="@Model.Titre.Artiste.IdArtiste"
+                        class="text-primary text-decoration-none">
+                        @Model.Titre.Artiste.Nom
+                    </a> - <span class="h1">@Model.Titre.Libelle</span>
+                </h1>
+                <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between mb-3 mb-md-2" style="font-size: smaller;">
+                    <div class="d-flex flex-wrap gap-3 gap-md-4 mb-2 mb-md-0">
+                        <p class="mb-0" style="color: black;"><i class="fa-solid fa-calendar"></i>
+                            @Model.Titre.DateCreation.ToString("dd/MM/yyyy") à
+                            @Model.Titre.DateCreation.ToString("HH:mm")</p>
+                        <p class="mb-0" style="color: black;"><i class="fa-solid fa-heart"
+                                style="color: black;"></i> @Model.Titre.NbLikes</p>
+                        <p class="mb-0" style="color: black;"><i class="fa-solid fa-tags"></i> Styles :
+                            @foreach (var style in Model.Styles)
+                            {
+                                <a asp-controller="Titre" asp-action="Style" asp-route-nomStyle="@style.Libelle"
+                                    class="text-decoration-none">@style.Libelle</a>
+                            }
+                        </p>
+                    </div>
+                    <div class="d-flex gap-3 gap-md-4 align-items-center">
+                        <button class="btn btn-outline-primary btn-sm">
+                            <i class="fa-solid fa-thumbs-up"></i> Like
+                        </button>
+                        <a asp-area="Administration" asp-controller="Titre" asp-action="Edit"
+                            asp-route-id="@Model.Titre.IdTitre" class="text-primary text-decoration-none">
+                            <i class="bi bi-pencil-square"></i> Éditer
+                        </a>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="d-md-none">
+                        <div class="ratio ratio-1x1 mb-4" style="width: 25%;">
+                            <img src="@Model.Titre.UrlJaquette" class="rounded" alt="jaquette" style="object-fit: cover;">
+                        </div>
+                        <p class="text-justify">@Model.Titre.Chronique</p>
+                    </div>
+                    <div class="d-none d-md-block">
+                        <div class="clearfix">
+                            <div class="ratio ratio-1x1 float-md-end ms-md-3 mb-md-3" style="width: 25%;">
+                                <img src="@Model.Titre.UrlJaquette" class="rounded" alt="jaquette" style="object-fit: cover;">
+                            </div>
+                            <p class="text-justify">@Model.Titre.Chronique</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="ratio ratio-16x9">
+                        <iframe src="@Model.Titre.UrlEcoute" title="YouTube video" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <h3 class="h7">Donne ton avis sur le titre</h3>
+                <form asp-action="Commenter" method="post">
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-12 col-md-3">
+                                <div class="d-md-none">
+                                    <label for="auteur" class="form-label">Nom<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control mb-3" id="auteur" name="auteur"
+                                        placeholder="Votre nom (exemple : Emmanuel)" required>
+                                    <label for="contenu" class="form-label">Commentaire<span class="text-danger">*</span></label>
+                                    <textarea class="form-control" id="contenu" name="contenu" rows="3"
+                                        placeholder="Votre commentaire..." required></textarea>
+                                </div>
+                                <div class="d-none d-md-block">
+                                    <label for="auteur" class="form-label">Nom<span class="text-danger">*</span></label>
+                                    <div class="mb-4"></div>
+                                    <label for="contenu" class="form-label">Commentaire<span class="text-danger">*</span></label>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-9">
+                                <div class="d-none d-md-block">
+                                    <input type="text" class="form-control mb-2" id="auteur" name="auteur"
+                                        placeholder="Votre nom (exemple : Emmanuel)" required>
+                                    <textarea class="form-control" id="contenu" name="contenu" rows="3"
+                                        placeholder="Votre commentaire..." required></textarea>
+                                </div>
+                                <input type="hidden" name="idTitre" value="@Model.Titre.IdTitre" />
+                                <button type="submit" class="btn btn-primary mt-2">Envoyer</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="mt-4">
+                <h3 class="h7">Commentaires</h3>
+                @foreach (var commentaire in Model.Titre.Commentaires)
+                {
+                    <div class="row mb-3">
+                        <div class="col-12 col-md-1 d-none d-md-block offset-md-1">
+                            <img src="~/images/avatar.png" class="img-fluid rounded-circle" alt="avatar">
+                        </div>
+                        <div class="col-12 col-md-10">
+                            <div class="d-flex align-items-center mb-2">
+                                <img src="~/images/avatar.png" class="img-fluid rounded-circle me-2 d-md-none" alt="avatar" style="width: 40px; height: 40px;">
+                                <p class="mb-0 text-muted h6"><strong class="text-dark">@commentaire.Auteur</strong>, le
+                                    @commentaire.DateCreation.ToString("dd/MM/yyyy à HH:mm:ss")</p>
+                            </div>
+                            <p>@commentaire.Contenu</p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-12 col-lg-2">
+            @await Component.InvokeAsync("StylesSidebar")
+        </div>
+    </div>
+</div>
