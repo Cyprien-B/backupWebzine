@@ -1,5 +1,18 @@
-﻿@{
-    this.ViewBag.Title = "Supprimer un artiste";
+﻿@model Webzine.Entity.Artiste
+
+@{
+    this.ViewBag.Title = "Supprimer un Artiste";
 }
 
-<p class="bi-type-italic">Supprimer un artiste.</p>
+<h1 class="mb-4">Supprimer un titre</h1>
+<hr />
+
+<form asp-controller="Artiste" asp-action="Delete" method="post">
+    <input type="hidden" asp-for="IdArtiste" />
+    <p>
+        Etes-vous sûr de vouloir supprimer l'artiste "@Model.Nom" ?
+    </p>
+    <button type="submit" class="btn btn-danger">Supprimer</button>
+</form>
+<br />
+<a asp-controller="Titre" asp-action="Index">Retour à l'administration des titres</a>

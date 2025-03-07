@@ -1,4 +1,44 @@
-﻿@{
+﻿@model Webzine.Entity.Artiste
+
+@{
     this.ViewBag.Title = "Modifier un artiste";
 }
-<p>Edit</p>
+
+<h1 class="mb-4">Editer un artistes</h1>
+<hr />
+
+<form asp-controller="Artiste" asp-action="Edit" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="IdArtiste" />
+    <div class="row g-3">
+        <div class="col-sm-12">
+            <div class="row g-3 align-items-center mb-3">
+                <div class="col-sm-2">
+                    <label asp-for="Nom" class="col-form-label"></label><label class="text-danger">*</label>
+                </div>
+                <div class="col-sm-10">
+                    <input asp-for="Nom" class="form-control" />
+                    <span asp-validation-for="Nom" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row g-3 align-items-center mb-3">
+                <div class="col-sm-2">
+                    <label asp-for="Biographie" class="col-form-label"></label>
+                </div>
+                <div class="col-sm-10">
+                    <textarea asp-for="Biographie" class="form-control" rows="12"></textarea>
+                    <span asp-validation-for="Biographie" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3 align-items-center mb-3">
+        <div class="col-sm-2 offset-sm-2">
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </div>
+    </div>
+</form>
+<br />
+<a asp-controller="Artiste" asp-action="Index">Retour à l'administration des artistes</a>
