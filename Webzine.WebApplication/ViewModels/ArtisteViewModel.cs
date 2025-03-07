@@ -1,4 +1,4 @@
-﻿// <copyright file="ApiController.cs" company="Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ">
+﻿// <copyright file="ArtisteViewModel.cs" company="Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ">
 // Copyright (c) Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ. All rights reserved.
 // </copyright>
 
@@ -53,12 +53,12 @@ namespace Webzine.WebApplication.ViewModels
             /// <summary>
             /// Obtient ou définit le nom de l'album.
             /// </summary>
-            public string Nom { get; set; }
+            public required string Nom { get; set; }
 
             /// <summary>
             /// Obtient ou définit l'URL de l'image de l'album.
             /// </summary>
-            public string ImageUrl { get; set; }
+            public required string ImageUrl { get; set; }
 
             /// <summary>
             /// Obtient ou définit la collection des titres associés à cet album.
