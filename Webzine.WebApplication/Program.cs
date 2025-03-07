@@ -8,11 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-// Ajoute les services nécessaires pour permettre l'utilisation des
+// Ajoute les services necessaires pour permettre l'utilisation des
 // controllers avec des vues.
 builder.Services.AddControllersWithViews();
 
-// Ajoute un service pour générer les données fictives de Bogus
+// Ajoute un service pour generer les donnees fictives de Bogus
 builder.Services.AddSingleton<DataGenerator>();
 
 var app = builder.Build();
