@@ -1,12 +1,12 @@
 ﻿@model Webzine.WebApplication.Areas.Administration.ViewModels.AdministrationArtistesModel
 
 @{
-    this.ViewBag.Title = "Artistes";
+    this.ViewBag.Title = "Admnistration des Artistes";
 }
 
-<h1 class="mb-4">Titres</h1>
+<h1 class="mb-4">Artiste</h1>
 <hr />
-<a asp-action="Create" class="btn btn-primary"><b>+</b> Ajouter un nouveau titre</a>
+<a asp-action="Create" class="btn btn-primary"><b>+</b> Ajouter un nouvel artiste</a>
 <br />
 <br />
 <div class="table-responsive">
@@ -23,10 +23,10 @@
                 <tr>
                     <td>@artiste.Nom</td>
                     <td class="text-center">
-                        <a asp-area="Administration" asp-controller="Titre" asp-action="Edit" asp-route-id="@artiste.IdArtiste" class="btn btn-sm p-0 me-2 text-primary">
+                        <a asp-area="Administration" asp-controller="Artiste" asp-action="Edit" asp-route-id="@artiste.IdArtiste" class="btn btn-sm p-0 me-2 text-primary">
                             <i class="fas fa-edit"></i>
                         </a>
-                        <a asp-area="Administration" asp-controller="Titre" asp-action="Delete" asp-route-id="@artiste.IdArtiste" class="btn btn-sm p-0 text-primary">
+                        <a asp-area="Administration" asp-controller="Artiste" asp-action="Delete" asp-route-id="@artiste.IdArtiste" class="btn btn-sm p-0 text-primary">
                             <i class="fas fa-trash"></i>
                         </a>
                     </td>

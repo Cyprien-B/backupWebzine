@@ -35,7 +35,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return this.View();
+            return this.View(new Artiste());
         }
 
         /// <summary>
@@ -85,7 +85,13 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            return this.View();
+            Artiste artiste = new()
+            {
+                Nom = "Daniel Balavoine",
+                IdArtiste = id,
+                Biographie = "Chanteur des années 90, est un chanteur avec un large timbre de voix, démontré avec SOS d'un terrien en détresse",
+            };
+            return this.View(artiste);
         }
 
         /// <summary>
@@ -94,9 +100,9 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         /// <param name="result">L'identifiant de l'artiste à éditer.</param>
         /// <returns>Le résultat de l'édition de l'artiste.</returns>
         [HttpPost]
-        public IActionResult Edit([FromForm] object result)
+        public IActionResult Edit([FromForm] Artiste result)
         {
-            return this.Ok("Not implemented");
+            return this.RedirectToAction(nameof(this.Index));
         }
     }
 }
