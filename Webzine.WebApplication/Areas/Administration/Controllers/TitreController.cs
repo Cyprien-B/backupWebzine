@@ -88,8 +88,8 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         {
             CreationAndEditionTitreModel model = new()
             {
-                Artistes = [new Artiste() { Nom = "Monsieur truc"},],
-                Styles = [new Style() { Libelle = "Jazz"},],
+                Artistes = [new Artiste() { Nom = "Monsieur truc" },],
+                Styles = [new Style() { Libelle = "Jazz" },],
             };
             return this.View(model);
         }
@@ -100,9 +100,9 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         /// <param name="result">Les données de l'artiste à créer.</param>
         /// <returns>Le résultat de la création de l'artiste.</returns>
         [HttpPost]
-        public IActionResult Create([FromForm] object result)
+        public IActionResult Create([FromForm] Titre result)
         {
-            return this.Ok("Not implemented");
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         /// <summary>
@@ -158,7 +158,13 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            return this.View();
+            CreationAndEditionTitreModel model = new()
+            {
+                Artistes = [new Artiste() { Nom = "Monsieur truc" },],
+                Styles = [new Style() { Libelle = "Jazz", IdStyle = 1 },],
+                Titre = new Titre() { Duree = 12, UrlEcoute = "http://EditUrlEcoute.fr", UrlJaquette = "http://JaquetteUrlEcoute.fr", Styles = [new() { IdStyle = 1 },], Chronique = "Lorem ipsum icosaedrical guyatum fortram unical sum faritae...", Libelle = "Un super son", Album = "Démon de minuit" },
+            };
+            return this.View(model);
         }
 
         /// <summary>
@@ -167,9 +173,9 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         /// <param name="result">L'identifiant de l'artiste à éditer.</param>
         /// <returns>Le résultat de l'édition de l'artiste.</returns>
         [HttpPost]
-        public IActionResult Edit([FromForm] object result)
+        public IActionResult Edit([FromForm] Titre result)
         {
-            return this.Ok("Not implemented");
+            return this.RedirectToAction(nameof(this.Index));
         }
     }
 }

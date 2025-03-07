@@ -1,10 +1,10 @@
 ﻿@model Webzine.WebApplication.Areas.Administration.ViewModels.CreationAndEditionTitreModel
 
 @{
-    this.ViewBag.Title = "Editer un titre";
+    this.ViewBag.Title = "Modifier un titre";
 }
 
-<h1 class="mb-4">Editer un titre</h1>
+<h1 class="mb-4">Ajouter un titre</h1>
 <hr />
 
 <form asp-controller="Titre" asp-action="Create" method="post">
@@ -14,10 +14,10 @@
         <div class="col-sm-12">
             <div class="row g-3 align-items-center mb-3">
                 <div class="col-sm-2">
-                    <label asp-for="Artiste.Nom" class="col-form-label required"></label>
+                    <label asp-for="Artiste.Nom" class="col-form-label"></label><label class="text-danger">*</label>
                 </div>
                 <div class="col-sm-10">
-                    <select asp-for="Artiste.IdArtiste" name="idArtiste" asp-items="@(new SelectList(Model.Artistes, nameof(Model.Artiste.IdArtiste), nameof(Model.Artiste.Nom)))" class="form-select" required>
+                    <select asp-for="Titre.IdArtiste" name="idArtiste" asp-items="@(new SelectList(Model.Artistes, nameof(Model.Artiste.IdArtiste), nameof(Model.Artiste.Nom)))" class="form-select" required>
                         <option value="">Sélectionnez un artiste</option>
                     </select>
                     <span asp-validation-for="Artiste.IdArtiste" class="text-danger"></span>
@@ -26,7 +26,7 @@
 
             <div class="row g-3 align-items-center mb-3">
                 <div class="col-sm-2">
-                    <label asp-for="Titre.Libelle" class="col-form-label required"></label>
+                    <label asp-for="Titre.Libelle" class="col-form-label"></label><label class="text-danger">*</label>
                 </div>
                 <div class="col-sm-10">
                     <input asp-for="Titre.Libelle" class="form-control" required />
@@ -36,7 +36,7 @@
 
             <div class="row g-3 align-items-center mb-3">
                 <div class="col-sm-2">
-                    <label asp-for="Titre.Album" class="col-form-label required"></label>
+                    <label asp-for="Titre.Album" class="col-form-label"></label><label class="text-danger">*</label>
                 </div>
                 <div class="col-sm-10">
                     <input asp-for="Titre.Album" class="form-control" required />
@@ -46,7 +46,7 @@
 
             <div class="row g-3 align-items-center mb-3">
                 <div class="col-sm-2">
-                    <label asp-for="Titre.Chronique" class="col-form-label required"></label>
+                    <label asp-for="Titre.Chronique" class="col-form-label"></label><label class="text-danger">*</label>
                 </div>
                 <div class="col-sm-10">
 <textarea asp-for="Titre.Chronique" class="form-control" rows="9" required></textarea>
@@ -56,27 +56,28 @@
 
             <div class="row g-3 align-items-center mb-3">
                 <div class="col-sm-2">
-                    <label asp-for="Titre.DateSortie" class="col-form-label required"></label>
+                    <label asp-for="Titre.DateSortie" class="col-form-label"></label><label class="text-danger">*</label>
                 </div>
                 <div class="col-sm-4">
                     <input asp-for="Titre.DateSortie" class="form-control" type="date" required />
                     <span asp-validation-for="Titre.DateSortie" class="text-danger"></span>
                 </div>
                 <div class="col-sm-2">
-                    <label asp-for="Titre.Duree" class="col-form-label required"></label>
+                    <label asp-for="Titre.Duree" class="col-form-label"></label><label class="text-danger">*</label>
                 </div>
                 <div class="col-sm-4">
                     <div class="input-group">
-                        <input asp-for="Titre.Duree" class="form-control" required />
-                        <span asp-validation-for="Titre.Duree" class="input-group-text">secondes</span>
+                        <input asp-for="Titre.Duree" class="form-control" type="number" min="1" required />
+                        <span class="input-group-text">secondes</span>
                     </div>
                     <span asp-validation-for="Titre.Duree" class="text-danger"></span>
                 </div>
             </div>
 
             <div class="row g-3 align-items-center mb-3">
-                <div class="col-sm-2">
-                    <label asp-for="Titre.UrlJaquette" class="col-form-label required"></label>
+                <div class="col-sm-2 d-flex align-items-center">
+                    <label asp-for="Titre.UrlJaquette" class="col-form-label m-0"></label>
+                    <span class="text-danger ms-1">*</span>
                 </div>
                 <div class="col-sm-10">
                     <input asp-for="Titre.UrlJaquette" class="form-control" required />
@@ -100,19 +101,23 @@
                 </div>
                 <div class="col-sm-10">
                     <div class="row">
-
                         @foreach (var s in Model.Styles)
                         {
                             <div class="col-sm-4">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="@s.IdStyle" id="@s.IdStyle" name="idStyles">
-                                    <label class="form-check-label" asp-for="@s.Libelle">@s.Libelle</label>
+                                    <input class="form-check-input" type="checkbox"
+                                           value="@s.IdStyle"
+                                           id="style_@s.IdStyle"
+                                           name="Titre.Styles"
+                                    @(Model.Titre.Styles.Any(ts => ts.IdStyle == s.IdStyle) ? "checked" : "")>
+                                    <label class="form-check-label" for="style_@s.IdStyle">@s.Libelle</label>
                                 </div>
                             </div>
                         }
                     </div>
-                    <span asp-validation-for="Styles" class="text-danger"></span>
+                    <span asp-validation-for="Titre.Styles" class="text-danger"></span>
                 </div>
+
             </div>
             <span asp-validation-for="Titre.Styles" class="text-danger"></span>
             <div class="row g-3 align-items-center mb-3">
