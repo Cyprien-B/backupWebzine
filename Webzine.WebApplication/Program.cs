@@ -37,6 +37,11 @@ app.MapControllerRoute(
     defaults: new { controller = "Titre", action = "Style" });
 
 app.MapControllerRoute(
+    name: "artiste",
+    pattern: "artiste/{artiste}",
+    defaults: new { controller = "Artiste", action = "Index" });
+
+app.MapControllerRoute(
     name: "titres-administration",
     pattern: "administration/artistes",
     defaults: new { area = "Administration", controller = "Artiste", action = "Index" });

@@ -29,6 +29,8 @@ namespace Webzine.WebApplication.Controllers
                 PaginationMax = 3,
             };
 
+            List<Style> stylesFake = [new() { Libelle = "Jazz" }, new() { Libelle = "Rap" },];
+
             for (int i = 1; i <= 3; i++)
             {
                 var fakeTitre = new Titre
@@ -53,6 +55,7 @@ namespace Webzine.WebApplication.Controllers
                     NbLikes = (uint)(500 + (i * 50)),
                     Album = $"Album {i}",
                     Commentaires = new List<Commentaire>(),
+                    Styles = stylesFake,
                 };
 
                 fakeModel.TitresPopulaires.Add(fakeTitre);

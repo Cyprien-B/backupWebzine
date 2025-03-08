@@ -27,8 +27,16 @@
                                         </h5>
                                         <p class="mb-2">@titre.Chronique</p>
                                     </div>
-                                    <div class="mt-auto">
-                                        <a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre" class="btn btn-primary">Lire la suite</a>
+                                    <div class="mt-auto d-flex align-items-center">
+                                        <a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre" class="btn btn-primary me-3">Lire la suite</a>
+                                        <span class="me-3"><i class="fa-solid fa-calendar"></i> @titre.DateCreation</span>
+                                        <div class="d-flex align-items-center me-2">
+                                            <i class="fa-solid fa-tags"></i>
+                                            @foreach (var style in titre.Styles)
+                                            {
+                                                <a class="text-decoration-none me-2" asp-controller="Titre" asp-action="Style" asp-route-nomStyle="@style.Libelle">@style.Libelle</a>
+                                            }
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -62,7 +70,7 @@
                 {
                     <div class="col">
                         <div class="card h-100">
-                            <img src="@titre.UrlJaquette" alt="jaquette" class="card-img-top">
+                            <a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre"><img src="@titre.UrlJaquette" alt="jaquette" class="card-img-top"></a>
                             <div class="card-body">
                                 <h5 class="card-title mb-2">
                                     <a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre" class="text-decoration-none">@titre.Libelle</a>
