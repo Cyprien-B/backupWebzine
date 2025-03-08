@@ -5,21 +5,39 @@
 namespace Webzine.WebApplication.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using Webzine.Entity.Fixtures;
+    using Webzine.WebApplication.ViewModels;
 
     /// <summary>
     /// Contrôleur de recherche.
     /// </summary>
     public class RechercheController : Controller
     {
+        private readonly DataGenerator dataGenerator;
+
         /// <summary>
-        /// Gère la recherche.
+        /// Initialise une nouvelle instance de la classe <see cref="RechercheController"/>.
+        /// </summary>
+        public RechercheController()
+        {
+            this.dataGenerator = new DataGenerator();
+        }
+
+        /// <summary>
+        /// Gère la recherche et affiche les résultats.
         /// </summary>
         /// <param name="recherche">string de recherche.</param>
         /// <returns>Une vue avec les résultats de la recherche.</returns>
         [HttpPost]
         public IActionResult Index([FromForm] string recherche)
         {
-            return this.View();
+            if (string.IsNullOrWhiteSpace(recherche))
+            {
+                return this.RedirectToAction("Index", "Home");
+            }
+
+            var model = new RechercheModel(this.dataGenerator, recherche);
+            return this.View(model);
         }
     }
 }

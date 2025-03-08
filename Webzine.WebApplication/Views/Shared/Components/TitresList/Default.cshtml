@@ -1,0 +1,32 @@
+@model List<Webzine.Entity.Titre>
+
+@if (!Model.Any())
+{
+    <p>Aucun titre.</p>
+}
+else
+{
+    @foreach (var titre in Model)
+    {
+        <div class="d-flex mb-3">
+            <div style="width: 80px; height: 80px;">
+                <img src="@titre.UrlJaquette" class="img-fluid" alt="Jaquette de @titre.Libelle" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div class="ms-3 d-flex flex-column justify-content-center">
+                <div>
+                    <a asp-controller="Artiste" asp-action="Index" asp-route-id="@titre.Artiste.IdArtiste" class="text-decoration-none">@titre.Artiste.Nom</a>
+                    - 
+                    <a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre" class="text-decoration-none">@titre.Libelle</a>
+                </div>
+                <div class="small">
+                    @{
+                        int minutes = (int)(titre.Duree / 60);
+                        int seconds = (int)(titre.Duree % 60);
+                        string formattedDuration = $"{minutes}:{seconds:D2}";
+                    }
+                    Durée : @formattedDuration
+                </div>
+            </div>
+        </div>
+    }
+} 
