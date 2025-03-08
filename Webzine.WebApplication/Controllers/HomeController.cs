@@ -19,7 +19,7 @@ namespace Webzine.WebApplication.Controllers
         /// <param name="page">Numéro de pagination pour les titres les plus chroniqué.</param>
         /// <returns>Retourne la vue la page principale.</returns>
         [HttpGet]
-        public IActionResult Index(int page = 1)
+        public IActionResult Index(uint page = 1)
         {
             var fakeModel = new HomeModel
             {

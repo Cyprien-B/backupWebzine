@@ -37,6 +37,25 @@
                 }
             </div>
 
+            <div class="row">
+                @{
+                    uint pageSuivante = Model.PaginationActuelle + 1;
+                    uint pagePrecedente = Model.PaginationActuelle - 1;
+                }
+                <div class="col-md-6 col-sm-6">
+                    @if (Model.PaginationActuelle > 1)
+                    {
+                        <a asp-action="Index" asp-route-page="@pagePrecedente" class="btn btn-secondary">&laquo; Titres plus récents</a>
+                    }
+                </div>
+                <div class="col-md-6 col-ms-6 text-end">
+                    @if(Model.PaginationActuelle < Model.PaginationMax)
+                    {
+                        <a asp-action="Index" asp-route-page="@pageSuivante" class="btn btn-secondary">Titres plus anciens &raquo;</a>
+                    }
+                </div>
+            </div>
+
             <h1 class="mb-4">Titres les plus populaires</h1>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
                 @foreach (var titre in Model.TitresPopulaires)

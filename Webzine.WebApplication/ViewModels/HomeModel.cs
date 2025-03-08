@@ -24,11 +24,11 @@ namespace Webzine.WebApplication.ViewModels
         /// <summary>
         /// Obtient ou définit le numéro de pagination actuel.
         /// </summary>
-        public int PaginationActuelle { get; set; } = 1;
+        public uint PaginationActuelle { get; set; } = 1;
 
         /// <summary>
         /// Obtient ou définit le numéro de pagination maximal.
         /// </summary>
-        public int PaginationMax { get; set; } = 1;
+        public uint PaginationMax { get; set; } = 1;
     }
 }

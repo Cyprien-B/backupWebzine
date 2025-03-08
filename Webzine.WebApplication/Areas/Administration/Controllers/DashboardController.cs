@@ -5,6 +5,7 @@
 namespace Webzine.WebApplication.Areas.Administration.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using Webzine.WebApplication.Areas.Administration.ViewModels;
 
     /// <summary>
     /// Controlleur de dashboard.
@@ -18,7 +19,20 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         /// <returns>Une vue du dashboard.</returns>
         public IActionResult Index()
         {
-            return this.View();
+            AdministrationDashboardModel model = new()
+            {
+                NbArtistes = 405,
+                ArtisteComposeLePlusTitres = new() { Nom = "Michel Blanc" },
+                ArtisteLePlusChronique = new() { Nom = "Daft Punk" },
+                NbBiographies = 387,
+                TitreLePlusLu = new() { Libelle = "Le pouvoir des fleurs", Artiste = new() { Nom = "François Cabrel" }, },
+                NbLectures = 48025,
+                NbLikes = 20066,
+                NbStyles = 18,
+                NbTitres = 5412,
+            };
+
+            return this.View(model);
         }
     }
 }
