@@ -15,8 +15,8 @@
                     <div class="bg-light p-3 mb-3 overflow-hidden">
                         <div class="row g-0 h-100">
                             <div class="col-12 col-md-3 mb-3 mb-md-0 d-flex align-items-center">
-                                <a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre" class="w-100">
-                                    <img src="@titre.UrlJaquette" class="img-fluid rounded w-100" alt="jaquette" style="object-fit: cover; max-height: 300px;">
+                                <a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre" class="w-100 ratio ratio-1x1">
+                                    <img src="@titre.UrlJaquette" class="img-fluid rounded object-fit-cover" alt="Jaquette" width="200" height="200">
                                 </a>
                             </div>
                             <div class="col-12 col-md-9 d-flex flex-column">
@@ -25,7 +25,12 @@
                                         <h5 class="mb-2">
                                             <a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre" class="text-decoration-none">@titre.Libelle</a>
                                         </h5>
-                                        <p class="mb-2">@titre.Chronique</p>
+                                        <p class="mb-2">
+                                            @(titre.Chronique.Length > @Model.CaracteresChroniqueMax
+                                                ? titre.Chronique.Substring(0, (int)@Model.CaracteresChroniqueMax) + "..."
+                                                : titre.Chronique)
+                                        </p>
+
                                     </div>
                                     <div class="mt-auto d-flex align-items-center">
                                         <a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre" class="btn btn-primary me-3">Lire la suite</a>
@@ -70,7 +75,7 @@
                 {
                     <div class="col">
                         <div class="card h-100">
-                            <a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre"><img src="@titre.UrlJaquette" alt="jaquette" class="card-img-top"></a>
+                            <a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre"><img src="@titre.UrlJaquette" alt="jaquette" class="card-img-top" width="200" height="200"></a>
                             <div class="card-body">
                                 <h5 class="card-title mb-2">
                                     <a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre" class="text-decoration-none">@titre.Libelle</a>

@@ -22,6 +22,11 @@ namespace Webzine.WebApplication.ViewModels
         public List<Titre> TitresRecemmentsChroniques { get; set; } = new();
 
         /// <summary>
+        /// Obtient ou définit le nombre de caractères maximum de début de chronique à afficher sur la page d'accueil.
+        /// </summary>
+        public uint CaracteresChroniqueMax { get; set; } = 0;
+
+        /// <summary>
         /// Obtient ou définit le numéro de pagination actuel.
         /// </summary>
         public uint PaginationActuelle { get; set; } = 1;
