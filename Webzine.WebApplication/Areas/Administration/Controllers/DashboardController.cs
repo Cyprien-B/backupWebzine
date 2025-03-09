@@ -5,6 +5,7 @@
 namespace Webzine.WebApplication.Areas.Administration.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using Webzine.Entity.Fixtures;
     using Webzine.WebApplication.Areas.Administration.ViewModels;
 
     /// <summary>
@@ -14,6 +15,11 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
     public class DashboardController : Controller
     {
         /// <summary>
+        /// Obtient ou définit un générateur de fausse données.
+        /// </summary>
+        public DataGenerator DataGenerator { get; set; } = new();
+
+        /// <summary>
         /// La page de dashboard et de métriques importantes du site.
         /// </summary>
         /// <returns>Une vue du dashboard.</returns>
@@ -21,15 +27,15 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         {
             AdministrationDashboardModel model = new()
             {
-                NbArtistes = 405,
-                ArtisteComposeLePlusTitres = new() { Nom = "Michel Blanc" },
-                ArtisteLePlusChronique = new() { Nom = "Daft Punk" },
-                NbBiographies = 387,
-                TitreLePlusLu = new() { Libelle = "Le pouvoir des fleurs", Artiste = new() { Nom = "François Cabrel" }, },
-                NbLectures = 48025,
-                NbLikes = 20066,
+                NbArtistes = (uint)new Random().Next(400, 600),
+                ArtisteComposeLePlusTitres = this.DataGenerator.GenerateArtiste(),
+                ArtisteLePlusChronique = this.DataGenerator.GenerateArtiste(),
+                NbBiographies = (uint)new Random().Next(200, 500),
+                TitreLePlusLu = this.DataGenerator.GenerateTitre(),
+                NbLectures = (uint)new Random().Next(10000, 50000),
+                NbLikes = (uint)new Random().Next(9000, 25000),
                 NbStyles = 18,
-                NbTitres = 5412,
+                NbTitres = (uint)new Random().Next(500, 2000),
             };
 
             return this.View(model);

@@ -6,6 +6,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
     using Webzine.Entity;
+    using Webzine.Entity.Fixtures;
     using Webzine.WebApplication.Areas.Administration.ViewModels;
 
     /// <summary>
@@ -15,6 +16,11 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
     public class CommentaireController : Controller
     {
         /// <summary>
+        /// Obtient ou définit un générateur de fausse données.
+        /// </summary>
+        public DataGenerator DataGenerator { get; set; } = new();
+
+        /// <summary>
         /// Administration principale des commentaires.
         /// </summary>
         /// <returns>Retourne une vue, avec la liste des commentaires pouvant être modéré.</returns>
@@ -23,7 +29,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         {
             AdministrationCommentairesModel model = new()
             {
-                Commentaires = [new() { Auteur = "Jack", Contenu = "Trop cool", DateCreation = DateTime.Now, IdCommentaire = 1, IdTitre = 1, Titre = new() { Libelle = "Vivre Ailleur" } }],
+                Commentaires = this.DataGenerator.GenerateCommentaires(40),
             };
             return this.View(model);
         }

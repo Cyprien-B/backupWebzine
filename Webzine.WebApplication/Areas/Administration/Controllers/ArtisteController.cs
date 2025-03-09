@@ -6,6 +6,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
     using Webzine.Entity;
+    using Webzine.Entity.Fixtures;
     using Webzine.WebApplication.Areas.Administration.ViewModels;
 
     /// <summary>
@@ -15,15 +16,21 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
     public class ArtisteController : Controller
     {
         /// <summary>
+        /// Obtient ou définit un générateur de fausse données.
+        /// </summary>
+        public DataGenerator DataGenerator { get; set; } = new();
+
+        /// <summary>
         /// Administration principale des artistes.
         /// </summary>
         /// <returns>Retourne une vue, avec la liste des artistes pouvant être modéré.</returns>
         [HttpGet]
         public IActionResult Index()
         {
+            List<Artiste> artistes = [];
             AdministrationArtistesModel model = new()
             {
-                Artistes = [new Artiste() { Nom = "Jack Brel" }, new Artiste() { Nom = "Daft Punk" },],
+                Artistes = this.DataGenerator.GenerateArtistes(50),
             };
             return this.View(model);
         }
@@ -57,13 +64,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            Artiste artiste = new()
-            {
-                IdArtiste = id,
-                Nom = "Jack Brel",
-            };
-
-            return this.View(artiste);
+            return this.View(this.DataGenerator.GenerateArtiste().IdArtiste = id);
         }
 
         /// <summary>

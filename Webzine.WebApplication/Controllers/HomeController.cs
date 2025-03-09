@@ -15,6 +15,11 @@ namespace Webzine.WebApplication.Controllers
     public class HomeController : Controller
     {
         /// <summary>
+        /// Obtient ou définit un générateur de fausse données.
+        /// </summary>
+        public DataGenerator DataGenerator { get; set; } = new();
+
+        /// <summary>
         /// Est la vue de la page d'accueil.
         /// </summary>
         /// <param name="page">Numéro de pagination pour les titres les plus chroniqué.</param>
@@ -22,12 +27,11 @@ namespace Webzine.WebApplication.Controllers
         [HttpGet]
         public IActionResult Index(uint page = 1)
         {
-            DataGenerator dataGenerator = new();
             HomeModel model = new()
             {
                 PaginationMax = (uint)new Random().Next(90, 100),
-                TitresRecemmentsChroniques = [dataGenerator.GenerateTitre(), dataGenerator.GenerateTitre(), dataGenerator.GenerateTitre()],
-                TitresPopulaires = [dataGenerator.GenerateTitre(), dataGenerator.GenerateTitre(), dataGenerator.GenerateTitre()],
+                TitresRecemmentsChroniques = this.DataGenerator.GenerateTitres(3),
+                TitresPopulaires = this.DataGenerator.GenerateTitres(3),
                 CaracteresChroniqueMax = 200,
                 PaginationActuelle = page,
             };

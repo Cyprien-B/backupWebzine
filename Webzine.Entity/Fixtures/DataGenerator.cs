@@ -11,6 +11,13 @@ namespace Webzine.Entity.Fixtures
     /// </summary>
     public class DataGenerator
     {
+        // Déclaration des générateurs de données fictives
+        private readonly Faker<Artiste> artisteFake;
+        private readonly Faker<Titre> titreFake;
+        private readonly Faker<Titre> titreIndividuelFake;
+        private readonly Faker<Style> styleFake;
+        private readonly Faker<Commentaire> commentaireFake;
+
         /// <summary>
         /// Initialise une nouvelle instance de classe. <see cref="DataGenerator"/>.
         /// </summary>
@@ -63,20 +70,18 @@ namespace Webzine.Entity.Fixtures
                 .RuleFor(c => c.IdCommentaire, f => f.IndexFaker + 1) // ID unique
                 .RuleFor(c => c.Contenu, f => f.Lorem.Paragraphs(1, 3)) // Contenu aléatoire
                 .RuleFor(c => c.Auteur, f => f.Name.FirstName()) // Auteur aléatoire
-                .RuleFor(c => c.DateCreation, f => f.Date.Past()); // Date de création passée
+                .RuleFor(c => c.DateCreation, f => f.Date.Past()) // Date de création passée
+                .RuleFor(c => c.Titre, f => new Titre
+                {
+                    Libelle = f.Lorem.Word(), // Nom du titre généré aléatoirement
+                    IdTitre = f.Random.Int(1, 100), // ID du titre aléatoire
+                });
 
             // Configuration du générateur pour les styles
             this.styleFake = new Faker<Style>()
                 .RuleFor(s => s.IdStyle, f => f.IndexFaker + 1) // ID unique
                 .RuleFor(s => s.Libelle, f => f.Music.Genre()); // Genre musical aléatoire
         }
-
-        // Déclaration des générateurs de données fictives
-        private readonly Faker<Artiste> artisteFake;
-        private readonly Faker<Titre> titreFake;
-        private readonly Faker<Titre> titreIndividuelFake;
-        private readonly Faker<Style> styleFake;
-        private readonly Faker<Commentaire> commentaireFake;
 
         /// <summary>
         /// Méthode pour générer un titre.
@@ -99,6 +104,22 @@ namespace Webzine.Entity.Fixtures
             }
 
             return titre; // Retourner le titre généré
+        }
+
+        /// <summary>
+        /// Méthode pour générer un artiste.
+        /// </summary>
+        /// <param name="count">Est le nombre de titres que l'on souhaite avoir dans la liste.</param>
+        /// <returns> Une liste de titres.</returns>
+        public List<Titre> GenerateTitres(int count)
+        {
+            var list = new List<Titre>();
+            for (int i = 0; i < count; i++)
+            {
+                list.Add(this.GenerateTitre());
+            }
+
+            return list;
         }
 
         /// <summary>
@@ -160,6 +181,44 @@ namespace Webzine.Entity.Fixtures
         public List<Style> GenerateStyles(int count)
         {
             return this.styleFake.Generate(count); // Retourner une liste de styles générés
+        }
+
+        /// <summary>
+        /// Méthode pour générer un commentaire fake.
+        /// </summary>
+        /// <returns>Un faux commentaire.</returns>
+        public Commentaire GenerateCommentaire()
+        {
+            // Générateur Bogus configuré pour les commentaires
+            var commentaireFake = new Faker<Commentaire>()
+                .RuleFor(c => c.IdCommentaire, f => f.IndexFaker + 1) // ID unique
+                .RuleFor(c => c.Contenu, f => f.Lorem.Paragraphs(1, 3)) // Contenu aléatoire
+                .RuleFor(c => c.Auteur, f => f.Name.FirstName()) // Auteur aléatoire
+                .RuleFor(c => c.DateCreation, f => f.Date.Past()) // Date de création passée
+                .RuleFor(c => c.Titre, f => new Titre
+                {
+                    Libelle = f.Lorem.Word(), // Nom du titre généré aléatoirement
+                    IdTitre = f.Random.Int(1, 100), // ID du titre aléatoire
+                });
+
+            // Générer et retourner un commentaire fake
+            return commentaireFake.Generate();
+        }
+
+        /// <summary>
+        /// Retourne une liste de faut commentaire.
+        /// </summary>
+        /// <param name="count">Est le nombre de commentaire qu'on souhaite avoir dans la liste.</param>
+        /// <returns>Une liste de faux commentaire.</returns>
+        public List<Commentaire> GenerateCommentaires(int count)
+        {
+            List<Commentaire> list = [];
+            for (int i = 0; i < count; i++)
+            {
+                list.Add(this.GenerateCommentaire());
+            }
+
+            return list;
         }
     }
 }

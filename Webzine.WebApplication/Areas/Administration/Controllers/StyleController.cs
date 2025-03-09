@@ -6,6 +6,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
     using Webzine.Entity;
+    using Webzine.Entity.Fixtures;
     using Webzine.WebApplication.Areas.Administration.ViewModels;
 
     /// <summary>
@@ -15,17 +16,18 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
     public class StyleController : Controller
     {
         /// <summary>
+        /// Obtient ou définit un générateur de fausse données.
+        /// </summary>
+        public DataGenerator DataGenerator { get; set; } = new();
+
+        /// <summary>
         /// Administration principale des styles.
         /// </summary>
         /// <returns>Retourne une vue, avec la liste des styles pouvant être modéré.</returns>
         [HttpGet]
         public IActionResult Index()
         {
-            AdministrationStylesModel model = new()
-            {
-                Styles = [new Style() { Libelle = "Jazz", IdStyle = 1 },],
-            };
-            return this.View(model);
+            return this.View(this.DataGenerator.GenerateStyles(18));
         }
 
         /// <summary>
@@ -57,7 +59,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            return this.View(new Style());
+            return this.View(this.DataGenerator.GenerateStyle().IdStyle = id);
         }
 
         /// <summary>
@@ -79,12 +81,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            Style style = new()
-            {
-                Libelle = "Rap",
-                IdStyle = 1,
-            };
-            return this.View(style);
+            return this.View(this.DataGenerator.GenerateStyle().IdStyle = id);
         }
 
         /// <summary>
