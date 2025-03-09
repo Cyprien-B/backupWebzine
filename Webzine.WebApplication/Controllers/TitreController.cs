@@ -5,6 +5,7 @@
 namespace Webzine.WebApplication.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using Webzine.Entity;
     using Webzine.Entity.Fixtures;
     using Webzine.WebApplication.ViewModels;
 
@@ -32,7 +33,15 @@ namespace Webzine.WebApplication.Controllers
         [HttpGet]
         public IActionResult Index(int id)
         {
-            var model = new TitreModel(this.dataGenerator, id);
+            int nbStyles = new Random().Next(1, 5);
+            TitreModel model = new()
+            {
+                Titre = this.dataGenerator.GenerateTitre(),
+
+                // Générer entre 1 et 4 styles aléatoires
+                Styles = this.dataGenerator.GenerateStyles(nbStyles),
+            };
+            model.Titre.IdTitre = id;
             return this.View(model);
         }
 
@@ -61,12 +70,12 @@ namespace Webzine.WebApplication.Controllers
         /// <summary>
         /// Ajoute un commentaire au titre.
         /// </summary>
-        /// <param name="result">Identifie le titre auquel le commentaire est à ajouter et son contenu.</param>
+        /// <param name="commentaire">Identifie le titre auquel le commentaire est à ajouter et son contenu.</param>
         /// <returns>Un retour positif du bon retour de la vue.</returns>
         [HttpPost]
-        public IActionResult Commenter([FromForm] object result)
+        public IActionResult Commenter([FromForm] Commentaire commentaire)
         {
-            return this.Ok("Commentaire enregistre");
+            return this.RedirectToAction(nameof(this.Index), new { id = commentaire.IdTitre });
         }
     }
 }

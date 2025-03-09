@@ -38,7 +38,7 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     name: "artiste",
-    pattern: "artiste/{artiste}",
+    pattern: "artiste/{nomArtiste}",
     defaults: new { controller = "Artiste", action = "Index" });
 
 app.MapControllerRoute(

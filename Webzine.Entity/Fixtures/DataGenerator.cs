@@ -11,13 +11,6 @@ namespace Webzine.Entity.Fixtures
     /// </summary>
     public class DataGenerator
     {
-        // Déclaration des générateurs de données fictives
-        private readonly Faker<Artiste> artisteFake;
-        private readonly Faker<Titre> titreFake;
-        private readonly Faker<Titre> titreIndividuelFake;
-        private readonly Faker<Style> styleFake;
-        private readonly Faker<Commentaire> commentaireFake;
-
         /// <summary>
         /// Initialise une nouvelle instance de classe. <see cref="DataGenerator"/>.
         /// </summary>
@@ -77,6 +70,13 @@ namespace Webzine.Entity.Fixtures
                 .RuleFor(s => s.IdStyle, f => f.IndexFaker + 1) // ID unique
                 .RuleFor(s => s.Libelle, f => f.Music.Genre()); // Genre musical aléatoire
         }
+
+        // Déclaration des générateurs de données fictives
+        private readonly Faker<Artiste> artisteFake;
+        private readonly Faker<Titre> titreFake;
+        private readonly Faker<Titre> titreIndividuelFake;
+        private readonly Faker<Style> styleFake;
+        private readonly Faker<Commentaire> commentaireFake;
 
         /// <summary>
         /// Méthode pour générer un titre.
