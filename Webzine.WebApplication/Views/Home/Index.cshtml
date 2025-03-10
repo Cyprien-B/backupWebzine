@@ -36,7 +36,7 @@
                                         <a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre" class="btn btn-primary me-3">Lire la suite</a>
                                         <span class="me-3"><i class="fa-solid fa-calendar"></i> @titre.DateCreation</span>
                                         <div class="d-flex align-items-center me-2">
-                                            <i class="fa-solid fa-tags"></i>
+                                            <i class="fa-solid fa-tags"></i>&nbsp;
                                             @foreach (var style in titre.Styles)
                                             {
                                                 <a class="text-decoration-none me-2" asp-controller="Titre" asp-action="Style" asp-route-nomStyle="@style.Libelle">@style.Libelle</a>

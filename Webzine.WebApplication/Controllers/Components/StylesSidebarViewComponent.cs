@@ -30,7 +30,10 @@ namespace Webzine.WebApplication.Controllers.Components
         /// <returns>Une composante de vue.</returns>
         public IViewComponentResult Invoke()
         {
-            var styles = this.dataGenerator.GenerateStyles(30);
+            var styles = this.dataGenerator.GenerateStyles(300)
+                .DistinctBy(s => s.Libelle)
+                .OrderBy(s => s.Libelle)
+                .ToList();
             return this.View(styles);
         }
     }

@@ -47,7 +47,8 @@ namespace Webzine.Entity.Fixtures
                 .RuleFor(t => t.NbLectures, f => f.Random.UInt(0, 100)) // Nombre de lectures aléatoire
                 .RuleFor(t => t.NbLikes, f => f.Random.UInt(0, 100)) // Nombre de likes aléatoire
                 .RuleFor(t => t.Album, f => f.Lorem.Word()) // Album aléatoire
-                .RuleFor(t => t.Commentaires, f => new List<Commentaire>()); // Liste de commentaires vide
+                .RuleFor(t => t.Commentaires, f => new List<Commentaire>()) // Liste de commentaires vide
+                .RuleFor(t => t.Styles, f => new List<Style>());
 
             // Configuration du générateur pour les titres individuels
             this.titreIndividuelFake = new Faker<Titre>()
@@ -95,12 +96,19 @@ namespace Webzine.Entity.Fixtures
 
             // Générer 2-3 commentaires pour le titre
             var nbCommentaires = new Random().Next(2, 4); // Nombre aléatoire de commentaires
+            var nbStyles = new Random().Next(1, 4);
             var commentaires = this.commentaireFake.Generate(nbCommentaires); // Générer les commentaires
+            var styles = this.styleFake.Generate(nbStyles);
             foreach (var commentaire in commentaires)
             {
                 commentaire.Titre = titre; // Assigner le titre au commentaire
                 commentaire.IdTitre = titre.IdTitre; // Assigner l'ID du titre au commentaire
                 titre.Commentaires.Add(commentaire); // Ajouter le commentaire au titre
+            }
+
+            foreach (var style in styles)
+            {
+                titre.Styles.Add(style);
             }
 
             return titre; // Retourner le titre généré
