@@ -33,13 +33,9 @@ namespace Webzine.WebApplication.Controllers
         [HttpGet]
         public IActionResult Index(int id)
         {
-            int nbStyles = new Random().Next(1, 5);
             TitreModel model = new()
             {
                 Titre = this.dataGenerator.GenerateTitre(),
-
-                // Générer entre 1 et 4 styles aléatoires
-                Styles = this.dataGenerator.GenerateStyles(nbStyles),
             };
             model.Titre.IdTitre = id;
             return this.View(model);

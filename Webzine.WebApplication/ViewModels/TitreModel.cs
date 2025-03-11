@@ -20,11 +20,6 @@ namespace Webzine.WebApplication.ViewModels
         public Titre Titre { get; set; } = new();
 
         /// <summary>
-        /// Obtient ou définit les styles du titre.
-        /// </summary>
-        public List<Style> Styles { get; set; } = [];
-
-        /// <summary>
         /// Obtient ou définit un commentaire pour les displaynamefor.
         /// </summary>
         public Commentaire Commentaire { get; set; } = new();

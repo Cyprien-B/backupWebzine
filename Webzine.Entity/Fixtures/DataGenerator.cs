@@ -19,7 +19,7 @@ namespace Webzine.Entity.Fixtures
         private readonly Faker<Commentaire> commentaireFake;
 
         /// <summary>
-        /// Initialise une nouvelle instance de classe. <see cref="DataGenerator"/>.
+        /// Initialise une nouvelle instance de la classe <see cref="DataGenerator"/>.
         /// </summary>
         public DataGenerator()
         {
@@ -197,20 +197,8 @@ namespace Webzine.Entity.Fixtures
         /// <returns>Un faux commentaire.</returns>
         public Commentaire GenerateCommentaire()
         {
-            // Générateur Bogus configuré pour les commentaires
-            var commentaireFake = new Faker<Commentaire>()
-                .RuleFor(c => c.IdCommentaire, f => f.IndexFaker + 1) // ID unique
-                .RuleFor(c => c.Contenu, f => f.Lorem.Paragraphs(1, 3)) // Contenu aléatoire
-                .RuleFor(c => c.Auteur, f => f.Name.FirstName()) // Auteur aléatoire
-                .RuleFor(c => c.DateCreation, f => f.Date.Past()) // Date de création passée
-                .RuleFor(c => c.Titre, f => new Titre
-                {
-                    Libelle = f.Lorem.Word(), // Nom du titre généré aléatoirement
-                    IdTitre = f.Random.Int(1, 100), // ID du titre aléatoire
-                });
-
             // Générer et retourner un commentaire fake
-            return commentaireFake.Generate();
+            return this.commentaireFake.Generate();
         }
 
         /// <summary>

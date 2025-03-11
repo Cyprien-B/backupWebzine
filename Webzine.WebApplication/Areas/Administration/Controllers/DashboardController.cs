@@ -23,6 +23,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         /// La page de dashboard et de métriques importantes du site.
         /// </summary>
         /// <returns>Une vue du dashboard.</returns>
+        [HttpGet]
         public IActionResult Index()
         {
             AdministrationDashboardModel model = new()

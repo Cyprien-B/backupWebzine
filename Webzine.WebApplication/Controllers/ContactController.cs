@@ -15,6 +15,7 @@ namespace Webzine.WebApplication.Controllers
         /// Contacts.
         /// </summary>
         /// <returns>Retourne la vue des contacts.</returns>
+        [HttpGet]
         public IActionResult Index()
         {
             return this.View();
