@@ -59,7 +59,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            return this.View(this.DataGenerator.GenerateStyle().IdStyle = id);
+            return this.View(this.DataGenerator.GenerateStyle());
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            return this.View(this.DataGenerator.GenerateStyle().IdStyle = id);
+            return this.View(this.DataGenerator.GenerateStyle());
         }
 
         /// <summary>

@@ -53,7 +53,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpPost]
         public IActionResult Create([FromForm] object result)
         {
-            return this.Ok("Not implemented");
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            return this.View(this.DataGenerator.GenerateArtiste().IdArtiste = id);
+            return this.View(this.DataGenerator.GenerateArtiste());
         }
 
         /// <summary>
@@ -86,13 +86,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            Artiste artiste = new()
-            {
-                Nom = "Daniel Balavoine",
-                IdArtiste = id,
-                Biographie = "Chanteur des années 90, est un chanteur avec un large timbre de voix, démontré avec SOS d'un terrien en détresse",
-            };
-            return this.View(artiste);
+            return this.View(this.DataGenerator.GenerateArtiste());
         }
 
         /// <summary>

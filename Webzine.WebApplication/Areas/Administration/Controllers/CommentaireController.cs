@@ -42,11 +42,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            Commentaire commentaire = new()
-            {
-                Auteur = "Jack", Contenu = "Trop cool", DateCreation = DateTime.Now, IdCommentaire = 1, IdTitre = 1, Titre = new() { Libelle = "Vivre Ailleur" },
-            };
-            return this.View(commentaire);
+            return this.View(this.DataGenerator.GenerateCommentaire());
         }
 
         /// <summary>
