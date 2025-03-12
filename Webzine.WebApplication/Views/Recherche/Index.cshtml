@@ -1,4 +1,45 @@
-﻿@{
-    this.ViewBag.Title = "Recherche {recherche}";
+﻿@model Webzine.WebApplication.ViewModels.RechercheModel
+
+@{
+    this.ViewBag.Title = $"Recherche : {Model.TermeRecherche}";
 }
-<p>Résultats de recherche par titre ou artiste.</p>
+
+<div class="container-fluid mt-4 mt-md-5">
+    <div class="row">
+        <!-- Contenu principal -->
+        <div class="col-12 col-lg-10 mb-4">
+            <h1 class="h4 mb-4">Résultats de la recherche pour "<span>@Model.TermeRecherche</span>"</h1>
+            <hr class="mb-4" />
+
+            <!-- Section Artistes -->
+            <div class="mb-5">
+                <h2 class="h4 mb-3">Artistes</h2>
+                @if (!Model.Artistes.Any())
+                {
+                    <p>Aucun artiste.</p>
+                }
+                else
+                {
+                    @foreach (var artiste in Model.Artistes)
+                    {
+                        <div class="mb-2">
+                            <i class="fa fa-user"></i>
+                            <a asp-controller="Artiste" asp-action="Index" asp-route-id="@artiste.IdArtiste" class="text-decoration-none">@artiste.Nom</a>
+                        </div>
+                    }
+                }
+            </div>
+
+            <!-- Section Titres -->
+            <div>
+                <h2 class="h4 mb-3">Titres</h2>
+                @await Component.InvokeAsync("TitresList", Model.Titres)
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-12 col-lg-2">
+            @await Component.InvokeAsync("StylesSidebar")
+        </div>
+    </div>
+</div>

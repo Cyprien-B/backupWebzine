@@ -37,14 +37,21 @@ namespace Webzine.WebApplication.Controllers
         }
 
         /// <summary>
-        /// Recherche les titres par styles.
+        /// Affiche les titres d'un style spécifique.
         /// </summary>
-        /// <param name="nomStyle">Nom du style recherché.</param>
-        /// <returns>Retourne le résultat de la recherche lié au style demandé.</returns>
+        /// <param name="nomStyle">Le nom du style.</param>
+        /// <returns>La vue avec les titres du style.</returns>
         [HttpGet]
+        [Route("titres/style/{nomStyle}")]
         public IActionResult Style(string nomStyle)
         {
-            return this.View();
+            if (string.IsNullOrWhiteSpace(nomStyle))
+            {
+                return this.RedirectToAction("Index", "Home");
+            }
+
+            var model = new StyleTitresModel(this.dataGenerator, nomStyle);
+            return this.View(model);
         }
 
         /// <summary>

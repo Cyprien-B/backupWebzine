@@ -1,4 +1,22 @@
-﻿@{
-    this.ViewBag.Title = "Recherche les titre par style";
+﻿@model Webzine.WebApplication.ViewModels.StyleTitresModel
+
+@{
+    this.ViewBag.Title = $"Titres de style {Model.Style.Libelle}";
 }
-<p>Recherche des titre par styles</p>
+
+<div class="container-fluid mt-4 mt-md-5">
+    <div class="row">
+        <!-- Contenu principal -->
+        <div class="col-12 col-lg-10 mb-4">
+            <h1 class="h2 mb-4">Titres ayant le style "@Model.Style.Libelle"</h1>
+            <hr class="mb-4" />
+
+            @await Component.InvokeAsync("TitresList", Model.Titres)
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-12 col-lg-2">
+            @await Component.InvokeAsync("StylesSidebar")
+        </div>
+    </div>
+</div>
