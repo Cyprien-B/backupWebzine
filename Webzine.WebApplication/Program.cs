@@ -21,6 +21,15 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// Gestion des erreurs 404
+app.UseStatusCodePages(async context =>
+{
+    if (context.HttpContext.Response.StatusCode == 404)
+    {
+        context.HttpContext.Response.Redirect("/Home/NotFound404");
+    }
+});
+
 app.MapControllerRoute(
     name: "page",
     pattern: "page/{page:int}",

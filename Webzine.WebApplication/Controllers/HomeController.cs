@@ -40,6 +40,16 @@ namespace Webzine.WebApplication.Controllers
         }
 
         /// <summary>
+        /// Gestion des erreur de pages.
+        /// </summary>
+        /// <returns>Retourne quand page est mauvaise.</returns>
+        [HttpGet]
+        public IActionResult NotFound404()
+        {
+            return this.View();
+        }
+
+        /// <summary>
         /// Retourne la vue de test pour les données fictives.
         /// </summary>
         /// <returns> Une vue avec les données. </returns>
