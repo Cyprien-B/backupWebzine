@@ -5,6 +5,7 @@
 namespace Webzine.WebApplication.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using Webzine.Entity;
     using Webzine.Entity.Fixtures;
     using Webzine.WebApplication.ViewModels;
 
@@ -23,30 +24,9 @@ namespace Webzine.WebApplication.Controllers
         [HttpGet]
         public IActionResult Index(string nomArtiste)
         {
-            var fakeArtiste = this.factory.GenerateArtiste();
+            Artiste artiste = this.factory.GenerateArtiste();
 
-            var viewModel = new ArtisteModel.Artiste
-            {
-                IdArtiste = fakeArtiste.IdArtiste,
-                Nom = fakeArtiste.Nom,
-                Biographie = fakeArtiste.Biographie,
-                Titres = fakeArtiste.Titres,
-            };
-
-            // Regrouper les titres par album
-            var albums = fakeArtiste.Titres
-                .GroupBy(t => t.Album)
-                .Select(g => new ArtisteModel.Album
-                {
-                    Nom = g.Key,
-                    ImageUrl = g.First().UrlJaquette,
-                    Titres = g.ToList(),
-                })
-                .ToList();
-
-            viewModel.Albums = albums;
-
-            return this.View(viewModel);
+            return this.View(artiste);
         }
     }
 }
