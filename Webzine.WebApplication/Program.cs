@@ -13,13 +13,22 @@ builder.Services.AddControllers();
 builder.Services.AddControllersWithViews();
 
 // Ajoute un service pour generer les donnees fictives de Bogus
-builder.Services.AddSingleton<DataGenerator>();
+builder.Services.AddSingleton<Factory>();
 
 var app = builder.Build();
 
 app.UseStaticFiles();
 
 app.UseRouting();
+
+// Gestion des erreurs 404
+app.UseStatusCodePages(async context =>
+{
+    if (context.HttpContext.Response.StatusCode == 404)
+    {
+        context.HttpContext.Response.Redirect("/Home/NotFound404");
+    }
+});
 
 app.MapControllerRoute(
     name: "page",
@@ -35,6 +44,11 @@ app.MapControllerRoute(
     name: "titre-style",
     pattern: "titres/style/{nomStyle}",
     defaults: new { controller = "Titre", action = "Style" });
+
+app.MapControllerRoute(
+    name: "artiste",
+    pattern: "artiste/{nomArtiste}",
+    defaults: new { controller = "Artiste", action = "Index" });
 
 app.MapControllerRoute(
     name: "titres-administration",

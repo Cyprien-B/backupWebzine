@@ -75,9 +75,10 @@
             </div>
 
             <div class="row g-3 align-items-center mb-3">
-                <div class="col-sm-2 d-flex align-items-center">
-                    <label asp-for="Titre.UrlJaquette" class="col-form-label m-0"></label>
-                    <span class="text-danger ms-1">*</span>
+                <div class="col-sm-2">
+                    <label class="col-form-label">
+                        <span>@Html.DisplayNameFor(m => m.Titre.UrlJaquette)</span><span class="text-danger">*</span>
+                    </label>
                 </div>
                 <div class="col-sm-10">
                     <input asp-for="Titre.UrlJaquette" class="form-control" required />
@@ -121,6 +122,23 @@
             </div>
             <span asp-validation-for="Titre.Styles" class="text-danger"></span>
             <div class="row g-3 align-items-center mb-3">
+                <div class="col-sm-2">
+                    <label class="col-form-label">Nb de lectures</label><label class="text-danger">*</label>
+                </div>
+                <div class="col-sm-10">
+                    <label class="form-control-plaintext">@Model.Titre.NbLectures</label>
+                </div>
+            </div>
+
+            <div class="row g-3 align-items-center mb-3">
+                <div class="col-sm-2">
+                    <label class="col-form-label">Nb de likes</label><label class="text-danger">*</label>
+                </div>
+                <div class="col-sm-10">
+                    <label class="form-control-plaintext">@Model.Titre.NbLikes</label>
+                </div>
+            </div>
+            <div class="row g-3 align-items-center mb-3">
                 <div class="col-sm-2 offset-sm-2">
                     <button type="submit" class="btn btn-primary">Ajouter</button>
                 </div>
@@ -129,4 +147,4 @@
     </div>
 </form>
 
-<a asp-controller="Titre" asp-action="Index">Retour à l'administration des titres</a>
+<a asp-controller="Titre" asp-action="Index" class="text-decoration-none">Retour à l'administration des titres</a>

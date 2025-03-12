@@ -5,6 +5,9 @@
 namespace Webzine.WebApplication.Areas.Administration.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using Webzine.Entity;
+    using Webzine.Entity.Fixtures;
+    using Webzine.WebApplication.Areas.Administration.ViewModels;
 
     /// <summary>
     /// Contrôleur de commentaire.
@@ -13,13 +16,22 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
     public class CommentaireController : Controller
     {
         /// <summary>
+        /// Obtient ou définit un générateur de fausse données.
+        /// </summary>
+        public Factory Factory { get; set; } = new();
+
+        /// <summary>
         /// Administration principale des commentaires.
         /// </summary>
         /// <returns>Retourne une vue, avec la liste des commentaires pouvant être modéré.</returns>
         [HttpGet]
         public IActionResult Index()
         {
-            return this.Ok("Not implemented commentaire");
+            AdministrationCommentairesModel model = new()
+            {
+                Commentaires = this.Factory.GenerateCommentaires(40),
+            };
+            return this.View(model);
         }
 
         /// <summary>
@@ -30,7 +42,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            return this.View();
+            return this.View(this.Factory.GenerateCommentaire());
         }
 
         /// <summary>
@@ -39,9 +51,9 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         /// <param name="result">L'identifiant du commentaire à supprimer.</param>
         /// <returns>Le résultat de la suppression d'un commentaire.</returns>
         [HttpPost]
-        public IActionResult Delete([FromForm] object result)
+        public IActionResult Delete([FromForm] Commentaire result)
         {
-            return this.Ok("Not implemented");
+            return this.RedirectToAction(nameof(this.Index));
         }
     }
 }

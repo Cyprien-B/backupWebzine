@@ -6,7 +6,7 @@
 
 <div class="container">
     <div class="row">
-        <!-- Contenu principal (70% sur grand écran, 100% sur petit écran) -->
+        <!-- Contenu principal 70% sur grand écran, 100% sur petit écran pour le responsive -->
         <div class="col-lg-9 mb-4">
             <h1 class="mb-4">Derniers titres chroniqués</h1>
             <div class="d-flex flex-column">
@@ -14,36 +14,83 @@
                 {
                     <div class="bg-light p-3 mb-3 overflow-hidden">
                         <div class="row g-0 h-100">
+                            <!-- Image jaquette -->
                             <div class="col-12 col-md-3 mb-3 mb-md-0 d-flex align-items-center">
-                                <a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre" class="w-100">
-                                    <img src="@titre.UrlJaquette" class="img-fluid rounded w-100" alt="jaquette" style="object-fit: cover; max-height: 300px;">
+                                <a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre" class="w-100 ratio ratio-1x1">
+                                    <img src="@titre.UrlJaquette" class="img-fluid rounded object-fit-cover" alt="Jaquette" width="200" height="200">
                                 </a>
                             </div>
                             <div class="col-12 col-md-9 d-flex flex-column">
                                 <div class="ps-md-3 pe-md-3 h-100 d-flex flex-column justify-content-between">
+                                    <!-- Chronique -->
                                     <div>
                                         <h5 class="mb-2">
                                             <a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre" class="text-decoration-none">@titre.Libelle</a>
                                         </h5>
-                                        <p class="mb-2">@titre.Chronique</p>
+                                        <p class="mb-2">
+                                            @(titre.Chronique.Length > @Model.CaracteresChroniqueMax
+                                                ? titre.Chronique.Substring(0, (int)@Model.CaracteresChroniqueMax) + "..."
+                                                : titre.Chronique)
+                                        </p>
                                     </div>
-                                    <div class="mt-auto">
-                                        <a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre" class="btn btn-primary">Lire la suite</a>
+
+                                    <!-- Actions après la chronique (bouton, date et styles -->
+                                    <div class="mt-auto d-flex align-items-start w-100">
+                                        <a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre"
+                                           class="btn btn-primary me-3 flex-shrink-0">Lire la suite</a>
+
+                                        <div class="d-flex align-items-center w-100">
+                                            <span class="flex-shrink-0 d-flex align-items-center me-2">
+                                                <i class="fa-solid fa-calendar me-1"></i> @titre.DateCreation
+                                                &nbsp;
+                                            </span>
+
+                                            <div class="d-flex flex-wrap align-items-center">
+                                                <i class="fa-solid fa-tags me-1"></i>
+                                                @foreach (var style in titre.Styles)
+                                                {
+                                                    <a class="text-decoration-none me-2 mb-1"
+                                                       asp-controller="Titre"
+                                                       asp-action="Style"
+                                                       asp-route-nomStyle="@style.Libelle">@style.Libelle</a>
+                                                }
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 }
             </div>
 
-            <h1 class="mb-4">Titres les plus populaires</h1>
+            <div class="row">
+                @{
+                    uint pageSuivante = Model.PaginationActuelle + 1;
+                    uint pagePrecedente = Model.PaginationActuelle - 1;
+                }
+                <div class="col-md-6 col-sm-6">
+                    @if (Model.PaginationActuelle > 1)
+                    {
+                        <a asp-action="Index" asp-route-page="@pagePrecedente" class="btn btn-secondary">&laquo; Titres plus récents</a>
+                    }
+                </div>
+                <div class="col-md-6 col-ms-6 text-end">
+                    @if(Model.PaginationActuelle < Model.PaginationMax)
+                    {
+                        <a asp-action="Index" asp-route-page="@pageSuivante" class="btn btn-secondary">Titres plus anciens &raquo;</a>
+                    }
+                </div>
+            </div>
+
+            <h1 class="mt-4 mb-1">Titres les plus populaires</h1>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
                 @foreach (var titre in Model.TitresPopulaires)
                 {
                     <div class="col">
                         <div class="card h-100">
-                            <img src="@titre.UrlJaquette" alt="jaquette" class="card-img-top">
+                            <a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre"><img src="@titre.UrlJaquette" alt="jaquette" class="card-img-top" width="200" height="200"></a>
                             <div class="card-body">
                                 <h5 class="card-title mb-2">
                                     <a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre" class="text-decoration-none">@titre.Libelle</a>

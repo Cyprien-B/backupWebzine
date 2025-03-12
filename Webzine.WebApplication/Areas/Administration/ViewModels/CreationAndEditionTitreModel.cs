@@ -4,7 +4,6 @@
 
 namespace Webzine.WebApplication.Areas.Administration.ViewModels
 {
-    using System.ComponentModel.DataAnnotations;
     using Webzine.Entity;
 
     /// <summary>

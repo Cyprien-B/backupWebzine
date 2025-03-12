@@ -18,9 +18,9 @@ namespace Webzine.WebApplication.Controllers
         /// </summary>
         /// <param name="artiste">Le nom de l'artiste à afficher.</param>
         /// <returns>La vue de l'artiste.</returns>
-        public IActionResult Index(string artiste)
+        public IActionResult Index(string nomArtiste)
         {
-            var data = new DataGenerator();
+            var data = new Factory();
             var fakeArtiste = data.GenerateArtiste();
 
             var viewModel = new ArtisteViewModel.Artiste

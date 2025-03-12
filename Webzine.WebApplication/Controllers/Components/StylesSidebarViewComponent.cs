@@ -5,7 +5,6 @@
 namespace Webzine.WebApplication.Controllers.Components
 {
     using Microsoft.AspNetCore.Mvc;
-    using Webzine.Entity;
     using Webzine.Entity.Fixtures;
 
     /// <summary>
@@ -13,15 +12,15 @@ namespace Webzine.WebApplication.Controllers.Components
     /// </summary>
     public class StylesSidebarViewComponent : ViewComponent
     {
-        private readonly DataGenerator dataGenerator;
+        private readonly Factory factory;
 
         /// <summary>
         /// Initialise une nouvelle instance de la classe <see cref="StylesSidebarViewComponent"/>.
         /// </summary>
-        /// <param name="dataGenerator">Le générateur de données fictives.</param>
-        public StylesSidebarViewComponent(DataGenerator dataGenerator)
+        /// <param name="factory">Le générateur de données fictives.</param>
+        public StylesSidebarViewComponent(Factory factory)
         {
-            this.dataGenerator = dataGenerator;
+            this.factory = factory;
         }
 
         /// <summary>
@@ -30,7 +29,10 @@ namespace Webzine.WebApplication.Controllers.Components
         /// <returns>Une composante de vue.</returns>
         public IViewComponentResult Invoke()
         {
-            var styles = this.dataGenerator.GenerateStyles(30);
+            var styles = this.factory.GenerateStyles(300)
+                .DistinctBy(s => s.Libelle)
+                .OrderBy(s => s.Libelle)
+                .ToList();
             return this.View(styles);
         }
     }

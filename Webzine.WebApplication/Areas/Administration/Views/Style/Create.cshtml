@@ -1,5 +1,27 @@
-﻿@{
-    this.ViewBag.Title = "Creation d'un style";
+﻿@model Webzine.Entity.Style
+
+@{
+    this.ViewBag.Title = "Créer un style";
 }
 
-<p class="bg-primary">Page de création d'un style</p>
+<h1 class="mb-4">Créer un style</h1>
+<hr />
+
+<form asp-controller="Style" asp-action="Edit" method="post" class="d-flex align-items-center">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="IdStyle" />
+
+    <label class="me-2">
+        @Html.DisplayNameFor(m => m.Libelle)<span class="text-danger">*</span>
+    </label>
+
+    <div class="me-2">
+        <input asp-for="Libelle" class="form-control" required />
+        <span asp-validation-for="Libelle" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+</form>
+
+<br />
+<a asp-controller="Style" asp-action="Index" class="text-decoration-none">Retour à l'administration des styles</a>

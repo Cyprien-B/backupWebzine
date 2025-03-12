@@ -19,6 +19,6 @@ namespace Webzine.WebApplication.Areas.Administration.ViewModels
         /// <summary>
         /// Obtient ou définit un titre juste pour le Display.
         /// </summary>
-        public Titre? Titre { get; set; } = null;
+        public Titre Titre { get; set; } = new();
     }
 }

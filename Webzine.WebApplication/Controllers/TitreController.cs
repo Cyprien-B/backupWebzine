@@ -5,6 +5,7 @@
 namespace Webzine.WebApplication.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using Webzine.Entity;
     using Webzine.Entity.Fixtures;
     using Webzine.WebApplication.ViewModels;
 
@@ -13,15 +14,15 @@ namespace Webzine.WebApplication.Controllers
     /// </summary>
     public class TitreController : Controller
     {
-        private readonly DataGenerator dataGenerator;
+        private readonly Factory factory;
 
         /// <summary>
         /// Initialise une nouvelle instance de la classe <see cref="TitreController"/>.
         /// </summary>
-        /// <param name="dataGenerator">Le générateur de données fictives.</param>
-        public TitreController(DataGenerator dataGenerator)
+        /// <param name="factory">Le générateur de données fictives.</param>
+        public TitreController(Factory factory)
         {
-            this.dataGenerator = dataGenerator;
+            this.factory = factory;
         }
 
         /// <summary>
@@ -32,7 +33,11 @@ namespace Webzine.WebApplication.Controllers
         [HttpGet]
         public IActionResult Index(int id)
         {
-            var model = new TitreModel(this.dataGenerator, id);
+            TitreModel model = new()
+            {
+                Titre = this.factory.GenerateTitre(),
+            };
+            model.Titre.IdTitre = id;
             return this.View(model);
         }
 
@@ -68,12 +73,12 @@ namespace Webzine.WebApplication.Controllers
         /// <summary>
         /// Ajoute un commentaire au titre.
         /// </summary>
-        /// <param name="result">Identifie le titre auquel le commentaire est à ajouter et son contenu.</param>
+        /// <param name="commentaire">Identifie le titre auquel le commentaire est à ajouter et son contenu.</param>
         /// <returns>Un retour positif du bon retour de la vue.</returns>
         [HttpPost]
-        public IActionResult Commenter([FromForm] object result)
+        public IActionResult Commenter([FromForm] Commentaire commentaire)
         {
-            return this.Ok("Commentaire enregistre");
+            return this.RedirectToAction(nameof(this.Index), new { id = commentaire.IdTitre });
         }
     }
 }
