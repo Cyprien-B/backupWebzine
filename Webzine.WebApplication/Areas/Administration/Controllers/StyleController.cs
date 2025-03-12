@@ -27,7 +27,11 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return this.View(this.Factory.GenerateStyles(18));
+            AdministrationStylesModel model = new()
+            {
+                Styles = this.Factory.GenerateStyles(18),
+            };
+            return this.View(model);
         }
 
         /// <summary>
