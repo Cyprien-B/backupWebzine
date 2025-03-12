@@ -5,6 +5,7 @@
 namespace Webzine.WebApplication.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using Webzine.Entity;
     using Webzine.Entity.Fixtures;
     using Webzine.WebApplication.ViewModels;
 
@@ -36,7 +37,17 @@ namespace Webzine.WebApplication.Controllers
                 return this.RedirectToAction("Index", "Home");
             }
 
-            var model = new RechercheModel(this.factory, recherche);
+            // Générer 0-3 artistes aléatoires
+            int nbArtistes = new Random().Next(0, 4);
+            int nbTitres = new Random().Next(0, 5);
+
+            RechercheModel model = new()
+            {
+                TermeRecherche = recherche,
+                Artistes = nbArtistes > 0 ? this.factory.GenerateArtistes(nbArtistes) : [],
+                Titres = nbTitres > 0 ? this.factory.GenerateTitres(nbTitres) : [],
+            };
+
             return this.View(model);
         }
     }

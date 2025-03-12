@@ -15,34 +15,13 @@ namespace Webzine.WebApplication.ViewModels
     public class StyleTitresModel
     {
         /// <summary>
-        /// Initialise une nouvelle instance de la classe <see cref="StyleTitresModel"/>.
-        /// </summary>
-        /// <param name="factory">Le générateur de données fictives.</param>
-        /// <param name="nomStyle">Le nom du style.</param>
-        public StyleTitresModel(Factory factory, string nomStyle)
-        {
-            // Générer un style avec le nom fourni
-            this.Style = factory.GenerateStyle();
-            this.Style.Libelle = nomStyle;
-
-            // Générer entre 0 et 5 titres aléatoires
-            this.Titres = new List<Titre>();
-            var nbTitres = new Random().Next(6); // Génère un nombre entre 0 et 5 inclus
-            for (int i = 0; i < nbTitres; i++)
-            {
-                var titre = factory.GenerateTitre();
-                this.Titres.Add(titre);
-            }
-        }
-
-        /// <summary>
         /// Obtient ou définit le style musical.
         /// </summary>
-        public Style Style { get; set; }
+        public Style Style { get; set; } = new();
 
         /// <summary>
         /// Obtient ou définit la liste des titres du style.
         /// </summary>
-        public List<Titre> Titres { get; set; }
+        public List<Titre> Titres { get; set; } = [];
     }
 }

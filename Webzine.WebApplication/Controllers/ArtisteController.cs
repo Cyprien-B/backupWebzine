@@ -13,17 +13,19 @@ namespace Webzine.WebApplication.Controllers
     /// </summary>
     public class ArtisteController : Controller
     {
+        private Factory factory = new();
+
         /// <summary>
         /// Affiche la page d'un artiste spécifique.
         /// </summary>
-        /// <param name="artiste">Le nom de l'artiste à afficher.</param>
+        /// <param name="nomArtiste">Le nom de l'artiste à afficher.</param>
         /// <returns>La vue de l'artiste.</returns>
+        [HttpGet]
         public IActionResult Index(string nomArtiste)
         {
-            var data = new Factory();
-            var fakeArtiste = data.GenerateArtiste();
+            var fakeArtiste = this.factory.GenerateArtiste();
 
-            var viewModel = new ArtisteViewModel.Artiste
+            var viewModel = new ArtisteModel.Artiste
             {
                 IdArtiste = fakeArtiste.IdArtiste,
                 Nom = fakeArtiste.Nom,
@@ -34,7 +36,7 @@ namespace Webzine.WebApplication.Controllers
             // Regrouper les titres par album
             var albums = fakeArtiste.Titres
                 .GroupBy(t => t.Album)
-                .Select(g => new ArtisteViewModel.Album
+                .Select(g => new ArtisteModel.Album
                 {
                     Nom = g.Key,
                     ImageUrl = g.First().UrlJaquette,

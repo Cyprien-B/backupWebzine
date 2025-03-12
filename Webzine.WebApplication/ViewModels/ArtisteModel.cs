@@ -1,5 +1,5 @@
 ﻿// <copyright file="ArtisteViewModel.cs" company="Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ">
-// Copyright (c) Equipe 4 -   BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ. All rights reserved.
+// Copyright (c) Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ. All rights reserved.
 // </copyright>
 
 namespace Webzine.WebApplication.ViewModels
@@ -11,7 +11,7 @@ namespace Webzine.WebApplication.ViewModels
     /// <summary>
     /// ViewModel pour l'entité Artiste.
     /// </summary>
-    public class ArtisteViewModel
+    public class ArtisteModel
     {
         /// <summary>
         /// Représente un artiste avec ses propriétés.

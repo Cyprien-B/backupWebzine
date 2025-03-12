@@ -48,15 +48,5 @@ namespace Webzine.WebApplication.Controllers
         {
             return this.View();
         }
-
-        /// <summary>
-        /// Retourne la vue de test pour les données fictives.
-        /// </summary>
-        /// <returns> Une vue avec les données. </returns>
-        [HttpGet]
-        public IActionResult BogusData()
-        {
-            return this.View();
-        }
     }
 }
