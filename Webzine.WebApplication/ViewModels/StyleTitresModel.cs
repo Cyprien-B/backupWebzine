@@ -17,12 +17,12 @@ namespace Webzine.WebApplication.ViewModels
         /// <summary>
         /// Initialise une nouvelle instance de la classe <see cref="StyleTitresModel"/>.
         /// </summary>
-        /// <param name="dataGenerator">Le générateur de données fictives.</param>
+        /// <param name="factory">Le générateur de données fictives.</param>
         /// <param name="nomStyle">Le nom du style.</param>
-        public StyleTitresModel(DataGenerator dataGenerator, string nomStyle)
+        public StyleTitresModel(Factory factory, string nomStyle)
         {
             // Générer un style avec le nom fourni
-            this.Style = dataGenerator.GenerateStyle();
+            this.Style = factory.GenerateStyle();
             this.Style.Libelle = nomStyle;
 
             // Générer entre 0 et 5 titres aléatoires
@@ -30,7 +30,7 @@ namespace Webzine.WebApplication.ViewModels
             var nbTitres = new Random().Next(6); // Génère un nombre entre 0 et 5 inclus
             for (int i = 0; i < nbTitres; i++)
             {
-                var titre = dataGenerator.GenerateTitre();
+                var titre = factory.GenerateTitre();
                 this.Titres.Add(titre);
             }
         }
@@ -45,4 +45,4 @@ namespace Webzine.WebApplication.ViewModels
         /// </summary>
         public List<Titre> Titres { get; set; }
     }
-} 
+}

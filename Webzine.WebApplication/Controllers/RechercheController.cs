@@ -13,14 +13,14 @@ namespace Webzine.WebApplication.Controllers
     /// </summary>
     public class RechercheController : Controller
     {
-        private readonly DataGenerator dataGenerator;
+        private readonly Factory factory;
 
         /// <summary>
         /// Initialise une nouvelle instance de la classe <see cref="RechercheController"/>.
         /// </summary>
         public RechercheController()
         {
-            this.dataGenerator = new DataGenerator();
+            this.factory = new Factory();
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace Webzine.WebApplication.Controllers
                 return this.RedirectToAction("Index", "Home");
             }
 
-            var model = new RechercheModel(this.dataGenerator, recherche);
+            var model = new RechercheModel(this.factory, recherche);
             return this.View(model);
         }
     }

@@ -55,7 +55,7 @@ namespace Webzine.WebApplication.Controllers
                 return this.RedirectToAction("Index", "Home");
             }
 
-            var model = new StyleTitresModel(this.dataGenerator, nomStyle);
+            var model = new StyleTitresModel(this.factory, nomStyle);
             return this.View(model);
         }
 
