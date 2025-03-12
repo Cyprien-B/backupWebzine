@@ -18,7 +18,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         /// <summary>
         /// Obtient ou définit un générateur de fausse données.
         /// </summary>
-        public Factory DataGenerator { get; set; } = new();
+        public Factory Factory { get; set; } = new();
 
         /// <summary>
         /// Administration principale des styles.
@@ -27,7 +27,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return this.View(this.DataGenerator.GenerateStyles(18));
+            return this.View(this.Factory.GenerateStyles(18));
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            return this.View(this.DataGenerator.GenerateStyle());
+            return this.View(this.Factory.GenerateStyle());
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            return this.View(this.DataGenerator.GenerateStyle());
+            return this.View(this.Factory.GenerateStyle());
         }
 
         /// <summary>

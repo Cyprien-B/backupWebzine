@@ -17,7 +17,7 @@ namespace Webzine.WebApplication.Controllers
         /// <summary>
         /// Obtient ou définit un générateur de fausse données.
         /// </summary>
-        public Factory DataGenerator { get; set; } = new();
+        public Factory Factory { get; set; } = new();
 
         /// <summary>
         /// Est la vue de la page d'accueil.
@@ -30,8 +30,8 @@ namespace Webzine.WebApplication.Controllers
             HomeModel model = new()
             {
                 PaginationMax = (uint)new Random().Next(90, 100),
-                TitresRecemmentsChroniques = this.DataGenerator.GenerateTitres(3),
-                TitresPopulaires = this.DataGenerator.GenerateTitres(3),
+                TitresRecemmentsChroniques = this.Factory.GenerateTitres(3),
+                TitresPopulaires = this.Factory.GenerateTitres(3),
                 CaracteresChroniqueMax = 200,
                 PaginationActuelle = page,
             };

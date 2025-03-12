@@ -18,7 +18,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         /// <summary>
         /// Obtient ou définit un générateur de fausse données.
         /// </summary>
-        public Factory DataGenerator { get; set; } = new();
+        public Factory Factory { get; set; } = new();
 
         /// <summary>
         /// Administration principale des artistes.
@@ -30,7 +30,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
             List<Artiste> artistes = [];
             AdministrationArtistesModel model = new()
             {
-                Artistes = this.DataGenerator.GenerateArtistes(50),
+                Artistes = this.Factory.GenerateArtistes(50),
             };
             return this.View(model);
         }
@@ -64,7 +64,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            return this.View(this.DataGenerator.GenerateArtiste());
+            return this.View(this.Factory.GenerateArtiste());
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            return this.View(this.DataGenerator.GenerateArtiste());
+            return this.View(this.Factory.GenerateArtiste());
         }
 
         /// <summary>

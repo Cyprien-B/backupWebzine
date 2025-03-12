@@ -17,7 +17,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         /// <summary>
         /// Obtient ou définit un générateur de fausse données.
         /// </summary>
-        public Factory DataGenerator { get; set; } = new();
+        public Factory Factory { get; set; } = new();
 
         /// <summary>
         /// La page de dashboard et de métriques importantes du site.
@@ -29,10 +29,10 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
             AdministrationDashboardModel model = new()
             {
                 NbArtistes = (uint)new Random().Next(400, 600),
-                ArtisteComposeLePlusTitres = this.DataGenerator.GenerateArtiste(),
-                ArtisteLePlusChronique = this.DataGenerator.GenerateArtiste(),
+                ArtisteComposeLePlusTitres = this.Factory.GenerateArtiste(),
+                ArtisteLePlusChronique = this.Factory.GenerateArtiste(),
                 NbBiographies = (uint)new Random().Next(200, 500),
-                TitreLePlusLu = this.DataGenerator.GenerateTitre(),
+                TitreLePlusLu = this.Factory.GenerateTitre(),
                 NbLectures = (uint)new Random().Next(10000, 50000),
                 NbLikes = (uint)new Random().Next(9000, 25000),
                 NbStyles = 18,

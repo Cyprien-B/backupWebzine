@@ -14,15 +14,15 @@ namespace Webzine.WebApplication.Controllers
     /// </summary>
     public class TitreController : Controller
     {
-        private readonly DataGenerator dataGenerator;
+        private readonly Factory factory;
 
         /// <summary>
         /// Initialise une nouvelle instance de la classe <see cref="TitreController"/>.
         /// </summary>
-        /// <param name="dataGenerator">Le générateur de données fictives.</param>
-        public TitreController(DataGenerator dataGenerator)
+        /// <param name="factory">Le générateur de données fictives.</param>
+        public TitreController(Factory factory)
         {
-            this.dataGenerator = dataGenerator;
+            this.factory = factory;
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Webzine.WebApplication.Controllers
         {
             TitreModel model = new()
             {
-                Titre = this.dataGenerator.GenerateTitre(),
+                Titre = this.factory.GenerateTitre(),
             };
             model.Titre.IdTitre = id;
             return this.View(model);

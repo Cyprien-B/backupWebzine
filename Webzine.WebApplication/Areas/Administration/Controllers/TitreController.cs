@@ -18,7 +18,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         /// <summary>
         /// Obtient ou définit un générateur de fausse données.
         /// </summary>
-        public Factory DataGenerator { get; set; } = new();
+        public Factory Factory { get; set; } = new();
 
         /// <summary>
         /// Administration principale des titre.
@@ -29,7 +29,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         {
             AdministrationTitresModel model = new()
             {
-                Titres = this.DataGenerator.GenerateTitres(40),
+                Titres = this.Factory.GenerateTitres(40),
             };
             return this.View(model);
         }
@@ -43,8 +43,8 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         {
             CreationAndEditionTitreModel model = new()
             {
-                Artistes = this.DataGenerator.GenerateArtistes(40),
-                Styles = this.DataGenerator.GenerateStyles(30).DistinctBy(s => s.Libelle).ToList(),
+                Artistes = this.Factory.GenerateArtistes(40),
+                Styles = this.Factory.GenerateStyles(30).DistinctBy(s => s.Libelle).ToList(),
             };
             return this.View(model);
         }
@@ -68,7 +68,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            return this.View(this.DataGenerator.GenerateTitre());
+            return this.View(this.Factory.GenerateTitre());
         }
 
         /// <summary>
@@ -92,9 +92,9 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         {
             CreationAndEditionTitreModel model = new()
             {
-                Artistes = this.DataGenerator.GenerateArtistes(40),
-                Styles = this.DataGenerator.GenerateStyles(30).DistinctBy(s => s.Libelle).ToList(),
-                Titre = this.DataGenerator.GenerateTitre(),
+                Artistes = this.Factory.GenerateArtistes(40),
+                Styles = this.Factory.GenerateStyles(30).DistinctBy(s => s.Libelle).ToList(),
+                Titre = this.Factory.GenerateTitre(),
             };
             return this.View(model);
         }

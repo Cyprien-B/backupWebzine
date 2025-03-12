@@ -18,7 +18,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         /// <summary>
         /// Obtient ou définit un générateur de fausse données.
         /// </summary>
-        public Factory DataGenerator { get; set; } = new();
+        public Factory Factory { get; set; } = new();
 
         /// <summary>
         /// Administration principale des commentaires.
@@ -29,7 +29,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         {
             AdministrationCommentairesModel model = new()
             {
-                Commentaires = this.DataGenerator.GenerateCommentaires(40),
+                Commentaires = this.Factory.GenerateCommentaires(40),
             };
             return this.View(model);
         }
@@ -42,7 +42,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            return this.View(this.DataGenerator.GenerateCommentaire());
+            return this.View(this.Factory.GenerateCommentaire());
         }
 
         /// <summary>
