@@ -18,7 +18,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         /// <summary>
         /// Obtient ou définit un générateur de fausse données.
         /// </summary>
-        public DataGenerator DataGenerator { get; set; } = new();
+        public Factory DataGenerator { get; set; } = new();
 
         /// <summary>
         /// Administration principale des titre.

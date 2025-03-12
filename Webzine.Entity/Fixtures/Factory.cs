@@ -1,4 +1,4 @@
-// <copyright file="DataGenerator.cs" company="Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ">
+// <copyright file="Factory.cs" company="Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ">
 // Copyright (c) Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ. All rights reserved.
 // </copyright>
 
@@ -9,7 +9,7 @@ namespace Webzine.Entity.Fixtures
     /// <summary>
     /// Classe pour générer des données fictives.
     /// </summary>
-    public class DataGenerator
+    public class Factory
     {
         // Déclaration des générateurs de données fictives
         private readonly Faker<Artiste> artisteFake;
@@ -19,9 +19,9 @@ namespace Webzine.Entity.Fixtures
         private readonly Faker<Commentaire> commentaireFake;
 
         /// <summary>
-        /// Initialise une nouvelle instance de la classe <see cref="DataGenerator"/>.
+        /// Initialise une nouvelle instance de la classe <see cref="Factory"/>.
         /// </summary>
-        public DataGenerator()
+        public Factory()
         {
             // Initialisation du générateur aléatoire
             Randomizer.Seed = new Random(123);

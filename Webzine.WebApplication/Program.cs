@@ -13,7 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddControllersWithViews();
 
 // Ajoute un service pour generer les donnees fictives de Bogus
-builder.Services.AddSingleton<DataGenerator>();
+builder.Services.AddSingleton<Factory>();
 
 var app = builder.Build();
 
