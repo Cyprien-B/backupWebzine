@@ -47,15 +47,22 @@ namespace Webzine.WebApplication.Controllers
         /// <param name="nomStyle">Le nom du style.</param>
         /// <returns>La vue avec les titres du style.</returns>
         [HttpGet]
-        [Route("titres/style/{nomStyle}")]
         public IActionResult Style(string nomStyle)
         {
             if (string.IsNullOrWhiteSpace(nomStyle))
             {
-                return this.RedirectToAction("Index", "Home");
+                return this.RedirectToAction(nameof(this.Index));
             }
 
-            var model = new StyleTitresModel(this.factory, nomStyle);
+            Style style = this.factory.GenerateStyle();
+            style.Libelle = nomStyle;
+
+            int nbTitres = new Random().Next(0, 6);
+            StyleTitresModel model = new()
+            {
+                Style = style,
+                Titres = nbTitres > 0 ? this.factory.GenerateTitres(nbTitres) : [],
+            };
             return this.View(model);
         }
 

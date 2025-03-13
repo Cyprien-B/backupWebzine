@@ -15,40 +15,18 @@ namespace Webzine.WebApplication.ViewModels
     public class RechercheModel
     {
         /// <summary>
-        /// Initialise une nouvelle instance de la classe <see cref="RechercheModel"/>.
-        /// </summary>
-        /// <param name="factory">Le générateur de données fictives.</param>
-        /// <param name="termeRecherche">Le terme de recherche.</param>
-        public RechercheModel(Factory factory, string termeRecherche)
-        {
-            this.TermeRecherche = termeRecherche;
-
-            // Générer 0-3 artistes aléatoires
-            var nbArtistes = new Random().Next(0, 4);
-            this.Artistes = nbArtistes > 0 ? factory.GenerateArtistes(nbArtistes) : new List<Artiste>();
-
-            // Générer 5 titres aléatoires
-            this.Titres = new List<Titre>();
-            for (int i = 0; i < 5; i++)
-            {
-                var titre = factory.GenerateTitre();
-                this.Titres.Add(titre);
-            }
-        }
-
-        /// <summary>
         /// Obtient ou définit le terme de recherche.
         /// </summary>
-        public string TermeRecherche { get; set; }
+        public string TermeRecherche { get; set; } = string.Empty;
 
         /// <summary>
         /// Obtient ou définit la liste des artistes correspondant à la recherche.
         /// </summary>
-        public List<Artiste> Artistes { get; set; }
+        public List<Artiste> Artistes { get; set; } = [];
 
         /// <summary>
         /// Obtient ou définit la liste des titres correspondant à la recherche.
         /// </summary>
-        public List<Titre> Titres { get; set; }
+        public List<Titre> Titres { get; set; } = [];
     }
 }

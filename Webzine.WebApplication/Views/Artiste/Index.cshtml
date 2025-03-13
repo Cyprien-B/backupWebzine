@@ -1,11 +1,8 @@
-﻿@* // <copyright file="ApiController.cs" company="Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ">
-// Copyright (c) Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ. All rights reserved.
-// </copyright> *@
-@{
+﻿@{
     ViewBag.Title = "Biographie " + Model.Nom;
 }
 
-@model Webzine.WebApplication.ViewModels.ArtisteViewModel.Artiste
+@model Webzine.Entity.Artiste
 
 <div class="container mt-4">
     <div class="row">
@@ -21,26 +18,29 @@
             <div>
                 <h2>Albums</h2>
                 <hr>
-                @foreach (var album in Model.Albums)
+                @{
+                    var albums = Model.Titres.GroupBy(t => t.Album).ToList();
+                }
+                @foreach (var album in albums)
                 {
                     <div class="row align-items-start mb-4">
                         <div class="col-md-2">
-                            <img src="@album.ImageUrl" class="img-fluid rounded" alt="@album.Nom">
+                            <img src="@album.First().UrlJaquette" class="img-fluid" width="200" height="200" alt="@album.Key">
                         </div>
                         <div class="col-md-10">
-                            <h4>@album.Nom</h4>
+                            <h4>@album.Key</h4>
                             <table class="table">
-                                    <tr>
+                                <tr>
                                     <th class="w-15" scope="col">Durée</th>
                                     <th scope="col">Titre</th>
+                                </tr>
+                                @foreach (var titre in album)
+                                {
+                                    <tr>
+                                        <td class="w-15">@TimeSpan.FromSeconds(titre.Duree).ToString(@"mm\:ss")</td>
+                                        <td><a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre" class="text-decoration-none">@titre.Libelle</a></td>
                                     </tr>
-                                    @foreach (var titre in album.Titres)
-                                    {
-                                    <tr class="">
-                                            <td class="w-15" >@TimeSpan.FromSeconds(titre.Duree).ToString(@"mm\:ss")</td>
-                                            <td><a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre" class="text-decoration-none">@titre.Libelle</a></td>
-                                        </tr>
-                                    }
+                                }
                             </table>
                         </div>
                     </div>
