@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Biographie " + Model.Nom;
+    this.ViewBag.Title = "Biographie " + Model.Nom;
 }
 
 @model Webzine.Entity.Artiste
@@ -24,24 +24,32 @@
                 @foreach (var album in albums)
                 {
                     <div class="row align-items-start mb-4">
-                        <div class="col-md-2">
-                            <img src="@album.First().UrlJaquette" class="img-fluid" width="200" height="200" alt="@album.Key">
+                        <div class="col-xl-3 col-lg-4 col-md-5 text-center mb-3">
+                            <div class="d-inline-block">
+                                <img src="@album.First().UrlJaquette" width="200" height="200" alt="@album.Key">
+                            </div>
                         </div>
-                        <div class="col-md-10">
+                        <div class="col-xl-9 col-lg-8 col-md-7">
                             <h4>@album.Key</h4>
-                            <table class="table">
-                                <tr>
-                                    <th class="w-15" scope="col">Durée</th>
-                                    <th scope="col">Titre</th>
-                                </tr>
-                                @foreach (var titre in album)
-                                {
-                                    <tr>
-                                        <td class="w-15">@TimeSpan.FromSeconds(titre.Duree).ToString(@"mm\:ss")</td>
-                                        <td><a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre" class="text-decoration-none">@titre.Libelle</a></td>
-                                    </tr>
-                                }
-                            </table>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th width="100">Durée</th>
+                                            <th>Titre</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var titre in album)
+                                        {
+                                            <tr>
+                                                <td width="100">@TimeSpan.FromSeconds(titre.Duree).ToString(@"mm\:ss")</td>
+                                                <td><a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre" class="text-decoration-none">@titre.Libelle</a></td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 }

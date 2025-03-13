@@ -1,8 +1,8 @@
-// <copyright file="TitresListViewComponent.cs" company="Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ">
+﻿// <copyright file="TitresListViewComponent.cs" company="Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ">
 // Copyright (c) Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ. All rights reserved.
 // </copyright>
 
-namespace Webzine.WebApplication.Views.Shared.Components.TitresList
+namespace Webzine.WebApplication.Controllers.Components
 {
     using System.Collections.Generic;
     using Microsoft.AspNetCore.Mvc;

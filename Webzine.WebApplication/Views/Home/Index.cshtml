@@ -89,8 +89,12 @@
                 @foreach (var titre in Model.TitresPopulaires)
                 {
                     <div class="col">
-                        <div class="card h-100">
-                            <a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre"><img src="@titre.UrlJaquette" alt="jaquette" class="card-img-top" width="200" height="200"></a>
+                        <div class="card">
+                            <div class="ratio ratio-1x1">
+                                <a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre" class="h-100">
+                                    <img src="@titre.UrlJaquette" alt="jaquette" class="card-img-top object-fit-cover h-100 w-100">
+                                </a>
+                            </div>
                             <div class="card-body">
                                 <h5 class="card-title mb-2">
                                     <a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre" class="text-decoration-none">@titre.Libelle</a>

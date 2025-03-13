@@ -4,10 +4,8 @@
 
 namespace Webzine.WebApplication.ViewModels
 {
-    using System;
     using System.Collections.Generic;
     using Webzine.Entity;
-    using Webzine.Entity.Fixtures;
 
     /// <summary>
     /// Model pour servir les données nécessaires à la page de recherche.

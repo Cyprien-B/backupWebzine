@@ -18,13 +18,20 @@
                 </div>
                 <div class="col-sm-10">
                     <select asp-for="Titre.IdArtiste" name="idArtiste" class="form-select" value="@Model.Titre.IdArtiste" required>
-                        <option value="@Model.Titre.IdArtiste">@Model.Titre.Artiste.Nom</option>
                         @foreach (var artiste in Model.Artistes)
                         {
-                            <option value="@artiste.IdArtiste"
-                                    selected="@(artiste.Nom == Model.Titre.Artiste.Nom)">
-                                @artiste.Nom
-                            </option>
+                            if (artiste.IdArtiste == Model.Artiste.IdArtiste)
+                            {
+                                <option value="@artiste.IdArtiste" selected>
+                                    @artiste.Nom
+                                </option>
+                            }
+                            else
+                            {
+                                <option value="@artiste.IdArtiste">
+                                    @artiste.Nom
+                                </option>
+                            }
                         }
                     </select>
                     <span asp-validation-for="Titre.IdArtiste" class="text-danger"></span>

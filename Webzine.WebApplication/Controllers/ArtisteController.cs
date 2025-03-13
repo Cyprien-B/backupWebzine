@@ -7,7 +7,6 @@ namespace Webzine.WebApplication.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Webzine.Entity;
     using Webzine.Entity.Fixtures;
-    using Webzine.WebApplication.ViewModels;
 
     /// <summary>
     /// Contrôleur pour gérer les actions liées aux artistes.

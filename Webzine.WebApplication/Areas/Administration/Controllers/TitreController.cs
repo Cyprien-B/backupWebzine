@@ -43,8 +43,8 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         {
             CreationAndEditionTitreModel model = new()
             {
-                Artistes = this.Factory.GenerateArtistes(40),
-                Styles = this.Factory.GenerateStyles(30).DistinctBy(s => s.Libelle).ToList(),
+                Artistes = this.Factory.GenerateArtistes(40).OrderBy(a => a.Nom).ToList(),
+                Styles = this.Factory.GenerateStyles(30).DistinctBy(s => s.Libelle).OrderBy(s => s.Libelle).ToList(),
             };
             return this.View(model);
         }

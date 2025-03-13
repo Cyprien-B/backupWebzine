@@ -1,4 +1,4 @@
-@model List<Webzine.Entity.Titre>
+﻿@model List<Webzine.Entity.Titre>
 
 @if (!Model.Any())
 {
@@ -15,7 +15,7 @@ else
             <div class="ms-3 d-flex flex-column justify-content-center">
                 <div>
                     <a asp-controller="Artiste" asp-action="Index" asp-route-id="@titre.Artiste.IdArtiste" class="text-decoration-none">@titre.Artiste.Nom</a>
-                    - 
+                    -
                     <a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre" class="text-decoration-none">@titre.Libelle</a>
                 </div>
                 <div class="small">

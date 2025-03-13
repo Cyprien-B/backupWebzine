@@ -41,11 +41,46 @@ namespace Webzine.WebApplication.Controllers
             int nbArtistes = new Random().Next(0, 4);
             int nbTitres = new Random().Next(0, 5);
 
+            List<Artiste> artistes = [];
+            List<Titre> titres = [];
+
+            Random random = new();
+
+            for (int i = 0; i < nbArtistes; i++)
+            {
+                Artiste artiste = this.factory.GenerateArtiste();
+                if (random.Next(2) == 0)
+                {
+                    artiste.Nom = recherche + " " + artiste.Nom;
+                }
+                else
+                {
+                    artiste.Nom = artiste.Nom + " " + recherche;
+                }
+
+                artistes.Add(artiste);
+            }
+
+            for (int i = 0; i < nbTitres; i++)
+            {
+                Titre titre = this.factory.GenerateTitre();
+                if (random.Next(2) == 0)
+                {
+                    titre.Libelle = recherche + " " + titre.Libelle;
+                }
+                else
+                {
+                    titre.Libelle = titre.Libelle + " " + recherche;
+                }
+
+                titres.Add(titre);
+            }
+
             RechercheModel model = new()
             {
                 TermeRecherche = recherche,
-                Artistes = nbArtistes > 0 ? this.factory.GenerateArtistes(nbArtistes) : [],
-                Titres = nbTitres > 0 ? this.factory.GenerateTitres(nbTitres) : [],
+                Artistes = artistes,
+                Titres = titres,
             };
 
             return this.View(model);
