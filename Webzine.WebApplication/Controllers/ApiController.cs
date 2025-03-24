@@ -9,20 +9,22 @@ namespace Webzine.WebApplication.Controllers
     /// <summary>
     /// Classe API Controller.
     /// </summary>
-    public class ApiController : Controller
+    public class ApiController : ControllerBase
     {
         /// <summary>
         /// Partie versionning de l'application et identification.
         /// </summary>
         /// <returns>Un string contenant le nom et l'api version.</returns>
         [HttpGet]
-        public string Version()
+        public IActionResult Version()
         {
-            string jsonApiVersion = "{\n" +
-                "\t\"name\" : \"webzine\",\n" +
-                "\t\"version\" : \"1.0\"\n" +
-                "}";
-            return jsonApiVersion;
+            var apiInfo = new
+            {
+                name = "webzine",
+                version = "1.0",
+            };
+
+            return this.Ok(apiInfo);
         }
     }
 }
