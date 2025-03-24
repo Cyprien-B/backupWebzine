@@ -29,7 +29,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         {
             AdministrationCommentairesModel model = new()
             {
-                Commentaires = this.Factory.GenerateCommentaires(40),
+                Commentaires = this.Factory.GenerateCommentaires(40).OrderBy(c => c.Auteur).ToList(),
             };
             return this.View(model);
         }

@@ -29,7 +29,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         {
             AdministrationStylesModel model = new()
             {
-                Styles = this.Factory.GenerateStyles(18),
+                Styles = this.Factory.GenerateStyles(18).OrderBy(s => s.Libelle).ToList(),
             };
             return this.View(model);
         }

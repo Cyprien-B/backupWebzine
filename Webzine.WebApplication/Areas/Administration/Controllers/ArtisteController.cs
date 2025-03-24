@@ -30,7 +30,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
             List<Artiste> artistes = [];
             AdministrationArtistesModel model = new()
             {
-                Artistes = this.Factory.GenerateArtistes(50),
+                Artistes = this.Factory.GenerateArtistes(50).OrderBy(a => a.Nom).ToList(),
             };
             return this.View(model);
         }

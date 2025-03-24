@@ -194,4 +194,217 @@ Date:   Sat Mar 8 16:05:37 2025 +0100
 Author: Diego COPPIN <diego.coppin@diiage.org>
 Date:   Sat Mar 8 16:04:06 2025 +0100
 
-    ajout des style dans les titres chroniqués de l'index et peaufineme
+    ajout des style dans les titres chroniqués de l'index et peaufinement du visuel
+
+[33mcommit 35aabc3daab31407eab07b3c224fac02715eaa2d[m
+Author: Diego COPPIN <diego.coppin@diiage.org>
+Date:   Sat Mar 8 11:38:04 2025 +0100
+
+    Page de dashboard et pagination dans l'index.
+
+[33mcommit c070f449981776f2724e8c7abaea6b37d6913fdc[m
+Author: Diego COPPIN <diego.coppin@diiage.org>
+Date:   Fri Mar 7 22:45:28 2025 +0100
+
+    Page d'administration des commentaires. Tableau + Suppression
+
+[33mcommit 47a8d0933d62f6c73edd6c9b567e8560c7511910[m
+Author: Diego COPPIN <diego.coppin@diiage.org>
+Date:   Fri Mar 7 19:51:59 2025 +0100
+
+    Page d'administration des styles
+
+[33mcommit ad7b0cbd82b3cd14cbd9a478e0916c075d982f5e[m
+Author: Diego COPPIN <diego.coppin@diiage.org>
+Date:   Fri Mar 7 19:06:43 2025 +0100
+
+    Liste des styles à la page d'administration des styles
+
+[33mcommit 0181c3f5ee341314546e32e283430c76cc5d4251[m
+Merge: ff914cc 6bdd459
+Author: Diego COPPIN <diego.coppin@diiage.org>
+Date:   Fri Mar 7 17:59:34 2025 +0100
+
+    Merge pull request 'dev' (#43) from dev into main
+    
+    Reviewed-on: https://10.4.104.253/gitea/Groupe4/Webzine/pulls/43
+
+[33mcommit 6bdd4598b2b93332b6e3e70a4bde0fe8a4052d0f[m
+Author: Cyprien <cyprien>
+Date:   Fri Mar 7 17:49:46 2025 +0100
+
+    test gitea
+
+[33mcommit 1df4d3acf925b6254add97c8c0b2974f622242f9[m
+Author: Diego COPPIN <diego.coppin@diiage.org>
+Date:   Fri Mar 7 17:40:51 2025 +0100
+
+    Margin top sur le layout pour le main
+
+[33mcommit 33f773c61bca7e1a03f1f2a2098f1326723ff4ef[m
+Merge: ad361ab 8b8144b
+Author: Diego COPPIN <diego.coppin@diiage.org>
+Date:   Fri Mar 7 17:36:27 2025 +0100
+
+    Merge pull request 'feature-pages-administrations-titres' (#42) from feature-pages-administrations-titres into dev
+    
+    Reviewed-on: https://10.4.104.253/gitea/Groupe4/Webzine/pulls/42
+
+[33mcommit 8b8144b041dafd8d547dc62a5a2054db5d390b1d[m[33m ([m[1;31morigin/feature-pages-administrations-titres[m[33m, [m[1;32mfeature-pages-administrations-titres[m[33m)[m
+Author: Diego COPPIN <diego.coppin@diiage.org>
+Date:   Fri Mar 7 17:26:37 2025 +0100
+
+    Réglage d'une mauvaise redirection de contact depuis l'area Administration
+
+[33mcommit ad361ab48f8a0fa96bb99b04c9c5eff9a25deaf2[m
+Merge: 32bb3e6 201ba89
+Author: Cyprien BORDET <Cyprien.BORDET@diiage.org>
+Date:   Fri Mar 7 17:12:32 2025 +0100
+
+    Merge pull request 'feature-pages-administrations-titres' (#41) from feature-pages-administrations-titres into dev
+    
+    Reviewed-on: http://10.4.104.253/gitea/Groupe4/Webzine/pulls/41
+
+[33mcommit f4cc9d2ae17f104a79a846e1013c2a3ce15cd957[m
+Author: Diego COPPIN <diego.coppin@diiage.org>
+Date:   Fri Mar 7 15:33:24 2025 +0100
+
+    modification du layout pour renvoyer sur la page d'accueil quand on click sur l'accueil (et non sur l'area active)
+
+[33mcommit 32bb3e667434039947a80e4aef59d0b23b9a68d1[m
+Merge: d165dca eaf367d
+Author: Cyprien BORDET <Cyprien.BORDET@diiage.org>
+Date:   Fri Mar 7 14:25:40 2025 +0100
+
+    Merge pull request 'fix espace de durée + lien dynamique' (#40) from feature-view-artiste into dev
+    
+    Reviewed-on: http://10.4.104.253/gitea/Groupe4/Webzine/pulls/40
+
+[33mcommit 417ebc2b8741da2912eddfa25ac6cfdc2ffb75ff[m
+Author: Diego COPPIN <diego.coppin@diiage.org>
+Date:   Fri Mar 7 14:25:40 2025 +0100
+
+    Créer et éditer un titre, sans vérifications des formulaires
+
+[33mcommit eaf367d79936ba2f8e8f54982ad390a513d705b3[m
+Author: Cyprien BORDET <Cyprien.BORDET@diiage.org>
+Date:   Fri Mar 7 14:25:15 2025 +0100
+
+    fix espace de durée + lien dynamique
+
+[33mcommit 1b8711658c73781057c8fe01d172d15c85a5e6ef[m
+Author: Diego COPPIN <diego.coppin@diiage.org>
+Date:   Fri Mar 7 13:46:25 2025 +0100
+
+    Ajout du tableau d'administration des artiste et suppression
+
+[33mcommit d165dca72f2415f51240425665a887971c432161[m
+Author: Matteo BARRAND <matteo.barrand@diiage.org>
+Date:   Fri Mar 7 11:40:07 2025 +0100
+
+    Correction d'un avertissement suite aux deux merges sur cette branche.
+
+[33mcommit ba2aa6d84ceb23c984fafeecfed4f483baf92695[m
+Merge: bf289d4 d55ae27
+Author: Matteo BARRAND <matteo.barrand@diiage.org>
+Date:   Fri Mar 7 11:31:36 2025 +0100
+
+    Merge pull request 'feature-page-chronique-titre' (#39) from feature-page-chronique-titre into dev
+    
+    Reviewed-on: http://10.4.104.253:3000/Groupe4/Webzine/pulls/39
+
+[33mcommit d55ae2714f484176c3683efc72d9ecd205cdf579[m[33m ([m[1;31morigin/feature-page-chronique-titre[m[33m)[m
+Author: Matteo BARRAND <matteo.barrand@diiage.org>
+Date:   Fri Mar 7 11:28:20 2025 +0100
+
+    Mise à jour des commentaires pour enlever les accents (bug d'affichage)
+
+[33mcommit bf289d460037dc3a152a9fe9dcfb63776f8f0e01[m
+Merge: 00b82e7 152b97d
+Author: Matteo BARRAND <matteo.barrand@diiage.org>
+Date:   Fri Mar 7 11:22:20 2025 +0100
+
+    Merge pull request 'feature-view-artiste' (#38) from feature-view-artiste into dev
+    
+    Reviewed-on: http://10.4.104.253:3000/Groupe4/Webzine/pulls/38
+
+[33mcommit 152b97dd5870db036f77c1c76aa442c46b44b401[m
+Merge: 319895b d303cee
+Author: Cyprien <cyprien>
+Date:   Fri Mar 7 10:43:45 2025 +0100
+
+    Merge branch 'feature-view-artiste' of 10.4.104.253:Groupe4/Webzine into feature-view-artiste
+
+[33mcommit 319895b0a9bd8423a15b92c9e0db9338f9a79e8b[m
+Author: Cyprien <cyprien>
+Date:   Fri Mar 7 10:43:35 2025 +0100
+
+    fix erreur copyright nom du file
+
+[33mcommit d303ceefde7aa8b20f4b6552cc1ad5238da2e486[m
+Author: Cyprien BORDET <Cyprien.BORDET@diiage.org>
+Date:   Fri Mar 7 10:40:56 2025 +0100
+
+    Supprimer -
+
+[33mcommit 9136b1bb560a3a41e95a8f0986a55eb9b484ec69[m
+Author: mbarrand <matteo.barrand10@gmail.com>
+Date:   Fri Mar 7 10:38:10 2025 +0100
+
+    Page des chroniques des titres finie, avec responsive. Ajout des fausses données dans la slide bar des styles (décorations des liens retirées). Modification du _Layout pour prendre toute la largeur des pages.
+
+[33mcommit 79efcedec8b799b408d221017486fec99155c779[m
+Author: Cyprien <cyprien>
+Date:   Fri Mar 7 10:36:18 2025 +0100
+
+    La table et la vue de l’artiste correspondent à la maquette
+
+[33mcommit 201ba8947aef20edb2852a8bfcde4732c5649c0d[m
+Author: Diego COPPIN <diego.coppin@diiage.org>
+Date:   Fri Mar 7 10:27:54 2025 +0100
+
+    Page d'édition avec champs pré-remplis
+
+[33mcommit 4f4f79154e9fddbfe23e93cd54ea0fa8441f3feb[m
+Author: Diego COPPIN <diego.coppin@diiage.org>
+Date:   Fri Mar 7 09:52:58 2025 +0100
+
+    Réglement du problème d'astérisque sur les champs de formulaire requis dans Create Titre
+
+[33mcommit d0dd9b9c0f6d8db33d72d1534456c266340ebc69[m
+Author: Diego COPPIN <diego.coppin@diiage.org>
+Date:   Fri Mar 7 08:28:30 2025 +0100
+
+    Modification des entité pour coller au many to many,Valeurs par défaut
+    dans les entités pour faciliter les tests en créant les jeux de données et faciliter la réalisation des formulaire,
+    Création du menu d'administratin des titre avec le tableau even-odd (alternance de gris clair blanc à chaque ligne),
+    Conformité au cahier des charges pour la page de menu d'administration,
+    Suppression des titres, confirmation de l'utilisateur au cas où il aurait fait une mauvaise manipulation permettant également un contrôle anti-CSRF en plus de ce que .NET Core met en place,
+    Création d'un artiste avec contrôle des champs déjà mis en place.
+
+[33mcommit 2205aa202bbba61953be8baa49ecd32c3bac29ed[m
+Author: Cyprien <cyprien>
+Date:   Thu Mar 6 16:48:28 2025 +0100
+
+    logique page artiste terminer viewmodel crée
+
+[33mcommit 00b82e7c1a10799060861ed24984f24c30fc31d1[m
+Merge: 913f570 8437c92
+Author: Diego COPPIN <diego.coppin@diiage.org>
+Date:   Thu Mar 6 16:17:14 2025 +0100
+
+    Merge pull request 'feature-views-contact' (#31) from feature-views-contact into dev
+    
+    Reviewed-on: http://10.4.104.253:3000/Groupe4/Webzine/pulls/31
+
+[33mcommit 8437c92b86d6ab0fe9620d6fa3eac646d00bf276[m[33m ([m[1;31morigin/feature-views-contact[m[33m, [m[1;32mfeature-views-contact[m[33m)[m
+Author: Diego COPPIN <diego.coppin@diiage.org>
+Date:   Thu Mar 6 16:14:39 2025 +0100
+
+    Rendu des blocs de réseaux sociaux conforme au cahier des charges
+
+[33mcommit 88d9f7e43bfa710b27734fb2e8e388c1068fc598[m
+Author: Diego COPPIN <diego.coppin@diiage.org>
+Date:   Thu Mar 6 15:58:37 2025 +0100
+
+    ajout du link fontawesome all.min.css
