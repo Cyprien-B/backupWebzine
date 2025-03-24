@@ -1,0 +1,41 @@
+﻿<header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Webzine</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarScroll">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index"><i class="fa-solid fa-house"></i> Accueil</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <button class="nav-link dropdown-toggle border-0 bg-transparent" type="button" data-bs-toggle="dropdown" aria-expanded="false" onkeypress="this.click()">
+                            <i class="fa-solid fa-screwdriver-wrench"></i> Administration
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" asp-area="Administration" asp-controller="Dashboard" asp-action="Index"><i class="fa-solid fa-gauge-high"></i> Tableau de bord</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" asp-area="Administration" asp-controller="Artiste" asp-action="Index"><i class="fa-solid fa-users"></i> Artistes</a></li>
+                            <li><a class="dropdown-item" asp-area="Administration" asp-controller="Commentaire" asp-action="Index"><i class="fa-solid fa-comments"></i> Commentaires</a></li>
+                            <li><a class="dropdown-item" asp-area="Administration" asp-controller="Style" asp-action="Index"><i class="fa-solid fa-tags"></i> Styles</a></li>
+                            <li><a class="dropdown-item" asp-area="Administration" asp-controller="Titre" asp-action="Index"><i class="fa-solid fa-music"></i> Titres</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Contact" asp-action="Index"><i class="fa-solid fa-envelope"></i> Contact</a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search" method="post" asp-area="" asp-controller="Recherche" asp-action="Index">
+                    <div class="input-group">
+                        <input class="form-control border-end-0" type="search" placeholder="Trouver un artiste / titre" aria-label="Search" name="recherche" required>
+                        <button class="btn btn-primary px-2" type="submit">
+                            <i class="fa-solid fa-magnifying-glass text-white"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </nav>
+</header>

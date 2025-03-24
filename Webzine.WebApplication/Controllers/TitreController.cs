@@ -69,12 +69,12 @@ namespace Webzine.WebApplication.Controllers
         /// <summary>
         /// Incrementation de 1 pour les likes.
         /// </summary>
-        /// <param name="result">Identifie le titre à liker.</param>
+        /// <param name="idTitre">Identifie le titre à liker.</param>
         /// <returns>Un retour indiquant que tout s'est bien passé.</returns>
         [HttpPost]
-        public IActionResult Liker([FromForm] object result)
+        public IActionResult Liker([FromForm] int idTitre)
         {
-            return this.Ok("Likes are incremented");
+            return this.RedirectToAction(nameof(this.Index), new { id = idTitre });
         }
 
         /// <summary>
