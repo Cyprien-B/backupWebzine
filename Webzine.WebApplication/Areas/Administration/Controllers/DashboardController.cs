@@ -15,11 +15,6 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
     public class DashboardController : Controller
     {
         /// <summary>
-        /// Obtient ou définit un générateur de fausse données.
-        /// </summary>
-        public Factory Factory { get; set; } = new();
-
-        /// <summary>
         /// La page de dashboard et de métriques importantes du site.
         /// </summary>
         /// <returns>Une vue du dashboard.</returns>
@@ -28,14 +23,18 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         {
             AdministrationDashboardModel model = new()
             {
-                NbArtistes = (uint)new Random().Next(400, 600),
-                ArtisteComposeLePlusTitres = this.Factory.GenerateArtiste(),
-                ArtisteLePlusChronique = this.Factory.GenerateArtiste(),
+                NbArtistes = (uint)ArtisteFactory.Artistes.Count,
+                ArtisteComposeLePlusTitres = ArtisteFactory.Artistes
+                    .OrderByDescending(a => a.Titres.Count)
+                    .FirstOrDefault() ?? new(),
+                ArtisteLePlusChronique = ArtisteFactory.Artistes
+                    .OrderByDescending(a => a.Titres.Count(t => !string.IsNullOrEmpty(t.Chronique)))
+                    .FirstOrDefault() ?? new(),
                 NbBiographies = (uint)new Random().Next(200, 500),
-                TitreLePlusLu = this.Factory.GenerateTitre(),
+                TitreLePlusLu = TitreFactory.Titres[0],
                 NbLectures = (uint)new Random().Next(10000, 50000),
                 NbLikes = (uint)new Random().Next(9000, 25000),
-                NbStyles = 18,
+                NbStyles = (uint)StyleFactory.Styles.Count,
                 NbTitres = (uint)new Random().Next(500, 2000),
             };
 

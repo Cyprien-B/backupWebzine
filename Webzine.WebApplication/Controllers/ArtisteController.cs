@@ -13,8 +13,6 @@ namespace Webzine.WebApplication.Controllers
     /// </summary>
     public class ArtisteController : Controller
     {
-        private Factory factory = new();
-
         /// <summary>
         /// Affiche la page d'un artiste spécifique.
         /// </summary>
@@ -23,7 +21,7 @@ namespace Webzine.WebApplication.Controllers
         [HttpGet]
         public IActionResult Index(string nomArtiste)
         {
-            Artiste artiste = this.factory.GenerateArtiste();
+            Artiste artiste = ArtisteFactory.Artistes.FirstOrDefault(a => a.Nom == nomArtiste) ?? new Artiste();
 
             return this.View(artiste);
         }

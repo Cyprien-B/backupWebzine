@@ -12,25 +12,13 @@ namespace Webzine.WebApplication.Controllers.Components
     /// </summary>
     public class StylesSidebarViewComponent : ViewComponent
     {
-        private readonly Factory factory;
-
-        /// <summary>
-        /// Initialise une nouvelle instance de la classe <see cref="StylesSidebarViewComponent"/>.
-        /// </summary>
-        /// <param name="factory">Le générateur de données fictives.</param>
-        public StylesSidebarViewComponent(Factory factory)
-        {
-            this.factory = factory;
-        }
-
         /// <summary>
         /// Injecte les styles à la composante de vue.
         /// </summary>
         /// <returns>Une composante de vue.</returns>
         public IViewComponentResult Invoke()
         {
-            var styles = this.factory.GenerateStyles(300)
-                .DistinctBy(s => s.Libelle)
+            var styles = StyleFactory.Styles
                 .OrderBy(s => s.Libelle)
                 .ToList();
             return this.View(styles);
