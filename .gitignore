@@ -14,6 +14,7 @@ TestResults/
 *.userosscache
 *.sln.docstates
 *.sqlite
+*.db
 appsettings.*
 
 # User-specific files (MonoDevelop/Xamarin Studio)
