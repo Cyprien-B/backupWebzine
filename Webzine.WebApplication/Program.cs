@@ -2,13 +2,10 @@
 // Copyright (c) Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ. All rights reserved.
 // </copyright>
 
+using Microsoft.EntityFrameworkCore;
+using Webzine.EntityContext.Dbcontext;
 using Webzine.Repository.Contracts;
 using Webzine.Repository.Local;
-
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Webzine.EntityContext.Dbcontext;
-using SQLitePCL;
 
 /// <summary>
 /// Contient le point d'entr�e principal de l'application.
@@ -16,12 +13,12 @@ using SQLitePCL;
 public static class Program
 {
     /// <summary>
-    /// Obtient ou d�finit le builder de l'application.
+    /// Obtient ou définit le builder de l'application.
     /// </summary>
     public static WebApplicationBuilder? Builder { get; set; } = null;
 
     /// <summary>
-    /// Obtient ou d�finit l'application compil�e par le builder.
+    /// Obtient ou définit l'application compil�e par le builder.
     /// </summary>
     public static WebApplication? App { get; set; } = null;
 
