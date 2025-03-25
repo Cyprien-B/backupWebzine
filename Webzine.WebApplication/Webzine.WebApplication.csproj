@@ -21,6 +21,11 @@
 
 	<ItemGroup>
 		<PackageReference Include="Bogus" Version="35.6.2" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.3">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.3" />
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.2" />
 		<PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.556">
 			<PrivateAssets>all</PrivateAssets>
@@ -38,6 +43,7 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\Webzine.Business.Contracts\Webzine.Business.Contracts.csproj" />
 	  <ProjectReference Include="..\Webzine.Business\Webzine.Business.csproj" />
+	  <ProjectReference Include="..\Webzine.EntityContext\Webzine.EntityContext.csproj" />
 	  <ProjectReference Include="..\Webzine.Entity\Webzine.Entity.csproj" />
 	</ItemGroup>
 

@@ -2,9 +2,17 @@
 // Copyright (c) Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ. All rights reserved.
 // </copyright>
 
-using Webzine.Entity.Fixtures;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Webzine.EntityContext.Dbcontext;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Gestion de la connection a SQLite
+builder.Services.AddDbContext<SQLiteContext>(options =>
+    options.UseSqlite(
+        "Data Source=Webzine.db",
+        b => b.MigrationsAssembly("Webzine.WebApplication")));
 
 builder.Services.AddControllers();
 

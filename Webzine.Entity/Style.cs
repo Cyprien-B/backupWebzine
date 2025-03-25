@@ -14,6 +14,7 @@ namespace Webzine.Entity
         /// <summary>
         /// Obtient ou définit l'identifiant unique d'un style.
         /// </summary>
+        [Key]
         public int IdStyle { get; set; } = 0;
 
         /// <summary>
