@@ -3,6 +3,8 @@
 
 TestResults/
 .vs/
+Migrations/
+Webzine.db
 
 ### ASPNETCore ###
 ## Ignore Visual Studio temporary files, build results, and
@@ -14,7 +16,9 @@ TestResults/
 *.userosscache
 *.sln.docstates
 *.sqlite
+*.db
 appsettings.*
+
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
