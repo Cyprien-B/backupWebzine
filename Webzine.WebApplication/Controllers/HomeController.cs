@@ -11,7 +11,7 @@ namespace Webzine.WebApplication.Controllers
     /// <summary>
     /// Controlleur principal de base.
     /// </summary>
-    public class HomeController : Controller
+    public class HomeController(IConfiguration configuration) : Controller
     {
         /// <summary>
         /// Est la vue de la page d'accueil.
@@ -21,11 +21,14 @@ namespace Webzine.WebApplication.Controllers
         [HttpGet]
         public IActionResult Index(uint page = 1)
         {
+            int nbTitresChroniques = configuration.GetValue<int>("App:Pages:Home:NbTitresChroniquesParPaginations");
+            int nbTitresPopulaires = configuration.GetValue<int>("App:Pages:Home:NbTitresPopulaires");
+
             HomeModel model = new()
             {
-                PaginationMax = (uint)Math.Ceiling((double)TitreFactory.Titres.Count / 3),
-                TitresRecemmentsChroniques = TitreFactory.Titres.Skip(3 * (int)(page - 1)).Take(3).ToList(),
-                TitresPopulaires = TitreFactory.Titres.OrderByDescending(t => t.NbLikes).Take(3).ToList(),
+                PaginationMax = (uint)Math.Ceiling((double)TitreFactory.Titres.Count / nbTitresChroniques),
+                TitresRecemmentsChroniques = TitreFactory.Titres.Skip(nbTitresChroniques * (int)(page - 1)).Take(nbTitresChroniques).ToList(),
+                TitresPopulaires = TitreFactory.Titres.OrderByDescending(t => t.NbLikes).Take(nbTitresPopulaires).ToList(),
                 CaracteresChroniqueMax = 200,
                 PaginationActuelle = page,
             };
