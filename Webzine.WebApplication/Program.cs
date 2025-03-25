@@ -30,6 +30,8 @@ public static class Program
     {
         Builder = WebApplication.CreateBuilder(args);
 
+        CheckConfigurations();
+
         AddDependenciesInjections();
 
         // Gestion de la connection a SQLite
@@ -53,6 +55,44 @@ public static class Program
     private static void AddDependenciesInjections()
     {
         Builder!.Services.AddScoped<IStyleRepository, LocalStyleRepository>();
+    }
+
+    private static void CheckConfigurations()
+    {
+        // Vérification et configuration de SGBD
+        string sgbd = Builder!.Configuration["App:SGBD"] ?? string.Empty;
+        if (!new[] { "Local", "SQLite" }.Contains(sgbd, StringComparer.OrdinalIgnoreCase))
+        {
+            Builder.Configuration["App:SGBD"] = "SQLite";
+        }
+
+        // Vérification et configuration de Seeder
+        string seeder = Builder.Configuration["App:Seeder"] ?? string.Empty;
+        if (string.IsNullOrEmpty(seeder) || !seeder.Equals("Local", StringComparison.OrdinalIgnoreCase))
+        {
+            Builder.Configuration["App:Seeder"] = "Local";
+        }
+
+        // Vérification et configuration de Repository
+        string rep = Builder.Configuration["App:Repository"] ?? string.Empty;
+        if (!new[] { "Local", "Db" }.Contains(rep, StringComparer.OrdinalIgnoreCase))
+        {
+            Builder.Configuration["App:Repository"] = "Db";
+        }
+
+        // Vérification et configuration de Repository
+        if (!int.TryParse(Builder.Configuration["App:Pages:Home:NbTitresChroniquesParPaginations"], out int homeTitresChroniquesParPagination) || homeTitresChroniquesParPagination < 1)
+        {
+            homeTitresChroniquesParPagination = 3;
+            Builder.Configuration["App:Pages:Home:NbTitresChroniquesParPaginations"] = homeTitresChroniquesParPagination.ToString();
+        }
+
+        // Vérification et configuration de Repository
+        if (!int.TryParse(Builder.Configuration["App:Pages:Home:NbTitresPopulaires"], out int homeTitresPopulairesParPagination) || homeTitresPopulairesParPagination < 1)
+        {
+            homeTitresPopulairesParPagination = 3;
+            Builder.Configuration["App:Pages:Home:NbTitresPopulaires"] = homeTitresPopulairesParPagination.ToString();
+        }
     }
 
     private static void ConfigureCustomRoutes()
