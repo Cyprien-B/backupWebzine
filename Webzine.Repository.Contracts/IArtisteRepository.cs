@@ -1,9 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using Webzine.Entity;
+﻿// <copyright file="IArtisteRepository.cs" company="Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ">
+// Copyright (c) Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ. All rights reserved.
+// </copyright>
 
 namespace Webzine.Repository.Contracts
 {
+    using System.Collections.Generic;
+    using Webzine.Entity;
+
     /// <summary>
     /// Interface définissant les méthodes du repository pour la gestion des artistes.
     /// </summary>
