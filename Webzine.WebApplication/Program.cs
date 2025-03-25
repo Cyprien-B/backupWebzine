@@ -12,9 +12,6 @@ builder.Services.AddControllers();
 // controllers avec des vues.
 builder.Services.AddControllersWithViews();
 
-// Ajoute un service pour generer les donnees fictives de Bogus
-builder.Services.AddSingleton<Factory>();
-
 var app = builder.Build();
 
 app.UseStaticFiles();

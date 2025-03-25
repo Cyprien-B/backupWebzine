@@ -16,22 +16,13 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
     public class StyleController : Controller
     {
         /// <summary>
-        /// Obtient ou définit un générateur de fausse données.
-        /// </summary>
-        public Factory Factory { get; set; } = new();
-
-        /// <summary>
         /// Administration principale des styles.
         /// </summary>
         /// <returns>Retourne une vue, avec la liste des styles pouvant être modéré.</returns>
         [HttpGet]
         public IActionResult Index()
         {
-            AdministrationStylesModel model = new()
-            {
-                Styles = this.Factory.GenerateStyles(18).OrderBy(s => s.Libelle).ToList(),
-            };
-            return this.View(model);
+            return this.View(StyleFactory.Styles.OrderBy(s => s.Libelle).ToList());
         }
 
         /// <summary>
@@ -63,7 +54,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            return this.View(this.Factory.GenerateStyle());
+            return this.View(StyleFactory.Styles.First(s => s.IdStyle == id));
         }
 
         /// <summary>
@@ -85,7 +76,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            return this.View(this.Factory.GenerateStyle());
+            return this.View(StyleFactory.Styles.First(s => s.IdStyle == id));
         }
 
         /// <summary>

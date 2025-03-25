@@ -16,22 +16,13 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
     public class CommentaireController : Controller
     {
         /// <summary>
-        /// Obtient ou définit un générateur de fausse données.
-        /// </summary>
-        public Factory Factory { get; set; } = new();
-
-        /// <summary>
         /// Administration principale des commentaires.
         /// </summary>
         /// <returns>Retourne une vue, avec la liste des commentaires pouvant être modéré.</returns>
         [HttpGet]
         public IActionResult Index()
         {
-            AdministrationCommentairesModel model = new()
-            {
-                Commentaires = this.Factory.GenerateCommentaires(40),
-            };
-            return this.View(model);
+            return this.View(CommentaireFactory.Commentaires);
         }
 
         /// <summary>
@@ -42,16 +33,16 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            return this.View(this.Factory.GenerateCommentaire());
+            return this.View(CommentaireFactory.Commentaires.First(c => c.IdCommentaire == id));
         }
 
         /// <summary>
         /// Traite la demande de suppression d'un commentaire.
         /// </summary>
-        /// <param name="result">L'identifiant du commentaire à supprimer.</param>
+        /// <param name="commentaire">L'identifiant du commentaire à supprimer.</param>
         /// <returns>Le résultat de la suppression d'un commentaire.</returns>
         [HttpPost]
-        public IActionResult Delete([FromForm] Commentaire result)
+        public IActionResult Delete([FromForm] Commentaire commentaire)
         {
             return this.RedirectToAction(nameof(this.Index));
         }

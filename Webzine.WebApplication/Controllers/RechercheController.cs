@@ -14,16 +14,6 @@ namespace Webzine.WebApplication.Controllers
     /// </summary>
     public class RechercheController : Controller
     {
-        private readonly Factory factory;
-
-        /// <summary>
-        /// Initialise une nouvelle instance de la classe <see cref="RechercheController"/>.
-        /// </summary>
-        public RechercheController()
-        {
-            this.factory = new Factory();
-        }
-
         /// <summary>
         /// Gère la recherche et affiche les résultats.
         /// </summary>
@@ -48,7 +38,7 @@ namespace Webzine.WebApplication.Controllers
 
             for (int i = 0; i < nbArtistes; i++)
             {
-                Artiste artiste = this.factory.GenerateArtiste();
+                Artiste artiste = ArtisteFactory.Artistes[0];
                 if (random.Next(2) == 0)
                 {
                     artiste.Nom = recherche + " " + artiste.Nom;
@@ -63,7 +53,7 @@ namespace Webzine.WebApplication.Controllers
 
             for (int i = 0; i < nbTitres; i++)
             {
-                Titre titre = this.factory.GenerateTitre();
+                Titre titre = Factory.GenerateTitre();
                 if (random.Next(2) == 0)
                 {
                     titre.Libelle = recherche + " " + titre.Libelle;

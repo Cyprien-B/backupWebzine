@@ -3,7 +3,6 @@
 
 TestResults/
 .vs/
-appsettings.*
 
 ### ASPNETCore ###
 ## Ignore Visual Studio temporary files, build results, and
@@ -14,6 +13,8 @@ appsettings.*
 *.user
 *.userosscache
 *.sln.docstates
+*.sqlite
+appsettings.*
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

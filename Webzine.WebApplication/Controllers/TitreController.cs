@@ -14,17 +14,6 @@ namespace Webzine.WebApplication.Controllers
     /// </summary>
     public class TitreController : Controller
     {
-        private readonly Factory factory;
-
-        /// <summary>
-        /// Initialise une nouvelle instance de la classe <see cref="TitreController"/>.
-        /// </summary>
-        /// <param name="factory">Le générateur de données fictives.</param>
-        public TitreController(Factory factory)
-        {
-            this.factory = factory;
-        }
-
         /// <summary>
         /// Titre en fonction de l'id.
         /// </summary>
@@ -35,9 +24,9 @@ namespace Webzine.WebApplication.Controllers
         {
             TitreModel model = new()
             {
-                Titre = this.factory.GenerateTitre(),
+                Titre = TitreFactory.Titres.First(t => t.IdTitre == id),
             };
-            model.Titre.IdTitre = id;
+
             return this.View(model);
         }
 
@@ -54,14 +43,14 @@ namespace Webzine.WebApplication.Controllers
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            Style style = this.factory.GenerateStyle();
+            Style style = StyleFactory.Styles.First(s => s.Libelle == nomStyle);
             style.Libelle = nomStyle;
 
             int nbTitres = new Random().Next(0, 6);
             StyleTitresModel model = new()
             {
                 Style = style,
-                Titres = nbTitres > 0 ? this.factory.GenerateTitres(nbTitres) : [],
+                Titres = nbTitres > 0 ? TitreFactory.Titres.Take(nbTitres).ToList() : [],
             };
             return this.View(model);
         }

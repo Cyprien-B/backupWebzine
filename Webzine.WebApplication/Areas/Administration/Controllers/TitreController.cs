@@ -16,22 +16,13 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
     public class TitreController : Controller
     {
         /// <summary>
-        /// Obtient ou définit un générateur de fausse données.
-        /// </summary>
-        public Factory Factory { get; set; } = new();
-
-        /// <summary>
         /// Administration principale des titre.
         /// </summary>
         /// <returns>Retourne une vue, avec la liste des titres pouvant être modéré.</returns>
         [HttpGet]
         public IActionResult Index()
         {
-            AdministrationTitresModel model = new()
-            {
-                Titres = this.Factory.GenerateTitres(40).OrderBy(t => t.Libelle).ToList(),
-            };
-            return this.View(model);
+            return this.View(TitreFactory.Titres.OrderBy(t => t.Libelle).ToList());
         }
 
         /// <summary>
@@ -43,8 +34,8 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         {
             CreationAndEditionTitreModel model = new()
             {
-                Artistes = this.Factory.GenerateArtistes(40).OrderBy(a => a.Nom).ToList(),
-                Styles = this.Factory.GenerateStyles(30).DistinctBy(s => s.Libelle).OrderBy(s => s.Libelle).ToList(),
+                Artistes = ArtisteFactory.Artistes.OrderBy(a => a.Nom).ToList(),
+                Styles = StyleFactory.Styles.OrderBy(s => s.Libelle).ToList(),
             };
             return this.View(model);
         }
@@ -52,10 +43,10 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         /// <summary>
         /// Traite la soumission du formulaire de création d'un artiste.
         /// </summary>
-        /// <param name="result">Les données de l'artiste à créer.</param>
+        /// <param name="titre">Les données de l'artiste à créer.</param>
         /// <returns>Le résultat de la création de l'artiste.</returns>
         [HttpPost]
-        public IActionResult Create([FromForm] Titre result)
+        public IActionResult Create([FromForm] Titre titre)
         {
             return this.RedirectToAction(nameof(this.Index));
         }
@@ -68,16 +59,16 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            return this.View(this.Factory.GenerateTitre());
+            return this.View(TitreFactory.Titres.First(t => t.IdTitre == id));
         }
 
         /// <summary>
         /// Traite la demande de suppression d'un artiste.
         /// </summary>
-        /// <param name="result">L'identifiant de l'artiste à supprimer.</param>
+        /// <param name="titre">L'identifiant de l'artiste à supprimer.</param>
         /// <returns>Le résultat de la suppression de l'artiste.</returns>
         [HttpPost]
-        public IActionResult Delete([FromForm] Titre result)
+        public IActionResult Delete([FromForm] Titre titre)
         {
             return this.RedirectToAction(nameof(this.Index));
         }
@@ -92,9 +83,9 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         {
             CreationAndEditionTitreModel model = new()
             {
-                Artistes = this.Factory.GenerateArtistes(40),
-                Styles = this.Factory.GenerateStyles(30).DistinctBy(s => s.Libelle).ToList(),
-                Titre = this.Factory.GenerateTitre(),
+                Artistes = ArtisteFactory.Artistes,
+                Styles = StyleFactory.Styles.ToList(),
+                Titre = TitreFactory.Titres.First(t => t.IdTitre == id),
             };
             return this.View(model);
         }
@@ -102,10 +93,10 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         /// <summary>
         /// Traite la soumission du formulaire d'édition d'un artiste.
         /// </summary>
-        /// <param name="result">L'identifiant de l'artiste à éditer.</param>
+        /// <param name="titre">L'identifiant de l'artiste à éditer.</param>
         /// <returns>Le résultat de l'édition de l'artiste.</returns>
         [HttpPost]
-        public IActionResult Edit([FromForm] Titre result)
+        public IActionResult Edit([FromForm] Titre titre)
         {
             return this.RedirectToAction(nameof(this.Index));
         }
