@@ -8,6 +8,7 @@ using Webzine.Repository.Local;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Webzine.EntityContext.Dbcontext;
+using SQLitePCL;
 
 /// <summary>
 /// Contient le point d'entr�e principal de l'application.
