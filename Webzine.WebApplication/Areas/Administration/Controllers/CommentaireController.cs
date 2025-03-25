@@ -22,11 +22,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            AdministrationCommentairesModel model = new()
-            {
-                Commentaires = CommentaireFactory.Commentaires,
-            };
-            return this.View(model);
+            return this.View(CommentaireFactory.Commentaires);
         }
 
         /// <summary>

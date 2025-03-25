@@ -22,11 +22,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            AdministrationStylesModel model = new()
-            {
-                Styles = StyleFactory.Styles.OrderBy(s => s.Libelle).ToList(),
-            };
-            return this.View(model);
+            return this.View(StyleFactory.Styles.OrderBy(s => s.Libelle).ToList());
         }
 
         /// <summary>

@@ -22,12 +22,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            List<Artiste> artistes = [];
-            AdministrationArtistesModel model = new()
-            {
-                Artistes = ArtisteFactory.Artistes.OrderBy(a => a.Nom).ToList(),
-            };
-            return this.View(model);
+            return this.View(ArtisteFactory.Artistes.OrderBy(a => a.Nom).ToList());
         }
 
         /// <summary>

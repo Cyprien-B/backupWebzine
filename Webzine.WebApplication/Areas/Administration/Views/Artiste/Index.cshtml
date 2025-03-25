@@ -1,6 +1,8 @@
-﻿@model Webzine.WebApplication.Areas.Administration.ViewModels.AdministrationArtistesModel
+﻿@using Webzine.Entity;
+@model ICollection<Artiste>
 
 @{
+    Artiste displayArtiste = new();
     this.ViewBag.Title = "Admnistration des Artistes";
 }
 
@@ -13,12 +15,12 @@
     <table class="table table-striped table-bordered">
         <thead class="table-secondary">
             <tr class="border-0">
-                <th class="border-0">@Html.DisplayNameFor(m => @Model.Artiste.Nom)</th>
+                <th class="border-0">@Html.DisplayNameFor(m => displayArtiste.Nom)</th>
                 <th class="border-0 text-center">Actions</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var artiste in Model.Artistes)
+            @foreach (var artiste in Model)
             {
                 <tr>
                     <td>@artiste.Nom</td>

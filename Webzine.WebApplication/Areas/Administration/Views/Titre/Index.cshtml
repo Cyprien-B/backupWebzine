@@ -1,6 +1,8 @@
-﻿@model Webzine.WebApplication.Areas.Administration.ViewModels.AdministrationTitresModel
+﻿@using Webzine.Entity;
+@model ICollection<Titre>;
 
 @{
+    Titre displayTitre = new();
     ViewBag.Title = "Administration Titres";
 }
 
@@ -13,10 +15,10 @@
     <table class="table table-striped table-bordered">
         <thead class="table-secondary">
             <tr class="border-0">
-                <th class="border-0">@Html.DisplayNameFor(m => m.Titre!.Artiste.Nom)</th>
-                <th class="border-0">@Html.DisplayNameFor(m => m.Titre!.Libelle)</th>
-                <th class="border-0 text-center">@Html.DisplayNameFor(m => m.Titre!.Duree)</th>
-                <th class="border-0 text-center">@Html.DisplayNameFor(m => m.Titre!.DateSortie)</th>
+                <th class="border-0">@Html.DisplayNameFor(m => displayTitre.Artiste.Nom)</th>
+                <th class="border-0">@Html.DisplayNameFor(m => displayTitre.Libelle)</th>
+                <th class="border-0 text-center">@Html.DisplayNameFor(m => displayTitre.Duree)</th>
+                <th class="border-0 text-center">@Html.DisplayNameFor(m => displayTitre.DateSortie)</th>
                 <th class="border-0 text-center"><i class="fa-solid fa-eye"></i></th>
                 <th class="border-0 text-center"><i class="fa-solid fa-thumbs-up"></i></th>
                 <th class="border-0 text-center"><i class="fa-solid fa-comments"></i></th>
@@ -24,7 +26,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var titre in Model.Titres)
+            @foreach (var titre in Model)
             {
                 <tr>
                     <td>@titre.Artiste.Nom</td>
