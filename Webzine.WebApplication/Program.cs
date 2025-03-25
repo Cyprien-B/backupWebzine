@@ -1,34 +1,45 @@
-// <copyright file="Program.cs" company="Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ">
+ï»¿// <copyright file="Program.cs" company="Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ">
 // Copyright (c) Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ. All rights reserved.
 // </copyright>
 
 using Webzine.Repository.Contracts;
 using Webzine.Repository.Local;
 
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Webzine.EntityContext.Dbcontext;
+using SQLitePCL;
+
 /// <summary>
-/// Contient le point d'entrée principal de l'application.
+/// Contient le point d'entrï¿½e principal de l'application.
 /// </summary>
 public static class Program
 {
     /// <summary>
-    /// Obtient ou définit le builder de l'application.
+    /// Obtient ou dï¿½finit le builder de l'application.
     /// </summary>
     public static WebApplicationBuilder? Builder { get; set; } = null;
 
     /// <summary>
-    /// Obtient ou définit l'application compilée par le builder.
+    /// Obtient ou dï¿½finit l'application compilï¿½e par le builder.
     /// </summary>
     public static WebApplication? App { get; set; } = null;
 
     /// <summary>
-    /// Point d'entrée principal de l'application.
+    /// Point d'entrï¿½e principal de l'application.
     /// </summary>
-    /// <param name="args">Les arguments de ligne de commande passés au programme.</param>
+    /// <param name="args">Les arguments de ligne de commande passï¿½s au programme.</param>
     public static void Main(string[] args)
     {
         Builder = WebApplication.CreateBuilder(args);
 
         AddDependenciesInjections();
+
+        // Gestion de la connection a SQLite
+        Builder.Services.AddDbContext<SQLiteContext>(options =>
+            options.UseSqlite(
+                "Data Source=Webzine.db",
+                b => b.MigrationsAssembly("Webzine.WebApplication")));
 
         Builder.Services.AddControllers();
         Builder.Services.AddControllersWithViews();
