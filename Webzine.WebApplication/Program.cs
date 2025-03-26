@@ -3,12 +3,13 @@
 // </copyright>
 
 using Microsoft.EntityFrameworkCore;
+using Webzine.Entity;
 using Webzine.EntityContext.Dbcontext;
 using Webzine.Repository.Contracts;
 using Webzine.Repository.Local;
 
 /// <summary>
-/// Contient le point d'entr�e principal de l'application.
+/// Contient le point d'entr<74>e principal de l'application.
 /// </summary>
 public static class Program
 {
@@ -18,14 +19,14 @@ public static class Program
     public static WebApplicationBuilder? Builder { get; set; } = null;
 
     /// <summary>
-    /// Obtient ou définit l'application compil�e par le builder.
+    /// Obtient ou définit l'application compil<69>e par le builder.
     /// </summary>
     public static WebApplication? App { get; set; } = null;
 
     /// <summary>
-    /// Point d'entr�e principal de l'application.
+    /// Point d'entrée principal de l'application.
     /// </summary>
-    /// <param name="args">Les arguments de ligne de commande pass�s au programme.</param>
+    /// <param name="args">Les arguments de ligne de commande pass<73>s au programme.</param>
     public static void Main(string[] args)
     {
         Builder = WebApplication.CreateBuilder(args);
@@ -45,6 +46,14 @@ public static class Program
 
         App = Builder.Build();
 
+        // Vider et recréer la base de données
+        using (var scope = App.Services.CreateScope())
+        {
+            var context = scope.ServiceProvider.GetRequiredService<SQLiteContext>();
+            context.Database.EnsureDeleted();
+            context.Database.EnsureCreated();
+        }
+
         ConfigureMiddleware();
 
         ConfigureCustomRoutes();
@@ -54,7 +63,6 @@ public static class Program
 
     private static void AddDependenciesInjections()
     {
-        // TODO: Changer les Local par les type de repository choisis.
         if (Builder!.Configuration.GetValue<string>("App:Repository") == "Local")
         {
             Builder!.Services.AddScoped<IStyleRepository, LocalStyleRepository>();
@@ -64,10 +72,10 @@ public static class Program
         }
         else
         {
-            Builder!.Services.AddScoped<IStyleRepository, LocalStyleRepository>();
-            Builder!.Services.AddScoped<ITitreRepository, LocalTitreRepository>();
-            Builder!.Services.AddScoped<IArtisteRepository, LocalArtisteRepository>();
-            Builder!.Services.AddScoped<ICommentaireRepository, LocalCommentaireRepository>();
+            Builder!.Services.AddScoped<IStyleRepository, DbStyleRepository>();
+            // Builder!.Services.AddScoped<ITitreRepository, DbTitreRepository>();
+            // Builder!.Services.AddScoped<IArtisteRepository, DbArtisteRepository>();
+            // Builder!.Services.AddScoped<ICommentaireRepository, DbCommentaireRepository>();
         }
     }
 
@@ -160,11 +168,11 @@ public static class Program
 
     private static void ConfigureMiddleware()
     {
-        App.UseStaticFiles();
-        App.UseRouting();
+        App!.UseStaticFiles();
+        App!.UseRouting();
 
         // Gestion des erreurs 404
-        App.UseStatusCodePages(context =>
+        App!.UseStatusCodePages(context =>
         {
             if (context.HttpContext.Response.StatusCode == 404)
             {
