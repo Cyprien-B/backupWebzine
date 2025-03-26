@@ -24,11 +24,7 @@ public static class Program
     public static WebApplication? App { get; set; } = null;
 
     /// <summary>
-<<<<<<< HEAD
     /// Point d'entrée principal de l'application.
-=======
-    /// Point d'entr<74>e principal de l'application.
->>>>>>> 87d78bdc9facfd3915f28ea85fc75200d96aa95f
     /// </summary>
     /// <param name="args">Les arguments de ligne de commande pass<73>s au programme.</param>
     public static void Main(string[] args)
@@ -67,9 +63,6 @@ public static class Program
 
     private static void AddDependenciesInjections()
     {
-<<<<<<< HEAD
-        Builder!.Services.AddScoped<IStyleRepository, DbStyleRepository>();
-=======
         if (Builder!.Configuration.GetValue<string>("App:Repository") == "Local")
         {
             Builder!.Services.AddScoped<IStyleRepository, LocalStyleRepository>();
@@ -79,12 +72,11 @@ public static class Program
         }
         else
         {
-            //Builder!.Services.AddScoped<IStyleRepository, DbStyleRepository>();
-            //Builder!.Services.AddScoped<ITitreRepository, DbTitreRepository>();
-            //Builder!.Services.AddScoped<IArtisteRepository, DbArtisteRepository>();
-            //Builder!.Services.AddScoped<ICommentaireRepository, DbCommentaireRepository>();
+            Builder!.Services.AddScoped<IStyleRepository, DbStyleRepository>();
+            // Builder!.Services.AddScoped<ITitreRepository, DbTitreRepository>();
+            // Builder!.Services.AddScoped<IArtisteRepository, DbArtisteRepository>();
+            // Builder!.Services.AddScoped<ICommentaireRepository, DbCommentaireRepository>();
         }
->>>>>>> 87d78bdc9facfd3915f28ea85fc75200d96aa95f
     }
 
     private static void CheckConfigurations()
