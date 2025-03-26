@@ -7,11 +7,12 @@ namespace Webzine.WebApplication.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Webzine.Entity;
     using Webzine.Entity.Fixtures;
+    using Webzine.Repository.Contracts;
 
     /// <summary>
     /// Contrôleur pour gérer les actions liées aux artistes.
     /// </summary>
-    public class ArtisteController : Controller
+    public class ArtisteController(IArtisteRepository artisteRepository) : Controller
     {
         /// <summary>
         /// Affiche la page d'un artiste spécifique.
@@ -21,7 +22,12 @@ namespace Webzine.WebApplication.Controllers
         [HttpGet]
         public IActionResult Index(string nomArtiste)
         {
-            Artiste artiste = ArtisteFactory.Artistes.FirstOrDefault(a => a.Nom == nomArtiste) ?? new Artiste();
+            Artiste? artiste = artisteRepository.FindAll().FirstOrDefault(a => a.Nom == nomArtiste);
+
+            if (artiste == null)
+            {
+                return this.NotFound();
+            }
 
             return this.View(artiste);
         }
