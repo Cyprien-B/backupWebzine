@@ -3,6 +3,7 @@
 // </copyright>
 
 using Microsoft.EntityFrameworkCore;
+using Webzine.Entity;
 using Webzine.EntityContext.Dbcontext;
 using Webzine.Repository.Contracts;
 using Webzine.Repository.Local;
@@ -23,7 +24,7 @@ public static class Program
     public static WebApplication? App { get; set; } = null;
 
     /// <summary>
-    /// Point d'entr�e principal de l'application.
+    /// Point d'entrée principal de l'application.
     /// </summary>
     /// <param name="args">Les arguments de ligne de commande pass�s au programme.</param>
     public static void Main(string[] args)
@@ -45,6 +46,14 @@ public static class Program
 
         App = Builder.Build();
 
+        // Vider et recréer la base de données
+        using (var scope = App.Services.CreateScope())
+        {
+            var context = scope.ServiceProvider.GetRequiredService<SQLiteContext>();
+            context.Database.EnsureDeleted();
+            context.Database.EnsureCreated();
+        }
+
         ConfigureMiddleware();
 
         ConfigureCustomRoutes();
@@ -54,7 +63,7 @@ public static class Program
 
     private static void AddDependenciesInjections()
     {
-        Builder!.Services.AddScoped<IStyleRepository, LocalStyleRepository>();
+        Builder!.Services.AddScoped<IStyleRepository, DbStyleRepository>();
     }
 
     private static void CheckConfigurations()
@@ -146,11 +155,11 @@ public static class Program
 
     private static void ConfigureMiddleware()
     {
-        App.UseStaticFiles();
-        App.UseRouting();
+        App!.UseStaticFiles();
+        App!.UseRouting();
 
         // Gestion des erreurs 404
-        App.UseStatusCodePages(context =>
+        App!.UseStatusCodePages(context =>
         {
             if (context.HttpContext.Response.StatusCode == 404)
             {

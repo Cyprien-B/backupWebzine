@@ -6,11 +6,12 @@ namespace Webzine.WebApplication.Controllers.Components
 {
     using Microsoft.AspNetCore.Mvc;
     using Webzine.Entity.Fixtures;
+    using Webzine.Repository.Contracts;
 
     /// <summary>
     /// View component pour la liste des styles.
     /// </summary>
-    public class StylesSidebarViewComponent : ViewComponent
+    public class StylesSidebarViewComponent(IStyleRepository styleRepository) : ViewComponent
     {
         /// <summary>
         /// Injecte les styles à la composante de vue.
@@ -18,7 +19,7 @@ namespace Webzine.WebApplication.Controllers.Components
         /// <returns>Une composante de vue.</returns>
         public IViewComponentResult Invoke()
         {
-            var styles = StyleFactory.Styles
+            var styles = styleRepository.FindAll()
                 .OrderBy(s => s.Libelle)
                 .ToList();
             return this.View(styles);
