@@ -9,7 +9,7 @@ using Webzine.Repository.Contracts;
 using Webzine.Repository.Local;
 
 /// <summary>
-/// Contient le point d'entr<74>e principal de l'application.
+/// Contient le point d'entrée principal de l'application.
 /// </summary>
 public static class Program
 {
@@ -19,14 +19,14 @@ public static class Program
     public static WebApplicationBuilder? Builder { get; set; } = null;
 
     /// <summary>
-    /// Obtient ou définit l'application compil<69>e par le builder.
+    /// Obtient ou définit l'application compilée par le builder.
     /// </summary>
     public static WebApplication? App { get; set; } = null;
 
     /// <summary>
     /// Point d'entrée principal de l'application.
     /// </summary>
-    /// <param name="args">Les arguments de ligne de commande pass<73>s au programme.</param>
+    /// <param name="args">Les arguments de ligne de commande passés au programme.</param>
     public static void Main(string[] args)
     {
         Builder = WebApplication.CreateBuilder(args);

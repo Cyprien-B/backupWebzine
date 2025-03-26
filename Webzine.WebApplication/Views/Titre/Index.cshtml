@@ -1,6 +1,8 @@
-﻿@model Webzine.WebApplication.ViewModels.TitreModel
+﻿@using Webzine.Entity;
+@model Webzine.WebApplication.ViewModels.TitreModel
 
 @{
+    Commentaire displayCommentaire = new();
     this.ViewBag.Title = Model.Titre.Libelle;
 }
 
@@ -67,46 +69,37 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="mb-3">
                         <div class="row">
-                            <!-- Colonne pour les labels -->
-                            <div class="col-12 col-md-3">
-                                <!-- Labels visibles sur petits écrans -->
-                                <div class="d-md-none">
-                                    <label asp-for="Commentaire.Auteur" class="form-label"></label><span class="text-danger">*</span>
-                                    <input asp-for="Commentaire.Auteur" class="form-control mb-3" placeholder="Votre nom (exemple : Emmanuel)" />
-                                    <span asp-validation-for="Commentaire.Auteur" class="text-danger"></span>
-
-                                    <label asp-for="Commentaire.Contenu" class="form-label"></label><span class="text-danger">*</span>
-                                    <textarea asp-for="Commentaire.Contenu" class="form-control" rows="3" placeholder="Votre commentaire..."></textarea>
-                                    <span asp-validation-for="Commentaire.Contenu" class="text-danger"></span>
-                                </div>
-
-                                <!-- Labels visibles sur grands écrans -->
-                                <div class="d-none d-md-block">
-                                    <label asp-for="Commentaire.Auteur" class="form-label">@Html.DisplayNameFor(m => m.Commentaire.Auteur)<span class="text-danger">*</span></label>
-                                    <div class="mb-4"></div>
-                                    <label asp-for="Commentaire.Contenu" class="form-label">@Html.DisplayNameFor(m => m.Commentaire.Contenu)<span class="text-danger">*</span></label>
-                                </div>
+                            <!-- Colonne pour les labels (visible uniquement sur grands écrans) -->
+                            <div class="col-md-3 d-none d-md-block">
+                                <label asp-for="Commentaire.Auteur" class="form-label">@Html.DisplayNameFor(m => m.Commentaire.Auteur)<span class="text-danger">*</span></label>
+                                <div class="mb-4"></div>
+                                <label asp-for="Commentaire.Contenu" class="form-label">@Html.DisplayNameFor(m => m.Commentaire.Contenu)<span class="text-danger">*</span></label>
                             </div>
 
                             <!-- Colonne pour les champs de saisie -->
                             <div class="col-12 col-md-9">
-                                <!-- Champs visibles sur grands écrans -->
-                                <div class="d-none d-md-block">
-                                    <input asp-for="Commentaire.Auteur" class="form-control mb-2" placeholder="Votre nom (exemple : Emmanuel)" />
-                                    <span asp-validation-for="Commentaire.Auteur" class="text-danger"></span>
-                                    <textarea asp-for="Commentaire.Contenu" class="form-control" rows="3" placeholder="Votre commentaire..."></textarea>
-                                    <span asp-validation-for="Commentaire.Contenu" class="text-danger"></span>
+                                <!-- Labels visibles uniquement sur petits écrans -->
+                                <div class="d-md-none">
+                                    <label asp-for="Commentaire.Auteur" class="form-label">@Html.DisplayNameFor(m => m.Commentaire.Auteur)<span class="text-danger">*</span></label>
                                 </div>
+                                <input asp-for="Commentaire.Auteur" class="form-control mb-2" placeholder="Votre nom (exemple : Emmanuel)" />
+                                <span asp-validation-for="Commentaire.Auteur" class="text-danger"></span>
 
-                                <!-- Champ caché pour lier l'ID du titre à IdTitre -->
-                                <input asp-for="Commentaire.IdTitre" type="hidden" value="Titre.IdTitre" />
+                                <!-- Labels visibles uniquement sur petits écrans -->
+                                <div class="d-md-none">
+                                    <label asp-for="Commentaire.Contenu" class="form-label">@Html.DisplayNameFor(m => m.Commentaire.Contenu)<span class="text-danger">*</span></label>
+                                </div>
+                                <textarea asp-for="Commentaire.Contenu" class="form-control mb-2" rows="3" placeholder="Votre commentaire..."></textarea>
+                                <span asp-validation-for="Commentaire.Contenu" class="text-danger"></span>
 
-                                <!-- Bouton d'envoi -->
+                                <input asp-for="Commentaire.IdTitre" type="hidden" value="@Model.Titre.IdTitre" />
+
                                 <button type="submit" class="btn btn-primary mt-2">Envoyer</button>
                             </div>
                         </div>
                     </div>
                 </form>
+
             </div>
 
             <div class="mt-4">

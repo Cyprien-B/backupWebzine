@@ -13,7 +13,7 @@ namespace Webzine.WebApplication.Controllers
     /// <summary>
     /// Contrôleur de recherche.
     /// </summary>
-    public class RechercheController(ITitreRepository titreRepository) : Controller
+    public class RechercheController(ITitreRepository titreRepository, IArtisteRepository artisteRepository) : Controller
     {
         /// <summary>
         /// Gère la recherche et affiche les résultats.
@@ -28,32 +28,11 @@ namespace Webzine.WebApplication.Controllers
                 return this.RedirectToAction("Index", "Home");
             }
 
-            // Générer 0-3 artistes aléatoires
-            int nbArtistes = new Random().Next(0, 4);
-
-            List<Artiste> artistes = [];
-
-            Random random = new();
-
-            for (int i = 0; i < nbArtistes; i++)
-            {
-                Artiste artiste = ArtisteFactory.Artistes[0];
-                if (random.Next(2) == 0)
-                {
-                    artiste.Nom = recherche + " " + artiste.Nom;
-                }
-                else
-                {
-                    artiste.Nom = artiste.Nom + " " + recherche;
-                }
-
-                artistes.Add(artiste);
-            }
-
             RechercheModel model = new()
             {
                 TermeRecherche = recherche,
-                Artistes = artistes,
+                Artistes = artisteRepository.FindAll().Where(a => a.Nom.Contains(recherche, StringComparison.OrdinalIgnoreCase))
+                .ToList(),
                 Titres = titreRepository.Search(recherche).ToList(),
             };
 
