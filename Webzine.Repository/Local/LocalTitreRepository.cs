@@ -6,6 +6,7 @@ namespace Webzine.Repository.Local
 {
     using System.Collections.Generic;
     using Webzine.Entity;
+    using Webzine.Entity.Fixtures;
     using Webzine.Repository.Contracts;
 
     /// <inheritdoc/>
@@ -14,67 +15,99 @@ namespace Webzine.Repository.Local
         /// <inheritdoc/>
         public void Add(Titre titre)
         {
-            throw new NotImplementedException();
+            // Trouver le premier ID disponible
+            int newId = 1;
+            while (TitreFactory.Titres.Any(t => t.IdTitre == newId))
+            {
+                newId++;
+            }
+
+            // Assigner le nouvel ID au style
+            titre.IdTitre = newId;
+            titre.Artiste = ArtisteFactory.Artistes.FirstOrDefault(a => a.IdArtiste == titre.IdArtiste) ?? new();
+
+            // Ajouter le style à la collection
+            TitreFactory.Titres.Add(titre);
         }
 
         /// <inheritdoc/>
         public int Count()
         {
-            throw new NotImplementedException();
+            return TitreFactory.Titres.Count;
         }
 
         /// <inheritdoc/>
         public void Delete(Titre titre)
         {
-            throw new NotImplementedException();
+            TitreFactory.Titres.RemoveAll(s => s.IdTitre == titre.IdTitre);
         }
 
         /// <inheritdoc/>
         public Titre Find(int idTitre)
         {
-            throw new NotImplementedException();
+            return TitreFactory.Titres.FirstOrDefault(s => s.IdTitre == idTitre) ?? new();
         }
 
         /// <inheritdoc/>
         public IEnumerable<Titre> FindAll()
         {
-            throw new NotImplementedException();
+            return TitreFactory.Titres;
         }
 
         /// <inheritdoc/>
         public IEnumerable<Titre> FindTitres(int offset, int limit)
         {
-            throw new NotImplementedException();
+            return TitreFactory.Titres.OrderByDescending(t => t.DateCreation).Skip(limit * (int)(offset - 1)).Take(limit).ToList();
         }
 
         /// <inheritdoc/>
         public void IncrementNbLectures(Titre titre)
         {
-            throw new NotImplementedException();
+            TitreFactory.Titres.Where(t => t.IdTitre == titre.IdTitre)
+                       .ToList()
+                       .ForEach(t => t.NbLectures++);
         }
 
         /// <inheritdoc/>
         public void IncrementNbLikes(Titre titre)
         {
-            throw new NotImplementedException();
+            TitreFactory.Titres.Where(t => t.IdTitre == titre.IdTitre)
+                       .ToList()
+                       .ForEach(t => t.NbLikes++);
         }
 
         /// <inheritdoc/>
         public IEnumerable<Titre> Search(string mot)
         {
-            throw new NotImplementedException();
+            return TitreFactory.Titres
+                .Where(t => t.Libelle.Contains(mot, StringComparison.OrdinalIgnoreCase))
+                .ToList();
         }
 
         /// <inheritdoc/>
         public IEnumerable<Titre> SearchByStyle(string libelle)
         {
-            throw new NotImplementedException();
+            return TitreFactory.Titres
+                .Where(t => t.Styles.Any(s => s.Libelle.Equals(libelle, StringComparison.OrdinalIgnoreCase)))
+                .ToList();
         }
 
         /// <inheritdoc/>
         public void Update(Titre titre)
         {
-            throw new NotImplementedException();
+            Titre? existingTitre = TitreFactory.Titres.FirstOrDefault(t => t.IdTitre == titre.IdTitre);
+            if (existingTitre == null)
+            {
+                this.Add(titre);
+            }
+            else
+            {
+                existingTitre.Libelle = titre.Libelle;
+                existingTitre.IdArtiste = titre.IdArtiste;
+                existingTitre.Artiste = ArtisteFactory.Artistes.FirstOrDefault(a => a.IdArtiste == titre.IdArtiste) ?? new();
+                existingTitre.NbLectures = titre.NbLectures;
+                existingTitre.NbLikes = titre.NbLikes;
+            }
         }
     }
 }

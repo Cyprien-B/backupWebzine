@@ -54,7 +54,21 @@ public static class Program
 
     private static void AddDependenciesInjections()
     {
-        Builder!.Services.AddScoped<IStyleRepository, LocalStyleRepository>();
+        // TODO: Changer les Local par les type de repository choisis.
+        if (Builder!.Configuration.GetValue<string>("App:Repository") == "Local")
+        {
+            Builder!.Services.AddScoped<IStyleRepository, LocalStyleRepository>();
+            Builder!.Services.AddScoped<ITitreRepository, LocalTitreRepository>();
+            Builder!.Services.AddScoped<IArtisteRepository, LocalArtisteRepository>();
+            Builder!.Services.AddScoped<ICommentaireRepository, LocalCommentaireRepository>();
+        }
+        else
+        {
+            Builder!.Services.AddScoped<IStyleRepository, LocalStyleRepository>();
+            Builder!.Services.AddScoped<ITitreRepository, LocalTitreRepository>();
+            Builder!.Services.AddScoped<IArtisteRepository, LocalArtisteRepository>();
+            Builder!.Services.AddScoped<ICommentaireRepository, LocalCommentaireRepository>();
+        }
     }
 
     private static void CheckConfigurations()
