@@ -5,7 +5,6 @@
 namespace Webzine.Repository.Local
 {
     using System.Collections.Generic;
-    using System.Linq;
     using Webzine.Entity;
     using Webzine.EntityContext.Dbcontext;
     using Webzine.Repository.Contracts;

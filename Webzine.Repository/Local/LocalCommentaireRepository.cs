@@ -27,12 +27,14 @@ namespace Webzine.Repository.Local
 
             // Ajouter le commentaire à la collection
             CommentaireFactory.Commentaires.Add(commentaire);
+            TitreFactory.Titres.First(t => t.IdTitre == commentaire.IdTitre).Commentaires.Add(commentaire);
         }
 
         /// <inheritdoc/>
         public void Delete(Commentaire commentaire)
         {
             CommentaireFactory.Commentaires.RemoveAll(c => c.IdCommentaire == commentaire.IdCommentaire);
+            TitreFactory.Titres.First(t => t.IdTitre == commentaire.IdTitre).Commentaires.Remove(commentaire);
         }
 
         /// <inheritdoc/>

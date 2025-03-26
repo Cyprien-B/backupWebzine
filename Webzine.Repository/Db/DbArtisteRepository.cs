@@ -1,0 +1,68 @@
+﻿// <copyright file="DbArtisteRepository.cs" company="Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ">
+// Copyright (c) Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ. All rights reserved.
+// </copyright>
+
+namespace Webzine.Repository.Db
+{
+    using System.Collections.Generic;
+    using Microsoft.EntityFrameworkCore;
+    using Webzine.Entity;
+    using Webzine.EntityContext.Dbcontext;
+    using Webzine.Repository.Contracts;
+
+    /// <summary>
+    /// Implémentation du dépôt pour gérer les artistes avec une base de données.
+    /// </summary>
+    public class DbArtisteRepository(SQLiteContext context) : IArtisteRepository
+    {
+        /// <inheritdoc/>
+        public void Add(Artiste artiste)
+        {
+            context.Artistes.Add(artiste);
+            context.SaveChanges();
+        }
+
+        /// <inheritdoc/>
+        public void Delete(Artiste artiste)
+        {
+            context.Artistes.Remove(artiste);
+            context.SaveChanges();
+        }
+
+        /// <inheritdoc/>
+        public Artiste Find(int id)
+        {
+            var artisteFind = context.Artistes.Find(id);
+
+            if (artisteFind == null)
+            {
+                throw new KeyNotFoundException($"L'artiste avec l'identifiant {id} n'a pas été trouvé.");
+            }
+
+            return artisteFind;
+        }
+
+        /// <inheritdoc/>
+        public IEnumerable<Artiste> FindAll()
+        {
+            return context.Artistes.Include(a => a.Titres);
+        }
+
+        /// <inheritdoc/>
+        public void Update(Artiste artiste)
+        {
+            var existingArtiste = context.Artistes.Find(artiste.IdArtiste);
+            if (existingArtiste == null)
+            {
+                this.Add(artiste);
+            }
+            else
+            {
+                existingArtiste.Nom = artiste.Nom;
+                existingArtiste.Biographie = artiste.Biographie;
+                existingArtiste.Titres = artiste.Titres;
+                context.SaveChanges();
+            }
+        }
+    }
+}

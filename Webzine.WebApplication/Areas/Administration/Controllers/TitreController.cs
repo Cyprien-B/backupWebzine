@@ -14,7 +14,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
     /// Contrôleur de titre.
     /// </summary>
     [Area("Administration")]
-    public class TitreController(ITitreRepository titreRepository, IStyleRepository styleRepository) : Controller
+    public class TitreController(ITitreRepository titreRepository, IStyleRepository styleRepository, IArtisteRepository artisteRepository) : Controller
     {
         /// <summary>
         /// Administration principale des titre.
@@ -35,7 +35,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         {
             CreationAndEditionTitreModel model = new()
             {
-                Artistes = ArtisteFactory.Artistes.OrderBy(a => a.Nom).ToList(),
+                Artistes = artisteRepository.FindAll().OrderBy(a => a.Nom).ToList(),
                 Styles = styleRepository.FindAll().OrderBy(s => s.Libelle).ToList(),
             };
             return this.View(model);
@@ -86,7 +86,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         {
             CreationAndEditionTitreModel model = new()
             {
-                Artistes = ArtisteFactory.Artistes.OrderBy(a => a.Nom).ToList(),
+                Artistes = artisteRepository.FindAll().OrderBy(a => a.Nom).ToList(),
                 Styles = styleRepository.FindAll().ToList(),
                 Titre = titreRepository.Find(id),
             };

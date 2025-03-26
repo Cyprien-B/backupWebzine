@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Webzine.Entity;
 using Webzine.EntityContext.Dbcontext;
 using Webzine.Repository.Contracts;
+using Webzine.Repository.Db;
 using Webzine.Repository.Local;
 
 /// <summary>
@@ -73,9 +74,9 @@ public static class Program
         else
         {
             Builder!.Services.AddScoped<IStyleRepository, DbStyleRepository>();
-            // Builder!.Services.AddScoped<ITitreRepository, DbTitreRepository>();
-            // Builder!.Services.AddScoped<IArtisteRepository, DbArtisteRepository>();
-            // Builder!.Services.AddScoped<ICommentaireRepository, DbCommentaireRepository>();
+            Builder!.Services.AddScoped<ITitreRepository, DbTitreRepository>();
+            Builder!.Services.AddScoped<IArtisteRepository, DbArtisteRepository>();
+            Builder!.Services.AddScoped<ICommentaireRepository, DbCommentaireRepository>();
         }
     }
 
