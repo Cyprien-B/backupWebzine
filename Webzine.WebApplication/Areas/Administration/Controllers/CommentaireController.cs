@@ -7,13 +7,14 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Webzine.Entity;
     using Webzine.Entity.Fixtures;
+    using Webzine.Repository.Contracts;
     using Webzine.WebApplication.Areas.Administration.ViewModels;
 
     /// <summary>
     /// Contrôleur de commentaire.
     /// </summary>
     [Area("Administration")]
-    public class CommentaireController : Controller
+    public class CommentaireController(ICommentaireRepository commentaireRepository) : Controller
     {
         /// <summary>
         /// Administration principale des commentaires.
@@ -22,7 +23,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return this.View(CommentaireFactory.Commentaires);
+            return this.View(commentaireRepository.FindAll().OrderBy(c => c.DateCreation).ToList());
         }
 
         /// <summary>
@@ -33,7 +34,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            return this.View(CommentaireFactory.Commentaires.First(c => c.IdCommentaire == id));
+            return this.View(commentaireRepository.Find(id));
         }
 
         /// <summary>
@@ -44,6 +45,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpPost]
         public IActionResult Delete([FromForm] Commentaire commentaire)
         {
+            commentaireRepository.Delete(commentaire);
             return this.RedirectToAction(nameof(this.Index));
         }
     }

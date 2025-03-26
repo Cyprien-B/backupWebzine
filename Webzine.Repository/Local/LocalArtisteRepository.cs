@@ -6,6 +6,7 @@ namespace Webzine.Repository.Local
 {
     using System.Collections.Generic;
     using Webzine.Entity;
+    using Webzine.Entity.Fixtures;
     using Webzine.Repository.Contracts;
 
     /// <inheritdoc/>
@@ -14,31 +15,52 @@ namespace Webzine.Repository.Local
         /// <inheritdoc/>
         public void Add(Artiste artiste)
         {
-            throw new NotImplementedException();
+            // Trouver le premier ID disponible
+            int newId = 1;
+            while (ArtisteFactory.Artistes.Any(a => a.IdArtiste == newId))
+            {
+                newId++;
+            }
+
+            // Assigner le nouvel ID à l'artiste
+            artiste.IdArtiste = newId;
+
+            // Ajouter l'artiste à la collection
+            ArtisteFactory.Artistes.Add(artiste);
         }
 
         /// <inheritdoc/>
         public void Delete(Artiste artiste)
         {
-            throw new NotImplementedException();
+            ArtisteFactory.Artistes.RemoveAll(a => a.IdArtiste == artiste.IdArtiste);
         }
 
         /// <inheritdoc/>
         public Artiste Find(int id)
         {
-            throw new NotImplementedException();
+            return ArtisteFactory.Artistes.FirstOrDefault(a => a.IdArtiste == id) ?? new();
         }
 
         /// <inheritdoc/>
         public IEnumerable<Artiste> FindAll()
         {
-            throw new NotImplementedException();
+            return ArtisteFactory.Artistes;
         }
 
         /// <inheritdoc/>
         public void Update(Artiste artiste)
         {
-            throw new NotImplementedException();
+            Artiste? existingArtiste = ArtisteFactory.Artistes.FirstOrDefault(a => a.IdArtiste == artiste.IdArtiste);
+            if (existingArtiste == null)
+            {
+                this.Add(artiste);
+            }
+            else
+            {
+                existingArtiste.Nom = artiste.Nom; // Mise à jour des propriétés
+                existingArtiste.Biographie = artiste.Biographie;
+                existingArtiste.Titres = artiste.Titres;
+            }
         }
     }
 }

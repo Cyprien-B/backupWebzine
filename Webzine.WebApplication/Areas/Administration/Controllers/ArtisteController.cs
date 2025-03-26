@@ -7,13 +7,14 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Webzine.Entity;
     using Webzine.Entity.Fixtures;
+    using Webzine.Repository.Contracts;
     using Webzine.WebApplication.Areas.Administration.ViewModels;
 
     /// <summary>
     /// Contrôleur des artistes.
     /// </summary>
     [Area("Administration")]
-    public class ArtisteController : Controller
+    public class ArtisteController(IArtisteRepository artisteRepository) : Controller
     {
         /// <summary>
         /// Administration principale des artistes.
@@ -22,7 +23,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return this.View(ArtisteFactory.Artistes.OrderBy(a => a.Nom).ToList());
+            return this.View(artisteRepository.FindAll().OrderBy(a => a.Nom).ToList());
         }
 
         /// <summary>
@@ -38,11 +39,12 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         /// <summary>
         /// Traite la soumission du formulaire de création d'un artiste.
         /// </summary>
-        /// <param name="result">Les données de l'artiste à créer.</param>
+        /// <param name="artiste">Les données de l'artiste à créer.</param>
         /// <returns>Le résultat de la création de l'artiste.</returns>
         [HttpPost]
-        public IActionResult Create([FromForm] object result)
+        public IActionResult Create([FromForm] Artiste artiste)
         {
+            artisteRepository.Add(artiste);
             return this.RedirectToAction(nameof(this.Index));
         }
 
@@ -54,17 +56,18 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            return this.View(ArtisteFactory.Artistes.First(a => a.IdArtiste == id));
+            return this.View(artisteRepository.Find(id));
         }
 
         /// <summary>
         /// Traite la demande de suppression d'un artiste.
         /// </summary>
-        /// <param name="result">L'identifiant de l'artiste à supprimer.</param>
+        /// <param name="artiste">L'identifiant de l'artiste à supprimer.</param>
         /// <returns>Le résultat de la suppression de l'artiste.</returns>
         [HttpPost]
-        public IActionResult Delete([FromForm] Artiste result)
+        public IActionResult Delete([FromForm] Artiste artiste)
         {
+            artisteRepository.Delete(artiste);
             return this.RedirectToAction(nameof(this.Index));
         }
 
@@ -76,17 +79,18 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            return this.View(ArtisteFactory.Artistes.First(a => a.IdArtiste == id));
+            return this.View(artisteRepository.Find(id));
         }
 
         /// <summary>
         /// Traite la soumission du formulaire d'édition d'un artiste.
         /// </summary>
-        /// <param name="result">L'identifiant de l'artiste à éditer.</param>
+        /// <param name="artiste">L'identifiant de l'artiste à éditer.</param>
         /// <returns>Le résultat de l'édition de l'artiste.</returns>
         [HttpPost]
-        public IActionResult Edit([FromForm] Artiste result)
+        public IActionResult Edit([FromForm] Artiste artiste)
         {
+            artisteRepository.Update(artiste);
             return this.RedirectToAction(nameof(this.Index));
         }
     }

@@ -6,6 +6,7 @@ namespace Webzine.Repository.Local
 {
     using System.Collections.Generic;
     using Webzine.Entity;
+    using Webzine.Entity.Fixtures;
     using Webzine.Repository.Contracts;
 
     /// <inheritdoc/>
@@ -14,25 +15,36 @@ namespace Webzine.Repository.Local
         /// <inheritdoc/>
         public void Add(Commentaire commentaire)
         {
-            throw new NotImplementedException();
+            // Trouver le premier ID disponible
+            int newId = 1;
+            while (CommentaireFactory.Commentaires.Any(c => c.IdCommentaire == newId))
+            {
+                newId++;
+            }
+
+            // Assigner le nouvel ID au commentaire
+            commentaire.IdCommentaire = newId;
+
+            // Ajouter le commentaire à la collection
+            CommentaireFactory.Commentaires.Add(commentaire);
         }
 
         /// <inheritdoc/>
         public void Delete(Commentaire commentaire)
         {
-            throw new NotImplementedException();
+            CommentaireFactory.Commentaires.RemoveAll(c => c.IdCommentaire == commentaire.IdCommentaire);
         }
 
         /// <inheritdoc/>
         public Commentaire Find(int id)
         {
-            throw new NotImplementedException();
+            return CommentaireFactory.Commentaires.FirstOrDefault(c => c.IdCommentaire == id) ?? new();
         }
 
         /// <inheritdoc/>
         public IEnumerable<Commentaire> FindAll()
         {
-            throw new NotImplementedException();
+            return CommentaireFactory.Commentaires;
         }
     }
 }
