@@ -7,12 +7,13 @@ namespace Webzine.WebApplication.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Webzine.Entity;
     using Webzine.Entity.Fixtures;
+    using Webzine.Repository.Contracts;
     using Webzine.WebApplication.ViewModels;
 
     /// <summary>
     /// Contrôleur des titres.
     /// </summary>
-    public class TitreController : Controller
+    public class TitreController(ITitreRepository titreRepository, IStyleRepository styleRepository, ICommentaireRepository commentaireRepository) : Controller
     {
         /// <summary>
         /// Titre en fonction de l'id.
@@ -22,9 +23,10 @@ namespace Webzine.WebApplication.Controllers
         [HttpGet]
         public IActionResult Index(int id)
         {
+            // TODO: Enlever le Model inutile.
             TitreModel model = new()
             {
-                Titre = TitreFactory.Titres.First(t => t.IdTitre == id),
+                Titre = titreRepository.Find(id),
             };
 
             return this.View(model);
@@ -38,19 +40,19 @@ namespace Webzine.WebApplication.Controllers
         [HttpGet]
         public IActionResult Style(string nomStyle)
         {
+            // TODO: J'aime pas trop le code, il faudrait trouver un moyen de faire mieux.
             if (string.IsNullOrWhiteSpace(nomStyle))
             {
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            Style style = StyleFactory.Styles.First(s => s.Libelle == nomStyle);
+            Style style = styleRepository.FindAll().First(s => s.Libelle == nomStyle);
             style.Libelle = nomStyle;
 
-            int nbTitres = new Random().Next(0, 6);
             StyleTitresModel model = new()
             {
                 Style = style,
-                Titres = nbTitres > 0 ? TitreFactory.Titres.Take(nbTitres).ToList() : [],
+                Titres = titreRepository.SearchByStyle(nomStyle).ToList(),
             };
             return this.View(model);
         }
@@ -63,6 +65,7 @@ namespace Webzine.WebApplication.Controllers
         [HttpPost]
         public IActionResult Liker([FromForm] int idTitre)
         {
+            titreRepository.IncrementNbLikes(new() { IdTitre = idTitre });
             return this.RedirectToAction(nameof(this.Index), new { id = idTitre });
         }
 
@@ -74,6 +77,7 @@ namespace Webzine.WebApplication.Controllers
         [HttpPost]
         public IActionResult Commenter([FromForm] Commentaire commentaire)
         {
+            commentaireRepository.Add(commentaire);
             return this.RedirectToAction(nameof(this.Index), new { id = commentaire.IdTitre });
         }
     }

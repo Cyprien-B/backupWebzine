@@ -7,13 +7,14 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Webzine.Entity;
     using Webzine.Entity.Fixtures;
+    using Webzine.Repository.Contracts;
     using Webzine.WebApplication.Areas.Administration.ViewModels;
 
     /// <summary>
     /// Contrôleur de titre.
     /// </summary>
     [Area("Administration")]
-    public class TitreController : Controller
+    public class TitreController(ITitreRepository titreRepository, IStyleRepository styleRepository) : Controller
     {
         /// <summary>
         /// Administration principale des titre.
@@ -22,7 +23,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return this.View(TitreFactory.Titres.OrderBy(t => t.Libelle).ToList());
+            return this.View(titreRepository.FindAll().OrderBy(t => t.Artiste.Nom).ThenBy(t => t.Libelle).ToList());
         }
 
         /// <summary>
@@ -35,7 +36,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
             CreationAndEditionTitreModel model = new()
             {
                 Artistes = ArtisteFactory.Artistes.OrderBy(a => a.Nom).ToList(),
-                Styles = StyleFactory.Styles.OrderBy(s => s.Libelle).ToList(),
+                Styles = styleRepository.FindAll().OrderBy(s => s.Libelle).ToList(),
             };
             return this.View(model);
         }
@@ -48,6 +49,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpPost]
         public IActionResult Create([FromForm] Titre titre)
         {
+            titreRepository.Add(titre);
             return this.RedirectToAction(nameof(this.Index));
         }
 
@@ -59,7 +61,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            return this.View(TitreFactory.Titres.First(t => t.IdTitre == id));
+            return this.View(titreRepository.Find(id));
         }
 
         /// <summary>
@@ -70,6 +72,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpPost]
         public IActionResult Delete([FromForm] Titre titre)
         {
+            titreRepository.Delete(titre);
             return this.RedirectToAction(nameof(this.Index));
         }
 
@@ -83,9 +86,9 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         {
             CreationAndEditionTitreModel model = new()
             {
-                Artistes = ArtisteFactory.Artistes,
-                Styles = StyleFactory.Styles.ToList(),
-                Titre = TitreFactory.Titres.First(t => t.IdTitre == id),
+                Artistes = ArtisteFactory.Artistes.OrderBy(a => a.Nom).ToList(),
+                Styles = styleRepository.FindAll().ToList(),
+                Titre = titreRepository.Find(id),
             };
             return this.View(model);
         }
@@ -98,6 +101,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpPost]
         public IActionResult Edit([FromForm] Titre titre)
         {
+            titreRepository.Update(titre);
             return this.RedirectToAction(nameof(this.Index));
         }
     }

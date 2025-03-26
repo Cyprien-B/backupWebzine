@@ -6,12 +6,13 @@ namespace Webzine.WebApplication.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
     using Webzine.Entity.Fixtures;
+    using Webzine.Repository.Contracts;
     using Webzine.WebApplication.ViewModels;
 
     /// <summary>
     /// Controlleur principal de base.
     /// </summary>
-    public class HomeController(IConfiguration configuration) : Controller
+    public class HomeController(IConfiguration configuration, ITitreRepository titreRepository) : Controller
     {
         /// <summary>
         /// Est la vue de la page d'accueil.
@@ -26,9 +27,9 @@ namespace Webzine.WebApplication.Controllers
 
             HomeModel model = new()
             {
-                PaginationMax = (uint)Math.Ceiling((double)TitreFactory.Titres.Count / nbTitresChroniques),
-                TitresRecemmentsChroniques = TitreFactory.Titres.Skip(nbTitresChroniques * (int)(page - 1)).Take(nbTitresChroniques).ToList(),
-                TitresPopulaires = TitreFactory.Titres.OrderByDescending(t => t.NbLikes).Take(nbTitresPopulaires).ToList(),
+                PaginationMax = (uint)Math.Ceiling((double)titreRepository.Count() / nbTitresChroniques),
+                TitresRecemmentsChroniques = titreRepository.FindTitres((int)page, nbTitresChroniques).ToList(),
+                TitresPopulaires = titreRepository.FindAll().OrderByDescending(t => t.NbLikes).Take(nbTitresPopulaires).ToList(),
                 CaracteresChroniqueMax = 200,
                 PaginationActuelle = page,
             };

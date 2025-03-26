@@ -7,12 +7,13 @@ namespace Webzine.WebApplication.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Webzine.Entity;
     using Webzine.Entity.Fixtures;
+    using Webzine.Repository.Contracts;
     using Webzine.WebApplication.ViewModels;
 
     /// <summary>
     /// Contrôleur de recherche.
     /// </summary>
-    public class RechercheController : Controller
+    public class RechercheController(ITitreRepository titreRepository) : Controller
     {
         /// <summary>
         /// Gère la recherche et affiche les résultats.
@@ -29,10 +30,8 @@ namespace Webzine.WebApplication.Controllers
 
             // Générer 0-3 artistes aléatoires
             int nbArtistes = new Random().Next(0, 4);
-            int nbTitres = new Random().Next(0, 5);
 
             List<Artiste> artistes = [];
-            List<Titre> titres = [];
 
             Random random = new();
 
@@ -51,26 +50,11 @@ namespace Webzine.WebApplication.Controllers
                 artistes.Add(artiste);
             }
 
-            for (int i = 0; i < nbTitres; i++)
-            {
-                Titre titre = Factory.GenerateTitre();
-                if (random.Next(2) == 0)
-                {
-                    titre.Libelle = recherche + " " + titre.Libelle;
-                }
-                else
-                {
-                    titre.Libelle = titre.Libelle + " " + recherche;
-                }
-
-                titres.Add(titre);
-            }
-
             RechercheModel model = new()
             {
                 TermeRecherche = recherche,
                 Artistes = artistes,
-                Titres = titres,
+                Titres = titreRepository.Search(recherche).ToList(),
             };
 
             return this.View(model);
