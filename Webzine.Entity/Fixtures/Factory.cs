@@ -90,9 +90,6 @@ namespace Webzine.Entity.Fixtures
             GenerateAllData();
         }
 
-        /// <summary>
-        /// Génère toutes les entités avec des relations cohérentes.
-        /// </summary>
         private static void GenerateAllData()
         {
             var random = new Random();
