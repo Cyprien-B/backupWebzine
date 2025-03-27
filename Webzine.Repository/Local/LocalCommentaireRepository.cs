@@ -17,7 +17,7 @@ namespace Webzine.Repository.Local
         {
             // Trouver le premier ID disponible
             int newId = 1;
-            while (CommentaireFactory.Commentaires.Any(c => c.IdCommentaire == newId))
+            while (Factory.Commentaires.Any(c => c.IdCommentaire == newId))
             {
                 newId++;
             }
@@ -26,27 +26,27 @@ namespace Webzine.Repository.Local
             commentaire.IdCommentaire = newId;
 
             // Ajouter le commentaire à la collection
-            CommentaireFactory.Commentaires.Add(commentaire);
-            TitreFactory.Titres.First(t => t.IdTitre == commentaire.IdTitre).Commentaires.Add(commentaire);
+            Factory.Commentaires.Add(commentaire);
+            Factory.Titres.First(t => t.IdTitre == commentaire.IdTitre).Commentaires.Add(commentaire);
         }
 
         /// <inheritdoc/>
         public void Delete(Commentaire commentaire)
         {
-            CommentaireFactory.Commentaires.RemoveAll(c => c.IdCommentaire == commentaire.IdCommentaire);
-            TitreFactory.Titres.First(t => t.IdTitre == commentaire.IdTitre).Commentaires.Remove(commentaire);
+            Factory.Commentaires.RemoveAll(c => c.IdCommentaire == commentaire.IdCommentaire);
+            Factory.Titres.First(t => t.IdTitre == commentaire.IdTitre).Commentaires.ToList().RemoveAll(c => commentaire.IdCommentaire == c.IdCommentaire);
         }
 
         /// <inheritdoc/>
         public Commentaire Find(int id)
         {
-            return CommentaireFactory.Commentaires.FirstOrDefault(c => c.IdCommentaire == id) ?? new();
+            return Factory.Commentaires.FirstOrDefault(c => c.IdCommentaire == id) ?? new();
         }
 
         /// <inheritdoc/>
         public IEnumerable<Commentaire> FindAll()
         {
-            return CommentaireFactory.Commentaires;
+            return Factory.Commentaires;
         }
     }
 }

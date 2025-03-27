@@ -44,13 +44,13 @@ namespace Webzine.Repository.Local
         /// <inheritdoc/>
         public IEnumerable<Artiste> FindAll()
         {
-            return ArtisteFactory.Artistes;
+            return Factory.Artistes;
         }
 
         /// <inheritdoc/>
         public void Update(Artiste artiste)
         {
-            Artiste? existingArtiste = ArtisteFactory.Artistes.FirstOrDefault(a => a.IdArtiste == artiste.IdArtiste);
+            Artiste? existingArtiste = Factory.Artistes.FirstOrDefault(a => a.IdArtiste == artiste.IdArtiste);
             if (existingArtiste == null)
             {
                 this.Add(artiste);
