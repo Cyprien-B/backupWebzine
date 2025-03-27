@@ -17,7 +17,7 @@ namespace Webzine.Repository.Local
         {
             // Trouver le premier ID disponible
             int newId = 1;
-            while (StyleFactory.Styles.Any(s => s.IdStyle == newId))
+            while (Factory.Styles.Any(s => s.IdStyle == newId))
             {
                 newId++;
             }
@@ -26,31 +26,31 @@ namespace Webzine.Repository.Local
             style.IdStyle = newId;
 
             // Ajouter le style à la collection
-            StyleFactory.Styles.Add(style);
+            Factory.Styles.Add(style);
         }
 
         /// <inheritdoc/>
         public void Delete(Style style)
         {
-            StyleFactory.Styles.RemoveAll(s => s.IdStyle == style.IdStyle);
+            Factory.Styles.RemoveAll(s => s.IdStyle == style.IdStyle);
         }
 
         /// <inheritdoc/>
         public Style Find(int id)
         {
-            return StyleFactory.Styles.FirstOrDefault(s => s.IdStyle == id) ?? new();
+            return Factory.Styles.FirstOrDefault(s => s.IdStyle == id) ?? new();
         }
 
         /// <inheritdoc/>
         public IEnumerable<Style> FindAll()
         {
-            return StyleFactory.Styles;
+            return Factory.Styles;
         }
 
         /// <inheritdoc/>
         public void Update(Style style)
         {
-            Style? existingStyle = StyleFactory.Styles.FirstOrDefault(s => s.IdStyle == style.IdStyle);
+            Style? existingStyle = Factory.Styles.FirstOrDefault(s => s.IdStyle == style.IdStyle);
             if (existingStyle == null)
             {
                 this.Add(style);

@@ -17,7 +17,7 @@ namespace Webzine.Repository.Local
         {
             // Trouver le premier ID disponible
             int newId = 1;
-            while (ArtisteFactory.Artistes.Any(a => a.IdArtiste == newId))
+            while (Factory.Artistes.Any(a => a.IdArtiste == newId))
             {
                 newId++;
             }
@@ -26,31 +26,31 @@ namespace Webzine.Repository.Local
             artiste.IdArtiste = newId;
 
             // Ajouter l'artiste à la collection
-            ArtisteFactory.Artistes.Add(artiste);
+            Factory.Artistes.Add(artiste);
         }
 
         /// <inheritdoc/>
         public void Delete(Artiste artiste)
         {
-            ArtisteFactory.Artistes.RemoveAll(a => a.IdArtiste == artiste.IdArtiste);
+            Factory.Artistes.RemoveAll(a => a.IdArtiste == artiste.IdArtiste);
         }
 
         /// <inheritdoc/>
         public Artiste Find(int id)
         {
-            return ArtisteFactory.Artistes.FirstOrDefault(a => a.IdArtiste == id) ?? new();
+            return Factory.Artistes.FirstOrDefault(a => a.IdArtiste == id) ?? new();
         }
 
         /// <inheritdoc/>
         public IEnumerable<Artiste> FindAll()
         {
-            return ArtisteFactory.Artistes;
+            return Factory.Artistes;
         }
 
         /// <inheritdoc/>
         public void Update(Artiste artiste)
         {
-            Artiste? existingArtiste = ArtisteFactory.Artistes.FirstOrDefault(a => a.IdArtiste == artiste.IdArtiste);
+            Artiste? existingArtiste = Factory.Artistes.FirstOrDefault(a => a.IdArtiste == artiste.IdArtiste);
             if (existingArtiste == null)
             {
                 this.Add(artiste);

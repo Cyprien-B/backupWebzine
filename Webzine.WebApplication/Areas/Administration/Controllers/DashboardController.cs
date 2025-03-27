@@ -6,13 +6,14 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
     using Webzine.Entity.Fixtures;
+    using Webzine.Repository.Contracts;
     using Webzine.WebApplication.Areas.Administration.ViewModels;
 
     /// <summary>
     /// Controlleur de dashboard.
     /// </summary>
     [Area("Administration")]
-    public class DashboardController : Controller
+    public class DashboardController(IStyleRepository styleRepository, ITitreRepository titreRepository, IArtisteRepository artisteRepository) : Controller
     {
         /// <summary>
         /// La page de dashboard et de métriques importantes du site.
@@ -23,18 +24,18 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         {
             AdministrationDashboardModel model = new()
             {
-                NbArtistes = (uint)ArtisteFactory.Artistes.Count,
-                ArtisteComposeLePlusTitres = ArtisteFactory.Artistes
+                NbArtistes = (uint)artisteRepository.FindAll().ToList().Count,
+                ArtisteComposeLePlusTitres = artisteRepository.FindAll()
                     .OrderByDescending(a => a.Titres.Count)
                     .FirstOrDefault() ?? new(),
-                ArtisteLePlusChronique = ArtisteFactory.Artistes
+                ArtisteLePlusChronique = artisteRepository.FindAll()
                     .OrderByDescending(a => a.Titres.Count(t => !string.IsNullOrEmpty(t.Chronique)))
                     .FirstOrDefault() ?? new(),
                 NbBiographies = (uint)new Random().Next(200, 500),
-                TitreLePlusLu = TitreFactory.Titres[0],
+                TitreLePlusLu = titreRepository.FindAll().OrderByDescending(t => t.NbLectures).First(),
                 NbLectures = (uint)new Random().Next(10000, 50000),
                 NbLikes = (uint)new Random().Next(9000, 25000),
-                NbStyles = (uint)StyleFactory.Styles.Count,
+                NbStyles = (uint)styleRepository.FindAll().ToList().Count,
                 NbTitres = (uint)new Random().Next(500, 2000),
             };
 
