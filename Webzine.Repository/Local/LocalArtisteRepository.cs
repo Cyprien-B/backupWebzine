@@ -57,9 +57,20 @@ namespace Webzine.Repository.Local
             }
             else
             {
-                existingArtiste.Nom = artiste.Nom; // Mise à jour des propriétés
+                // Mise à jour des propriétés de l'artiste existant
+                existingArtiste.Nom = artiste.Nom;
                 existingArtiste.Biographie = artiste.Biographie;
                 existingArtiste.Titres = artiste.Titres;
+
+                // Mise à jour des références à l'artiste dans tous les titres
+                foreach (var titre in Factory.Titres)
+                {
+                    if (titre.IdArtiste == artiste.IdArtiste)
+                    {
+                        titre.IdArtiste = artiste.IdArtiste; // Ceci est redondant mais inclus pour la clarté
+                        titre.Artiste = existingArtiste; // Utiliser existingArtiste pour maintenir la cohérence des références
+                    }
+                }
             }
         }
     }

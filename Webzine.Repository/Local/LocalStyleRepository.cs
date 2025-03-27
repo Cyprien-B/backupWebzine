@@ -32,7 +32,15 @@ namespace Webzine.Repository.Local
         /// <inheritdoc/>
         public void Delete(Style style)
         {
+            // Supprimer le style de la liste globale des styles
             Factory.Styles.RemoveAll(s => s.IdStyle == style.IdStyle);
+
+            // Parcourir tous les titres pour supprimer le style de leurs listes
+            foreach (var titre in Factory.Titres)
+            {
+                // Supprimer le style de la liste des styles du titre si présent
+                titre.Styles.RemoveAll(s => s.IdStyle == style.IdStyle);
+            }
         }
 
         /// <inheritdoc/>
@@ -50,14 +58,30 @@ namespace Webzine.Repository.Local
         /// <inheritdoc/>
         public void Update(Style style)
         {
+            // Trouver le style existant dans la liste globale
             Style? existingStyle = Factory.Styles.FirstOrDefault(s => s.IdStyle == style.IdStyle);
+
             if (existingStyle == null)
             {
+                // Si le style n'existe pas, l'ajouter
                 this.Add(style);
             }
             else
             {
-                existingStyle.Libelle = style.Libelle; // Mise à jour des propriétés
+                // Mise à jour des propriétés du style existant
+                existingStyle.Libelle = style.Libelle;
+
+                // Mettre à jour les styles dans tous les titres associés
+                foreach (var titre in Factory.Titres)
+                {
+                    // Trouver le style dans la liste des styles du titre
+                    var titreStyle = titre.Styles.FirstOrDefault(s => s.IdStyle == style.IdStyle);
+                    if (titreStyle != null)
+                    {
+                        // Mettre à jour les propriétés du style dans le titre
+                        titreStyle.Libelle = style.Libelle;
+                    }
+                }
             }
         }
     }
