@@ -23,6 +23,8 @@ namespace Webzine.WebApplication.Controllers
         [HttpGet]
         public IActionResult Index(int id)
         {
+            titreRepository.IncrementNbLectures(new() { IdTitre = id });
+
             // TODO: Enlever le Model inutile.
             TitreModel model = new()
             {
