@@ -107,7 +107,7 @@ namespace Webzine.Repository.Db
             var existingTitre = context.Titres.Find(titre.IdTitre);
             if (existingTitre == null)
             {
-                Add(titre);
+                this.Add(titre);
             }
             else
             {
