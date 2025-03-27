@@ -34,9 +34,21 @@ namespace Webzine.Repository.Local
         /// <inheritdoc/>
         public void Delete(Commentaire commentaire)
         {
+            // Trouver le vrai commentaire à partir de l'ID fourni
             Commentaire vraiCommentaire = Factory.Commentaires.First(c => c.IdCommentaire == commentaire.IdCommentaire);
-            Factory.Commentaires.RemoveAll(c => c.IdCommentaire == vraiCommentaire.IdCommentaire);
-            Factory.Titres.First(t => t.IdTitre == vraiCommentaire.IdTitre).Commentaires.ToList().RemoveAll(c => vraiCommentaire.IdCommentaire == c.IdCommentaire);
+
+            // Supprimer le commentaire de la liste globale des commentaires
+            Factory.Commentaires.Remove(vraiCommentaire);
+
+            // Trouver le titre associé au commentaire
+            var titreConcerne = Factory.Titres.First(t => t.IdTitre == vraiCommentaire.IdTitre);
+
+            // Supprimer le commentaire de la liste des commentaires du titre
+            var commentaireASupprimer = titreConcerne.Commentaires.FirstOrDefault(c => c.IdCommentaire == vraiCommentaire.IdCommentaire);
+            if (commentaireASupprimer != null)
+            {
+                titreConcerne.Commentaires.Remove(commentaireASupprimer);
+            }
         }
 
         /// <inheritdoc/>
