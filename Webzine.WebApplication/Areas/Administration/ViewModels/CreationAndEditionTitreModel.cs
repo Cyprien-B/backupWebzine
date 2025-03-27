@@ -22,11 +22,6 @@ namespace Webzine.WebApplication.Areas.Administration.ViewModels
         public List<Artiste> Artistes { get; set; } = [];
 
         /// <summary>
-        /// Obtient ou définit un artiste pour un formulaire typé, et obtenir les types de variable lié à un artiste.
-        /// </summary>
-        public Artiste Artiste { get; set; } = new();
-
-        /// <summary>
         /// Obtient ou définit le titre à poster.
         /// </summary>
         public Titre Titre { get; set; } = new();

@@ -25,22 +25,22 @@ namespace Webzine.Entity.Fixtures
         /// <summary>
         /// Obtient ou définit une liste de faux artistes.
         /// </summary>
-        public static List<Artiste> Artistes { get; set; }
+        public static List<Artiste> Artistes { get; set; } = [];
 
         /// <summary>
         /// Obtient ou définit une liste de faux styles.
         /// </summary>
-        public static List<Style> Styles { get; set; }
+        public static List<Style> Styles { get; set; } = [];
 
         /// <summary>
         /// Obtient ou définit une liste de faux styles.
         /// </summary>
-        public static List<Titre> Titres { get; set; }
+        public static List<Titre> Titres { get; set; } = [];
 
         /// <summary>
         /// Obtient ou définit une liste de faux styles.
         /// </summary>
-        public static List<Commentaire> Commentaires { get; set; }
+        public static List<Commentaire> Commentaires { get; set; } = [];
 
         /// <summary>
         /// Constructeur statique pour initialiser les données.
@@ -95,7 +95,7 @@ namespace Webzine.Entity.Fixtures
             var random = new Random();
 
             // Générer les styles
-            Styles = StyleFake.Generate(20);
+            Styles = StyleFake.Generate(20).DistinctBy(s => s.Libelle).ToList();
 
             // Générer les artistes
             Artistes = ArtisteFake.Generate(30);
