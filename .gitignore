@@ -5,6 +5,8 @@ TestResults/
 .vs/
 Migrations/
 Webzine.db
+Webzine.db-shm
+Webzine.db-wal
 
 ### ASPNETCore ###
 ## Ignore Visual Studio temporary files, build results, and
