@@ -99,6 +99,9 @@ public static class Program
         }
 
         // Vérification et configuration de Repository
+        string usepathbase = Builder.Configuration["App:UsePathBase"] ?? string.Empty;
+
+        // Vérification et configuration de Repository
         if (!int.TryParse(Builder.Configuration["App:Pages:Home:NbTitresChroniquesParPaginations"], out int homeTitresChroniquesParPagination) || homeTitresChroniquesParPagination < 1)
         {
             homeTitresChroniquesParPagination = 3;
@@ -164,6 +167,12 @@ public static class Program
 
     private static void ConfigureMiddleware()
     {
+        string usepathbase = Builder!.Configuration.GetValue<string>("App:Seeder") ?? string.Empty;
+        if(usepathbase != string.Empty)
+        {
+            App!.UsePathBase(usepathbase);
+        }
+
         App!.UseStaticFiles();
         App!.UseRouting();
 
