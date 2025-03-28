@@ -53,6 +53,8 @@ public static class Program
             var context = scope.ServiceProvider.GetRequiredService<SQLiteContext>();
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
+
+            SeedDataLocal.Initialize(scope.ServiceProvider);
         }
 
         ConfigureMiddleware();
