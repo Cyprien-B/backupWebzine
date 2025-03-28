@@ -6,9 +6,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
     using Webzine.Entity;
-    using Webzine.Entity.Fixtures;
     using Webzine.Repository.Contracts;
-    using Webzine.WebApplication.Areas.Administration.ViewModels;
 
     /// <summary>
     /// Contrôleur de commentaire.
@@ -23,7 +21,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return this.View(commentaireRepository.FindAll().OrderBy(c => c.DateCreation).ToList());
+            return this.View(commentaireRepository.FindAll().OrderByDescending(c => c.DateCreation).ToList());
         }
 
         /// <summary>

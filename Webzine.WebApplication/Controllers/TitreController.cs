@@ -6,7 +6,6 @@ namespace Webzine.WebApplication.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
     using Webzine.Entity;
-    using Webzine.Entity.Fixtures;
     using Webzine.Repository.Contracts;
     using Webzine.WebApplication.ViewModels;
 
@@ -23,6 +22,8 @@ namespace Webzine.WebApplication.Controllers
         [HttpGet]
         public IActionResult Index(int id)
         {
+            titreRepository.IncrementNbLectures(new() { IdTitre = id });
+
             // TODO: Enlever le Model inutile.
             TitreModel model = new()
             {

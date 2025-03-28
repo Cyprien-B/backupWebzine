@@ -31,12 +31,12 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
                 ArtisteLePlusChronique = artisteRepository.FindAll()
                     .OrderByDescending(a => a.Titres.Count(t => !string.IsNullOrEmpty(t.Chronique)))
                     .FirstOrDefault() ?? new(),
-                NbBiographies = (uint)new Random().Next(200, 500),
+                NbBiographies = (uint)artisteRepository.FindAll().ToList().Where(a => a.Biographie != string.Empty).ToList().Count,
                 TitreLePlusLu = titreRepository.FindAll().OrderByDescending(t => t.NbLectures).First(),
-                NbLectures = (uint)new Random().Next(10000, 50000),
-                NbLikes = (uint)new Random().Next(9000, 25000),
+                NbLectures = (uint)titreRepository.FindAll().ToList().Sum(t => t.NbLectures),
+                NbLikes = (uint)titreRepository.FindAll().ToList().Sum(t => t.NbLikes),
                 NbStyles = (uint)styleRepository.FindAll().ToList().Count,
-                NbTitres = (uint)new Random().Next(500, 2000),
+                NbTitres = (uint)titreRepository.FindAll().ToList().Count,
             };
 
             return this.View(model);

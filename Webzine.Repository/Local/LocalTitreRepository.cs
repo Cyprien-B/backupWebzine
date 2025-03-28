@@ -107,6 +107,7 @@ namespace Webzine.Repository.Local
                 existingTitre.Artiste = Factory.Artistes.FirstOrDefault(a => a.IdArtiste == titre.IdArtiste) ?? new();
                 existingTitre.NbLectures = titre.NbLectures;
                 existingTitre.NbLikes = titre.NbLikes;
+                existingTitre.Styles = titre.Styles;
             }
         }
     }

@@ -6,7 +6,6 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
     using Webzine.Entity;
-    using Webzine.Entity.Fixtures;
     using Webzine.Repository.Contracts;
     using Webzine.WebApplication.Areas.Administration.ViewModels;
 
@@ -42,14 +41,33 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         }
 
         /// <summary>
-        /// Traite la soumission du formulaire de création d'un artiste.
+        /// Traite la soumission du formulaire de création d'un titre.
         /// </summary>
-        /// <param name="titre">Les données de l'artiste à créer.</param>
-        /// <returns>Le résultat de la création de l'artiste.</returns>
+        /// <param name="titre">Les données du titre créer.</param>
+        /// <param name="selectedStyleIds">Les id des styles du titre.</param>
+        /// <returns>Le résultat de la création du titre.</returns>
         [HttpPost]
-        public IActionResult Create([FromForm] Titre titre)
+        public IActionResult Create([FromForm] Titre titre, [FromForm] List<int> selectedStyleIds)
         {
+            if (!this.ModelState.IsValid)
+            {
+                foreach (var modelState in this.ModelState.Values)
+                {
+                    foreach (var error in modelState.Errors)
+                    {
+                        Console.WriteLine(error.ErrorMessage);
+                    }
+                }
+            }
+
+            // Récupérer les styles complets à partir des IDs sélectionnés
+            titre.Styles = styleRepository.FindAll()
+                .Where(s => selectedStyleIds.Contains(s.IdStyle))
+                .ToList();
+
+            // Ajouter le titre au dépôt ou à la base de données
             titreRepository.Add(titre);
+
             return this.RedirectToAction(nameof(this.Index));
         }
 
@@ -87,7 +105,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
             CreationAndEditionTitreModel model = new()
             {
                 Artistes = artisteRepository.FindAll().OrderBy(a => a.Nom).ToList(),
-                Styles = styleRepository.FindAll().ToList(),
+                Styles = styleRepository.FindAll().OrderBy(s => s.Libelle).ToList(),
                 Titre = titreRepository.Find(id),
             };
             return this.View(model);
@@ -97,11 +115,30 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         /// Traite la soumission du formulaire d'édition d'un artiste.
         /// </summary>
         /// <param name="titre">L'identifiant de l'artiste à éditer.</param>
+        /// <param name="selectedStyleIds">Les id des styles du titre.</param>
         /// <returns>Le résultat de l'édition de l'artiste.</returns>
         [HttpPost]
-        public IActionResult Edit([FromForm] Titre titre)
+        public IActionResult Edit([FromForm] Titre titre, [FromForm] List<int> selectedStyleIds)
         {
+            if (!this.ModelState.IsValid)
+            {
+                foreach (var modelState in this.ModelState.Values)
+                {
+                    foreach (var error in modelState.Errors)
+                    {
+                        Console.WriteLine(error.ErrorMessage);
+                    }
+                }
+            }
+
+            // Récupérer les styles complets à partir des IDs sélectionnés
+            titre.Styles = styleRepository.FindAll()
+                .Where(s => selectedStyleIds.Contains(s.IdStyle))
+                .ToList();
+
+            // Ajouter le titre au dépôt ou à la base de données
             titreRepository.Update(titre);
+
             return this.RedirectToAction(nameof(this.Index));
         }
     }

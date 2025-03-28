@@ -24,6 +24,7 @@ namespace Webzine.Repository.Local
 
             // Assigner le nouvel ID au commentaire
             commentaire.IdCommentaire = newId;
+            commentaire.Titre = Factory.Titres.First(t => t.IdTitre == commentaire.IdTitre);
 
             // Ajouter le commentaire à la collection
             Factory.Commentaires.Add(commentaire);
@@ -33,8 +34,21 @@ namespace Webzine.Repository.Local
         /// <inheritdoc/>
         public void Delete(Commentaire commentaire)
         {
-            Factory.Commentaires.RemoveAll(c => c.IdCommentaire == commentaire.IdCommentaire);
-            Factory.Titres.First(t => t.IdTitre == commentaire.IdTitre).Commentaires.ToList().RemoveAll(c => commentaire.IdCommentaire == c.IdCommentaire);
+            // Trouver le vrai commentaire à partir de l'ID fourni
+            Commentaire vraiCommentaire = Factory.Commentaires.First(c => c.IdCommentaire == commentaire.IdCommentaire);
+
+            // Supprimer le commentaire de la liste globale des commentaires
+            Factory.Commentaires.Remove(vraiCommentaire);
+
+            // Trouver le titre associé au commentaire
+            var titreConcerne = Factory.Titres.First(t => t.IdTitre == vraiCommentaire.IdTitre);
+
+            // Supprimer le commentaire de la liste des commentaires du titre
+            var commentaireASupprimer = titreConcerne.Commentaires.FirstOrDefault(c => c.IdCommentaire == vraiCommentaire.IdCommentaire);
+            if (commentaireASupprimer != null)
+            {
+                titreConcerne.Commentaires.Remove(commentaireASupprimer);
+            }
         }
 
         /// <inheritdoc/>

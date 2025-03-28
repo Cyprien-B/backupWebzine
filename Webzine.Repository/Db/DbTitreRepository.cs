@@ -18,8 +18,26 @@ namespace Webzine.Repository.Db
         /// <inheritdoc/>
         public void Add(Titre titre)
         {
-            context.Titres.Add(titre);
-            context.SaveChanges();
+            try
+            {
+                // Vérifiez que l'ID de l'artiste est défini
+                if (titre.IdArtiste != 0)  // Assurez-vous que le nom de la propriété est correct
+                {
+                    // Attachez l'artiste existant au contexte
+                    var artisteExistant = new Artiste { IdArtiste = titre.IdArtiste };
+                    context.Artistes.Attach(artisteExistant);
+
+                    // Assurez-vous que la référence à l'artiste est correcte
+                    titre.Artiste = artisteExistant;
+                }
+
+                context.Titres.Add(titre);
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                // TODO: Log exception.
+            }
         }
 
         /// <inheritdoc/>
