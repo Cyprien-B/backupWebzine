@@ -3,14 +3,10 @@
 L'équipe de développement était composée de quatre membres, chacun ayant un rôle
 bien défini en fonction de ses compétences et affinités :
 
--   **Diego Coppin** : Tech Lead, responsable des décisions techniques et de la
-    coordination du développement.
--   **Cyprien Bordet** : Assistant chef de projet et développeur, en charge de
-    l'organisation et du développement de certaines fonctionnalités.
--   **Matteo Barrand** : Développeur, responsable de la création du système de
-    fausses données et de plusieurs écrans.
--   **Esteban Fichet** : Développeur, en charge de la page de contact et de la
-    recherche d'entreprise pour son stage de fin d'année.
+-   **Diego Coppin** : Tech Lead.
+-   **Cyprien Bordet** : Assistant chef de projet et développeur.
+-   **Matteo Barrand** : Développeur.
+-   **Esteban Fichet** : Développeur.
 
 ### Méthodologie de Travail
 
@@ -45,4 +41,20 @@ la documentation et développé l'écran de détail d'un artiste.
 autres membres de l'équipe, il a également pris du temps pour chercher une
 entreprise pour son stage de fin d'année.
 
----²
+### Pour le Sprint 2
+
+**Diego** a encore joué un grand rôle dans le travail de cette semaine. Il a été
+d'une grande aide pour les autres développeurs et a énormément travaillé sur les
+retours du client et affiné le code du Jalon 1. Il s'est occupé de l'injection
+des dépendances et du TitreRepositorie. De plus, il s'est occupé de
+l'intégration dans le code existant des fonctionnalités ajoutées au moment du
+merge des branches.
+
+**Matteo** a mis en place tous les repositories locaux et a affiné les vues, il
+a aussi aidé à déboguer le projet.
+
+**Cyprien** a mis en place les interfaces, le DbContext et la base de données
+SQLite, la seed et le StyleRepositorie, en plus de la documentation.
+
+**Esteban**a mis en place le CommentaireRepositorie et a aidé Matteo sur les
+tâches d'affinage des vues.

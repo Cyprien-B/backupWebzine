@@ -19,3 +19,14 @@ sprint 1.
 Un autre défi a été la densité du cahier des charges, qui a été une source de
 stress constante. Nous avons passé énormément de temps à échanger sur tous les
 détails à respecter, ce qui a parfois ralenti notre progression.
+
+### Sprint 2
+
+Un des problèmes que nous avons rencontrés a été l'intégration des titres dans
+la base de données. En effet, notre factory de fausses données était trop
+complexe. Nous avions voulu bien séparer toutes les factories, mais cela a
+entraîné une complexité dans la sélection de l'ordre de génération des fausses
+données. De plus, nous avions créé par erreur une seconde liste de titres liés à
+l'artiste, et donc leur administration était impossible. Nous avons résolu le
+problème en simplifiant la factory et en modifiant le code déjà créé pour que
+tous les titres soient liés à une seule source de données.
