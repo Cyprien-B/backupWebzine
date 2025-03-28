@@ -1,0 +1,16 @@
+﻿@model List<Webzine.Entity.Artiste>
+
+@if (!Model.Any())
+{
+    <p>Aucun artiste.</p>
+}
+else
+{
+    @foreach (var artiste in Model)
+    {
+        <div class="mb-2">
+            <i class="fa fa-user"></i>
+            <a asp-controller="Artiste" asp-action="Index" asp-route-nomArtiste="@artiste.Nom" class="text-decoration-none">@artiste.Nom</a>
+        </div>
+    }
+}

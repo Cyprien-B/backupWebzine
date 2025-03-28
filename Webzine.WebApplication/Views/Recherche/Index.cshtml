@@ -14,20 +14,7 @@
             <!-- Section Artistes -->
             <div class="mb-5">
                 <h2 class="h4 mb-3">Artistes</h2>
-                @if (!Model.Artistes.Any())
-                {
-                    <p>Aucun artiste.</p>
-                }
-                else
-                {
-                    @foreach (var artiste in Model.Artistes)
-                    {
-                        <div class="mb-2">
-                            <i class="fa fa-user"></i>
-                            <a asp-controller="Artiste" asp-action="Index" asp-route-nomArtiste="@artiste.Nom" class="text-decoration-none">@artiste.Nom</a>
-                        </div>
-                    }
-                }
+                @await Component.InvokeAsync("ArtistesList", Model.Artistes)
             </div>
 
             <!-- Section Titres -->
