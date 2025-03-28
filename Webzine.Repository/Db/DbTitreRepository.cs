@@ -18,26 +18,38 @@ namespace Webzine.Repository.Db
         /// <inheritdoc/>
         public void Add(Titre titre)
         {
-            try
+            // Vérifier si l'artiste existe déjà
+            Artiste? artisteExistant = context.Artistes.Find(titre.IdArtiste);
+            if (artisteExistant == null)
             {
-                // Vérifiez que l'ID de l'artiste est défini
-                if (titre.IdArtiste != 0)  // Assurez-vous que le nom de la propriété est correct
-                {
-                    // Attachez l'artiste existant au contexte
-                    var artisteExistant = new Artiste { IdArtiste = titre.IdArtiste };
-                    context.Artistes.Attach(artisteExistant);
-
-                    // Assurez-vous que la référence à l'artiste est correcte
-                    titre.Artiste = artisteExistant;
-                }
-
-                context.Titres.Add(titre);
-                context.SaveChanges();
+                throw new InvalidDataException("L'artiste spécifié n'existe pas");
             }
-            catch (Exception ex)
+
+            // Charger les styles existants
+            IList<Style> stylesExistants = context.Styles
+                .Where(s => titre.Styles.Select(ts => ts.IdStyle).Contains(s.IdStyle))
+                .ToList();
+
+            if (stylesExistants.Count != titre.Styles.Count)
             {
-                // TODO: Log exception.
+                throw new InvalidDataException("Un ou plusieurs styles spécifiés n'existent pas");
             }
+
+            // Associer l'artiste existant au titre
+            titre.Artiste = artisteExistant;
+
+            // Remplacer les styles du titre par les styles existants
+            titre.Styles.Clear();
+            foreach (Style style in stylesExistants)
+            {
+                titre.Styles.Add(style);
+            }
+
+            // Ajouter le titre
+            context.Titres.Add(titre);
+
+            // Sauvegarder les changements
+            context.SaveChanges();
         }
 
         /// <inheritdoc/>
@@ -49,14 +61,46 @@ namespace Webzine.Repository.Db
         /// <inheritdoc/>
         public void Delete(Titre titre)
         {
-            context.Titres.Remove(titre);
-            context.SaveChanges();
+            // Charger le titre existant avec toutes ses relations
+            var titreExistant = context.Titres
+                .Include(t => t.Artiste)
+                .Include(t => t.Styles)
+                .Include(t => t.Commentaires)
+                .FirstOrDefault(t => t.IdTitre == titre.IdTitre);
+
+            if (titreExistant != null)
+            {
+                // Supprimer les commentaires associés
+                context.Commentaires.RemoveRange(titreExistant.Commentaires);
+
+                // Retirer le titre de la collection de titres de l'artiste
+                if (titreExistant.Artiste != null)
+                {
+                    titreExistant.Artiste.Titres.Remove(titreExistant);
+                }
+
+                // Retirer le titre des collections de titres des styles
+                foreach (var style in titreExistant.Styles.ToList())
+                {
+                    style.Titres.Remove(titreExistant);
+                }
+
+                // Supprimer le titre
+                context.Titres.Remove(titreExistant);
+
+                // Sauvegarder les changements
+                context.SaveChanges();
+            }
+            else
+            {
+                throw new InvalidDataException("Le titre est inexistant");
+            }
         }
 
         /// <inheritdoc/>
         public Titre Find(int idTitre)
         {
-            return context.Titres.Include(t => t.Artiste).Include(t => t.Styles).FirstOrDefault(t => t.IdTitre == idTitre) ?? new Titre();
+            return context.Titres.Include(t => t.Artiste).Include(t => t.Styles).Include(t => t.Commentaires).Single(t => t.IdTitre == idTitre) ?? throw new Exception("Aucun titre correspondant à l'id.");
         }
 
         /// <inheritdoc/>
@@ -122,16 +166,47 @@ namespace Webzine.Repository.Db
         /// <inheritdoc/>
         public void Update(Titre titre)
         {
-            var existingTitre = context.Titres.Find(titre.IdTitre);
+            var existingTitre = context.Titres
+                .Include(t => t.Artiste)
+                .Include(t => t.Styles)
+                .Include(t => t.Commentaires)
+                .FirstOrDefault(t => t.IdTitre == titre.IdTitre);
+
             if (existingTitre == null)
             {
-                this.Add(titre);
+                throw new InvalidDataException("Le titre à mettre à jour n'existe pas");
             }
-            else
+
+            // Mise à jour de l'artiste
+            var artisteExistant = context.Artistes.Find(titre.IdArtiste);
+            if (artisteExistant == null)
             {
-                context.Entry(existingTitre).CurrentValues.SetValues(titre);
-                context.SaveChanges();
+                throw new InvalidDataException("L'artiste spécifié n'existe pas");
             }
+
+            existingTitre.Artiste = artisteExistant;
+
+            // Mise à jour des styles
+            var stylesExistants = context.Styles
+                .Where(s => titre.Styles.Select(ts => ts.IdStyle).Contains(s.IdStyle))
+                .ToList();
+
+            if (stylesExistants.Count != titre.Styles.Count)
+            {
+                throw new InvalidDataException("Un ou plusieurs styles spécifiés n'existent pas");
+            }
+
+            existingTitre.Styles.Clear();
+            foreach (var style in stylesExistants)
+            {
+                existingTitre.Styles.Add(style);
+            }
+
+            // Mise à jour des propriétés simples
+            context.Entry(existingTitre).CurrentValues.SetValues(titre);
+
+            // Les commentaires ne sont généralement pas mis à jour lors de la mise à jour d'un titre
+            context.SaveChanges();
         }
     }
 }

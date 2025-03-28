@@ -168,7 +168,7 @@ public static class Program
     private static void ConfigureMiddleware()
     {
         string usepathbase = Builder!.Configuration.GetValue<string>("App:UsePathBase") ?? string.Empty;
-        if(usepathbase != string.Empty)
+        if (usepathbase != string.Empty)
         {
             App!.UsePathBase(usepathbase);
         }
