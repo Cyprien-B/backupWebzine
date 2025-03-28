@@ -60,6 +60,8 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
                 }
             }
 
+            titre.UrlEcoute ??= string.Empty;
+
             // Récupérer les styles complets à partir des IDs sélectionnés
             titre.Styles = styleRepository.FindAll()
                 .Where(s => selectedStyleIds.Contains(s.IdStyle))
@@ -130,6 +132,8 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
                     }
                 }
             }
+
+            titre.UrlEcoute ??= string.Empty;
 
             // Récupérer les styles complets à partir des IDs sélectionnés
             titre.Styles = styleRepository.FindAll()

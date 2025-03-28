@@ -3,8 +3,6 @@
 // </copyright>
 
 using Microsoft.EntityFrameworkCore;
-using Webzine.Entity;
-using Webzine.Entity.Fixtures;
 using Webzine.EntityContext.Dbcontext;
 using Webzine.Repository.Contracts;
 using Webzine.Repository.Db;
