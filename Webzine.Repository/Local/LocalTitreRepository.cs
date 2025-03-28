@@ -15,6 +15,14 @@ namespace Webzine.Repository.Local
         /// <inheritdoc/>
         public void Add(Titre titre)
         {
+            // Vérifier si un titre avec le même libellé existe déjà pour cet artiste
+            bool titreExiste = Factory.Titres.Any(t => t.Libelle == titre.Libelle && t.IdArtiste == titre.IdArtiste);
+            if (titreExiste)
+            {
+                // Le titre existe déjà, on ne fait rien
+                return;
+            }
+
             // Trouver le premier ID disponible
             int newId = 1;
             while (Factory.Titres.Any(t => t.IdTitre == newId))
