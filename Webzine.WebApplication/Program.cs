@@ -181,7 +181,7 @@ public static class Program
         {
             if (context.HttpContext.Response.StatusCode == 404)
             {
-                context.HttpContext.Response.Redirect("/Home/NotFound404");
+                context.HttpContext.Response.Redirect(usepathbase + "/Home/NotFound404");
             }
 
             return Task.CompletedTask;
