@@ -48,15 +48,7 @@ public static class Program
 
         App = Builder.Build();
 
-        // Vider et recréer la base de données
-        using (var scope = App.Services.CreateScope())
-        {
-            var context = scope.ServiceProvider.GetRequiredService<SQLiteContext>();
-            context.Database.EnsureDeleted();
-            context.Database.EnsureCreated();
-
-            SeedDataLocal.Initialize(scope.ServiceProvider);
-        }
+        SeedDataBase();
 
         ConfigureMiddleware();
 
@@ -94,7 +86,7 @@ public static class Program
 
         // Vérification et configuration de Seeder
         string seeder = Builder.Configuration["App:Seeder"] ?? string.Empty;
-        if (string.IsNullOrEmpty(seeder) || !seeder.Equals("Local", StringComparison.OrdinalIgnoreCase))
+        if (string.IsNullOrEmpty(seeder) || (!seeder.Equals("Local", StringComparison.OrdinalIgnoreCase) && !seeder.Equals("Ignore", StringComparison.OrdinalIgnoreCase)))
         {
             Builder.Configuration["App:Seeder"] = "Local";
         }
@@ -185,5 +177,20 @@ public static class Program
 
             return Task.CompletedTask;
         });
+    }
+
+    private static void SeedDataBase()
+    {
+        // Vider et recréer la base de données
+        using (var scope = App!.Services.CreateScope())
+        {
+            var context = scope.ServiceProvider.GetRequiredService<SQLiteContext>();
+            context.Database.EnsureDeleted();
+            context.Database.EnsureCreated();
+            if (Builder!.Configuration.GetValue<string>("App:Seeder") != "Ignore")
+            {
+                SeedDataLocal.Initialize(scope.ServiceProvider);
+            }
+        }
     }
 }
