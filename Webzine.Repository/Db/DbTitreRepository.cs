@@ -25,6 +25,14 @@ namespace Webzine.Repository.Db
                 throw new InvalidDataException("L'artiste spécifié n'existe pas");
             }
 
+            // Vérifier si un titre avec le même libellé existe déjà pour cet artiste
+            bool titreExiste = context.Titres.Any(t => t.Libelle == titre.Libelle && t.IdArtiste == titre.IdArtiste);
+            if (titreExiste)
+            {
+                // Le titre existe déjà, on ne fait rien
+                return;
+            }
+
             // Charger les styles existants
             IList<Style> stylesExistants = context.Styles
                 .Where(s => titre.Styles.Select(ts => ts.IdStyle).Contains(s.IdStyle))
