@@ -4,11 +4,10 @@
 
 namespace Webzine.Entity
 {
-    using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
+    using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
     /// <summary>
     /// Entite de titre.
