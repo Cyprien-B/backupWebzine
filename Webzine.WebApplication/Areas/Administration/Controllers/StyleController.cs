@@ -42,6 +42,16 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpPost]
         public IActionResult Create([FromForm] Style style)
         {
+            // Vérifie si le libellé existe déjà dans la base de données
+            // TODO: Modifier l'emplacement et/ou créer un service ou une méthode de repository qui vient vérifier l'existence du libelle.
+            bool styleExiste = styleRepository.FindAll().Any(s => s.Libelle == style.Libelle);
+
+            if (styleExiste)
+            {
+                // Ajoute une erreur au ModelState pour le champ "Libelle"
+                this.ModelState.AddModelError("Libelle", "Le libellé de style existe déjà.");
+            }
+
             if (this.ModelState.IsValid)
             {
                 styleRepository.Add(style);
@@ -94,6 +104,16 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpPost]
         public IActionResult Edit([FromForm] Style style)
         {
+            // Vérifie si le libellé existe déjà dans la base de données
+            // TODO: Modifier l'emplacement et/ou créer un service ou une méthode de repository qui vient vérifier l'existence du libelle.
+            bool styleExiste = styleRepository.FindAll().Any(s => s.Libelle == style.Libelle);
+
+            if (styleExiste)
+            {
+                // Ajoute une erreur au ModelState pour le champ "Libelle"
+                this.ModelState.AddModelError("Libelle", "Le libellé de style existe déjà.");
+            }
+
             if (this.ModelState.IsValid)
             {
                 styleRepository.Update(style);

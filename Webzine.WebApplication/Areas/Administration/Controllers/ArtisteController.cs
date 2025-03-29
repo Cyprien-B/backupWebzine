@@ -7,6 +7,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Webzine.Entity;
     using Webzine.Repository.Contracts;
+    using Webzine.Repository.Local;
 
     /// <summary>
     /// Contrôleur des artistes.
@@ -42,6 +43,16 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpPost]
         public IActionResult Create([FromForm] Artiste artiste)
         {
+            // Vérifie si le libellé existe déjà dans la base de données
+            // TODO: Modifier l'emplacement et/ou créer un service ou une méthode de repository qui vient vérifier l'existence de l'artiste.
+            bool artisteExiste = artisteRepository.FindAll().Any(a => a.Nom == artiste.Nom);
+
+            if (artisteExiste)
+            {
+                // Ajoute une erreur au ModelState pour le champ "Libelle"
+                this.ModelState.AddModelError("Nom", "Cette artiste existe déjà.");
+            }
+
             if (this.ModelState.IsValid)
             {
                 artiste.Biographie ??= string.Empty;
@@ -94,6 +105,16 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpPost]
         public IActionResult Edit([FromForm] Artiste artiste)
         {
+            // Vérifie si le libellé existe déjà dans la base de données
+            // TODO: Modifier l'emplacement et/ou créer un service ou une méthode de repository qui vient vérifier l'existence de l'artiste.
+            bool artisteExiste = artisteRepository.FindAll().Any(a => a.Nom == artiste.Nom);
+
+            if (artisteExiste)
+            {
+                // Ajoute une erreur au ModelState pour le champ "Libelle"
+                this.ModelState.AddModelError("Nom", "Cette artiste existe déjà.");
+            }
+
             if (this.ModelState.IsValid)
             {
                 artiste.Biographie ??= string.Empty;

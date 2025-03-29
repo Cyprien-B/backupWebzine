@@ -49,6 +49,18 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpPost]
         public IActionResult Create([FromForm] Titre titre, [FromForm] List<int> selectedStyleIds)
         {
+            // Vérifie si un titre avec le même libellé existe déjà pour le même artiste
+            // TODO: Modifier l'emplacement et/ou créer un service ou une méthode de repository qui vient vérifier l'existence du libelle.
+            bool titreExiste = titreRepository
+                .FindAll()
+                .Any(t => t.Libelle == titre.Libelle && t.IdArtiste == titre.IdArtiste);
+
+            if (titreExiste)
+            {
+                // Ajoute une erreur au ModelState pour le champ "Libelle"
+                this.ModelState.AddModelError("Titre.Libelle", "Un titre avec ce libellé existe déjà pour cet artiste.");
+            }
+
             if (this.ModelState.IsValid)
             {
                 titre.UrlEcoute ??= string.Empty;
