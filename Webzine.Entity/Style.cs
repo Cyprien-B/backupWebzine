@@ -20,9 +20,9 @@ namespace Webzine.Entity
         /// <summary>
         /// Obtient ou définit le libellé d'un style (rap, jazz, classique...).
         /// </summary>
-        [Required]
-        [MaxLength(50)]
-        [MinLength(2)]
+        [Required(ErrorMessage = "Le libellé du style est obligatoire.")]
+        [MaxLength(50, ErrorMessage = "La longueur maximale autorisée pour le libellé est de 50 caractères.")]
+        [MinLength(2, ErrorMessage = "La longueur minimale requise pour le libellé est de 2 caractères.")]
         [Display(Name = "Libellé")]
         public string Libelle { get; set; } = string.Empty;
 

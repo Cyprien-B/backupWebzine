@@ -23,9 +23,9 @@ namespace Webzine.Entity
         /// Obtient ou définit le nom de l'artiste.
         /// Le nom est obligatoire et doit contenir entre 2 et 50 caractères.
         /// </summary>
-        [Required]
-        [MaxLength(50)]
-        [MinLength(2)]
+        [Required(ErrorMessage = "Le nom de l'artiste est obligatoire.")]
+        [MaxLength(50, ErrorMessage = "La longueur maximale autorisée pour le nom d'artiste est de 50 caractères.")]
+        [MinLength(2, ErrorMessage = "La longueur minimale requise pour le nom d'artiste est de 2 caractères.")]
         [Display(Name = "Nom de l'artiste")]
         public string Nom { get; set; } = string.Empty;
 

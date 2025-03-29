@@ -22,25 +22,25 @@ namespace Webzine.Entity
         /// <summary>
         /// Obtient ou définit le contenu d'un commentaire.
         /// </summary>
-        [Required]
-        [MaxLength(1000)]
-        [MinLength(10)]
+        [Required(ErrorMessage = "Ce champ est requis")]
+        [MaxLength(1000, ErrorMessage = "La longueur maximale autorisée pour le contenu du commentaire est de 1000 caractères.")]
+        [MinLength(10, ErrorMessage = "La longueur minimale autorisée pour le contenu du commentaire est de 10 caractères.")]
         [Display(Name = "Commentaire")]
         public string Contenu { get; set; } = string.Empty;
 
         /// <summary>
         /// Obtient ou définit l'auteur qui a écrit le message.
         /// </summary>
-        [Required]
-        [MinLength(2)]
-        [MaxLength(30)]
+        [Required(ErrorMessage = "Ce champ est requis")]
+        [MinLength(2, ErrorMessage = "La longueur minimale autorisée pour l'auteur du commentaire est de 2 caractères.")]
+        [MaxLength(30, ErrorMessage = "La longueur maximale autorisée pour l'auteur du commentaire est de 30 caractères.")]
         [Display(Name = "Nom")]
         public string Auteur { get; set; } = string.Empty;
 
         /// <summary>
         /// Obtient ou définit la date de publication du commentaire.
         /// </summary>
-        [Required]
+        [Required(ErrorMessage = "Ce champ est requis")]
         [Display(Name = "Date de création")]
         public DateTime DateCreation { get; set; } = DateTime.Now;
 
