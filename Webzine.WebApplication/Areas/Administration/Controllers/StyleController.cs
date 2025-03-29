@@ -42,8 +42,13 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpPost]
         public IActionResult Create([FromForm] Style style)
         {
-            styleRepository.Add(style);
-            return this.RedirectToAction(nameof(this.Index));
+            if (this.ModelState.IsValid)
+            {
+                styleRepository.Add(style);
+                return this.RedirectToAction(nameof(this.Index));
+            }
+
+            return this.View(style);
         }
 
         /// <summary>
@@ -89,9 +94,14 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpPost]
         public IActionResult Edit([FromForm] Style style)
         {
-            styleRepository.Update(style);
+            if (this.ModelState.IsValid)
+            {
+                styleRepository.Update(style);
 
-            return this.RedirectToAction(nameof(this.Index));
+                return this.RedirectToAction(nameof(this.Index));
+            }
+
+            return this.View(style);
         }
     }
 }

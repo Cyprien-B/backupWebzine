@@ -35,6 +35,11 @@ public static class Program
 
         AddDependenciesInjections();
 
+        Builder.Services.AddControllersWithViews(options =>
+        {
+            options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+        });
+
         // Gestion de la connection a SQLite
         Builder.Services.AddDbContext<SQLiteContext>(options =>
             options.UseSqlite(
