@@ -9,6 +9,7 @@ using Webzine.EntityContext.Dbcontext;
 using Webzine.Repository.Contracts;
 using Webzine.Repository.Db;
 using Webzine.Repository.Local;
+using Webzine.WebApplication.Seeder;
 
 /// <summary>
 /// Contient le point d'entrée principal de l'application.
