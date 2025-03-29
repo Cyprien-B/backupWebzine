@@ -3,8 +3,6 @@
 // </copyright>
 
 using Microsoft.EntityFrameworkCore;
-using Webzine.Entity;
-using Webzine.Entity.Fixtures;
 using Webzine.EntityContext.Dbcontext;
 using Webzine.Repository.Contracts;
 using Webzine.Repository.Db;
@@ -36,6 +34,11 @@ public static class Program
         CheckConfigurations();
 
         AddDependenciesInjections();
+
+        Builder.Services.AddControllersWithViews(options =>
+        {
+            options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+        });
 
         // Gestion de la connection a SQLite
         Builder.Services.AddDbContext<SQLiteContext>(options =>
@@ -168,7 +171,7 @@ public static class Program
     private static void ConfigureMiddleware()
     {
         string usepathbase = Builder!.Configuration.GetValue<string>("App:UsePathBase") ?? string.Empty;
-        if(usepathbase != string.Empty)
+        if (usepathbase != string.Empty)
         {
             App!.UsePathBase(usepathbase);
         }

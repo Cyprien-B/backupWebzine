@@ -20,30 +20,8 @@ namespace Webzine.Entity.Fixtures
         private static readonly Faker<Commentaire> CommentaireFake;
         private static readonly Faker<Style> StyleFake;
 
-        // Propriétés publiques pour accéder aux listes générées
-
         /// <summary>
-        /// Obtient ou définit une liste de faux artistes.
-        /// </summary>
-        public static List<Artiste> Artistes { get; set; } = [];
-
-        /// <summary>
-        /// Obtient ou définit une liste de faux styles.
-        /// </summary>
-        public static List<Style> Styles { get; set; } = [];
-
-        /// <summary>
-        /// Obtient ou définit une liste de faux styles.
-        /// </summary>
-        public static List<Titre> Titres { get; set; } = [];
-
-        /// <summary>
-        /// Obtient ou définit une liste de faux styles.
-        /// </summary>
-        public static List<Commentaire> Commentaires { get; set; } = [];
-
-        /// <summary>
-        /// Constructeur statique pour initialiser les données.
+        /// Initialise les membres statiques de la classe <see cref="Factory"/>.
         /// </summary>
         static Factory()
         {
@@ -89,6 +67,28 @@ namespace Webzine.Entity.Fixtures
             // Génération des données cohérentes
             GenerateAllData();
         }
+
+        // Propriétés publiques pour accéder aux listes générées
+
+        /// <summary>
+        /// Obtient ou définit une liste de faux artistes.
+        /// </summary>
+        public static List<Artiste> Artistes { get; set; } = [];
+
+        /// <summary>
+        /// Obtient ou définit une liste de faux styles.
+        /// </summary>
+        public static List<Style> Styles { get; set; } = [];
+
+        /// <summary>
+        /// Obtient ou définit une liste de faux styles.
+        /// </summary>
+        public static List<Titre> Titres { get; set; } = [];
+
+        /// <summary>
+        /// Obtient ou définit une liste de faux styles.
+        /// </summary>
+        public static List<Commentaire> Commentaires { get; set; } = [];
 
         private static void GenerateAllData()
         {

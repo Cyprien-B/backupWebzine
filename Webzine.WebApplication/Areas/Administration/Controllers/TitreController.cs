@@ -49,26 +49,29 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpPost]
         public IActionResult Create([FromForm] Titre titre, [FromForm] List<int> selectedStyleIds)
         {
-            if (!this.ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                foreach (var modelState in this.ModelState.Values)
-                {
-                    foreach (var error in modelState.Errors)
-                    {
-                        Console.WriteLine(error.ErrorMessage);
-                    }
-                }
+                titre.UrlEcoute ??= string.Empty;
+
+                // Récupérer les styles complets à partir des IDs sélectionnés
+                titre.Styles = styleRepository.FindAll()
+                    .Where(s => selectedStyleIds.Contains(s.IdStyle))
+                    .ToList();
+
+                // Ajouter le titre au dépôt ou à la base de données
+                titreRepository.Add(titre);
+
+                return this.RedirectToAction(nameof(this.Index));
             }
 
-            // Récupérer les styles complets à partir des IDs sélectionnés
-            titre.Styles = styleRepository.FindAll()
-                .Where(s => selectedStyleIds.Contains(s.IdStyle))
-                .ToList();
+            CreationAndEditionTitreModel model = new()
+            {
+                Artistes = artisteRepository.FindAll().OrderBy(a => a.Nom).ToList(),
+                Styles = styleRepository.FindAll().OrderBy(s => s.Libelle).ToList(),
+                Titre = titre,
+            };
 
-            // Ajouter le titre au dépôt ou à la base de données
-            titreRepository.Add(titre);
-
-            return this.RedirectToAction(nameof(this.Index));
+            return this.View(model);
         }
 
         /// <summary>
@@ -120,26 +123,29 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpPost]
         public IActionResult Edit([FromForm] Titre titre, [FromForm] List<int> selectedStyleIds)
         {
-            if (!this.ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                foreach (var modelState in this.ModelState.Values)
-                {
-                    foreach (var error in modelState.Errors)
-                    {
-                        Console.WriteLine(error.ErrorMessage);
-                    }
-                }
+                titre.UrlEcoute ??= string.Empty;
+
+                // Récupérer les styles complets à partir des IDs sélectionnés
+                titre.Styles = styleRepository.FindAll()
+                    .Where(s => selectedStyleIds.Contains(s.IdStyle))
+                    .ToList();
+
+                // Ajouter le titre au dépôt ou à la base de données
+                titreRepository.Update(titre);
+
+                return this.RedirectToAction(nameof(this.Index));
             }
 
-            // Récupérer les styles complets à partir des IDs sélectionnés
-            titre.Styles = styleRepository.FindAll()
-                .Where(s => selectedStyleIds.Contains(s.IdStyle))
-                .ToList();
+            CreationAndEditionTitreModel model = new()
+            {
+                Artistes = artisteRepository.FindAll().OrderBy(a => a.Nom).ToList(),
+                Styles = styleRepository.FindAll().OrderBy(s => s.Libelle).ToList(),
+                Titre = titre,
+            };
 
-            // Ajouter le titre au dépôt ou à la base de données
-            titreRepository.Update(titre);
-
-            return this.RedirectToAction(nameof(this.Index));
+            return this.View(model);
         }
     }
 }

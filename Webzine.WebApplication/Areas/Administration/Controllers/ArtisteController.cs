@@ -42,8 +42,14 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpPost]
         public IActionResult Create([FromForm] Artiste artiste)
         {
-            artisteRepository.Add(artiste);
-            return this.RedirectToAction(nameof(this.Index));
+            if (this.ModelState.IsValid)
+            {
+                artiste.Biographie ??= string.Empty;
+                artisteRepository.Add(artiste);
+                return this.RedirectToAction(nameof(this.Index));
+            }
+
+            return this.View(artiste);
         }
 
         /// <summary>
@@ -88,8 +94,14 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpPost]
         public IActionResult Edit([FromForm] Artiste artiste)
         {
-            artisteRepository.Update(artiste);
-            return this.RedirectToAction(nameof(this.Index));
+            if (this.ModelState.IsValid)
+            {
+                artiste.Biographie ??= string.Empty;
+                artisteRepository.Update(artiste);
+                return this.RedirectToAction(nameof(this.Index));
+            }
+
+            return this.View(artiste);
         }
     }
 }

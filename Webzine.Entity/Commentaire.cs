@@ -6,6 +6,7 @@ namespace Webzine.Entity
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
     /// <summary>
     /// Entite des commentaire.
@@ -51,6 +52,7 @@ namespace Webzine.Entity
         /// <summary>
         /// Obtient ou définit le titre auquel le commentaire est associé.
         /// </summary>
+        [ValidateNever]
         public Titre Titre { get; set; } = new();
     }
 }

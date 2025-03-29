@@ -13,47 +13,72 @@ namespace Webzine.Repository.Db
     using Webzine.Repository.Contracts;
 
     /// <inheritdoc/>
-    public class DbCommentaireRepository : ICommentaireRepository
+    public class DbCommentaireRepository(SQLiteContext context) : ICommentaireRepository
     {
-        private readonly SQLiteContext context;
-
-        /// <summary>
-        /// Initialise une nouvelle instance de la classe <see cref="DbCommentaireRepository"/>.
-        /// </summary>
-        /// <param name="context">Le contexte de base de données SQLite.</param>
-        public DbCommentaireRepository(SQLiteContext context)
-        {
-            this.context = context;
-        }
-
         /// <inheritdoc/>
         public void Add(Commentaire commentaire)
         {
-            if (commentaire == null)
-            {
-                throw new ArgumentNullException(nameof(commentaire));
-            }
+            // Charger le titre existant sans inclure les commentaires
+            Titre? titreExistant = context.Titres
+                .Include(t => t.Artiste)
+                .Include(t => t.Styles)
+                .Include(t => t.Commentaires)
+                .FirstOrDefault(t => t.IdTitre == commentaire.IdTitre);
 
-            this.context.Commentaires.Add(commentaire);
-            this.context.SaveChanges();
+            if (titreExistant != null)
+            {
+                // Ajouter le commentaire à la collection de commentaires du titre
+                titreExistant.Commentaires.Add(commentaire);
+
+                commentaire.Titre = titreExistant;
+
+                // Ajouter le commentaire
+                context.Commentaires.Add(commentaire);
+
+                // Sauvegarder les changements
+                context.SaveChanges();
+            }
+            else
+            {
+                throw new InvalidDataException("Le titre est inexistant");
+            }
         }
 
         /// <inheritdoc/>
         public void Delete(Commentaire commentaire)
         {
-            if (commentaire == null)
-            {
-                throw new ArgumentNullException(nameof(commentaire));
-            }
+            // Charger le commentaire existant avec son titre et les entités liées
+            var commentaireExistant = context.Commentaires
+                .Include(c => c.Titre)
+                .ThenInclude(t => t.Artiste)
+                .Include(c => c.Titre)
+                .ThenInclude(t => t.Styles)
+                .FirstOrDefault(c => c.IdCommentaire == commentaire.IdCommentaire);
 
-            this.context.Commentaires.Remove(commentaire);
-            this.context.SaveChanges();
+            if (commentaireExistant != null)
+            {
+                // Vérifier si le titre associé existe et retirer le commentaire de sa collection
+                if (commentaireExistant.Titre != null)
+                {
+                    commentaireExistant.Titre.Commentaires.Remove(commentaireExistant);
+                }
+
+                // Supprimer le commentaire
+                context.Commentaires.Remove(commentaireExistant);
+
+                // Sauvegarder les changements
+                context.SaveChanges();
+            }
+            else
+            {
+                throw new InvalidDataException("Le commentaire est inexistant");
+            }
         }
 
         /// <inheritdoc/>
         public Commentaire Find(int id)
         {
-            return this.context.Commentaires
+            return context.Commentaires
                 .Include(c => c.Titre)
                 .FirstOrDefault(c => c.IdCommentaire == id) ?? new Commentaire();
         }
@@ -61,7 +86,7 @@ namespace Webzine.Repository.Db
         /// <inheritdoc/>
         public IEnumerable<Commentaire> FindAll()
         {
-            return this.context.Commentaires
+            return context.Commentaires
                 .Include(c => c.Titre)
                 .ToList();
         }

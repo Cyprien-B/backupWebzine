@@ -67,7 +67,7 @@ namespace Webzine.EntityContext.Dbcontext
             {
                 entity.ToTable("Titre");
                 entity.HasKey(t => t.IdTitre);
-                entity.HasIndex(t => t.Libelle).IsUnique();
+                entity.HasIndex(t => new { t.Libelle, t.IdArtiste }).IsUnique();
                 entity.Property(t => t.Duree);
                 entity.Property(t => t.DateSortie);
                 entity.Property(t => t.DateCreation);
