@@ -3,6 +3,8 @@
 // </copyright>
 
 using Microsoft.EntityFrameworkCore;
+using NLog;
+using NLog.Web;
 using Webzine.EntityContext.Dbcontext;
 using Webzine.Repository.Contracts;
 using Webzine.Repository.Db;
@@ -24,14 +26,23 @@ public static class Program
     public static WebApplication? App { get; set; } = null;
 
     /// <summary>
+    /// Obtient ou définit les log NLog.
+    /// </summary>
+    public static Logger? Logger { get; set; } = null;
+
+    /// <summary>
     /// Point d'entrée principal de l'application.
     /// </summary>
     /// <param name="args">Les arguments de ligne de commande passés au programme.</param>
     public static void Main(string[] args)
     {
+        Logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+
         Builder = WebApplication.CreateBuilder(args);
 
         CheckConfigurations();
+
+        ConfigureNLog();
 
         AddDependenciesInjections();
 
@@ -87,12 +98,16 @@ public static class Program
             Builder.Configuration["App:SGBD"] = "SQLite";
         }
 
+        Logger!.Info($"Utilisation du SGBD {Builder!.Configuration.GetValue<string>("App:SGBD") ?? string.Empty}");
+
         // Vérification et configuration de Seeder
         string seeder = Builder.Configuration["App:Seeder"] ?? string.Empty;
         if (string.IsNullOrEmpty(seeder) || (!seeder.Equals("Local", StringComparison.OrdinalIgnoreCase) && !seeder.Equals("Ignore", StringComparison.OrdinalIgnoreCase)))
         {
             Builder.Configuration["App:Seeder"] = "Local";
         }
+
+        Logger!.Info($"Utilisation du Seeder {Builder!.Configuration.GetValue<string>("App:Seeder") ?? string.Empty}");
 
         // Vérification et configuration de Repository
         string rep = Builder.Configuration["App:Repository"] ?? string.Empty;
@@ -101,8 +116,18 @@ public static class Program
             Builder.Configuration["App:Repository"] = "Db";
         }
 
+        Logger!.Info($"Utilisation du Repository {Builder!.Configuration.GetValue<string>("App:Repository") ?? string.Empty}");
+
         // Vérification et configuration de Repository
         string usepathbase = Builder.Configuration["App:UsePathBase"] ?? string.Empty;
+        if (string.IsNullOrEmpty(usepathbase))
+        {
+            Logger!.Info("Pas de PathBase");
+        }
+        else
+        {
+            Logger!.Info($"Utilisation du PathBase {Builder!.Configuration.GetValue<string>("App:UsePathBase") ?? string.Empty}");
+        }
 
         // Vérification et configuration de Repository
         if (!int.TryParse(Builder.Configuration["App:Pages:Home:NbTitresChroniquesParPaginations"], out int homeTitresChroniquesParPagination) || homeTitresChroniquesParPagination < 1)
@@ -189,6 +214,12 @@ public static class Program
 
             return Task.CompletedTask;
         });
+    }
+
+    private static void ConfigureNLog()
+    {
+        Builder!.Logging.ClearProviders();
+        Builder!.Host.UseNLog();
     }
 
     private static void SeedDataBase()
