@@ -5,6 +5,7 @@
 namespace Webzine.WebApplication.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.ModelBinding;
     using Webzine.Entity;
     using Webzine.Repository.Contracts;
     using Webzine.WebApplication.ViewModels;
@@ -78,8 +79,19 @@ namespace Webzine.WebApplication.Controllers
         [HttpPost]
         public IActionResult Commenter([FromForm] Commentaire commentaire)
         {
-            commentaireRepository.Add(commentaire);
-            return this.RedirectToAction(nameof(this.Index), new { id = commentaire.IdTitre });
+            if (this.ModelState.IsValid)
+            {
+                commentaireRepository.Add(commentaire);
+                return this.RedirectToAction(nameof(this.Index), new { id = commentaire.IdTitre });
+            }
+
+            TitreModel titreModel = new()
+            {
+                Titre = titreRepository.Find(commentaire.IdTitre),
+                Commentaire = commentaire,
+            };
+
+            return this.View("Index", titreModel);
         }
     }
 }

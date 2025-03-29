@@ -4,6 +4,7 @@
 
 namespace Webzine.Entity
 {
+    using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -23,11 +24,13 @@ namespace Webzine.Entity
         /// <summary>
         /// Obtient ou définit l'identifiant de l'Artiste qui a composé le titre.
         /// </summary>
+        [Range(0, int.MaxValue, ErrorMessage = "L'artiste est requis'")]
         public int IdArtiste { get; set; } = 0;
 
         /// <summary>
         /// Obtient ou définit l'Artiste qui a composé le titre.
         /// </summary>
+        [ValidateNever]
         public Artiste Artiste { get; set; } = new();
 
         /// <summary>
@@ -108,6 +111,7 @@ namespace Webzine.Entity
         /// <summary>
         /// Obtient ou définit la collection des commentaires associés à ce titre.
         /// </summary>
+        [ValidateNever]
         public ICollection<Commentaire> Commentaires { get; set; } = [];
 
         /// <summary>
