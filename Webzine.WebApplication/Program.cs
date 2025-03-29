@@ -52,11 +52,7 @@ public static class Program
             options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
         });
 
-        // Gestion de la connection a SQLite
-        Builder.Services.AddDbContext<SQLiteContext>(options =>
-            options.UseSqlite(
-                "Data Source=Webzine.db",
-                b => b.MigrationsAssembly("Webzine.WebApplication")));
+        ConfigureConnexionSGBD();
 
         Builder.Services.AddControllers();
         Builder.Services.AddControllersWithViews();
@@ -130,6 +126,18 @@ public static class Program
             Logger!.Info($"Utilisation du PathBase {Builder!.Configuration.GetValue<string>("App:UsePathBase") ?? string.Empty}");
         }
 
+        // Vérification et configuration de la chaîne de connexion
+        string connexion = Builder.Configuration["App:DbConnexion"] ?? string.Empty;
+        if (string.IsNullOrEmpty(connexion))
+        {
+            Builder.Configuration["App:DbConnexion"] = "Data Source=Webzine.db";
+            Logger!.Info("Connexion par défaut");
+        }
+        else
+        {
+            Logger!.Info($"Connexion à {Builder!.Configuration.GetValue<string>("App:DbConnexion") ?? string.Empty}");
+        }
+
         // Vérification et configuration de Repository
         if (!int.TryParse(Builder.Configuration["App:Pages:Home:NbTitresChroniquesParPaginations"], out int homeTitresChroniquesParPagination) || homeTitresChroniquesParPagination < 1)
         {
@@ -143,6 +151,14 @@ public static class Program
             homeTitresPopulairesParPagination = 3;
             Builder.Configuration["App:Pages:Home:NbTitresPopulaires"] = homeTitresPopulairesParPagination.ToString();
         }
+    }
+
+    private static void ConfigureConnexionSGBD()
+    {
+        Builder!.Services.AddDbContext<SQLiteContext>(options =>
+            options.UseSqlite(
+                Builder!.Configuration.GetValue<string>("App:DbConnexion") ?? string.Empty,
+                b => b.MigrationsAssembly("Webzine.WebApplication")));
     }
 
     private static void ConfigureCustomRoutes()
