@@ -1,28 +1,42 @@
-﻿using Webzine.Entity.Fixtures;
-using Webzine.EntityContext.Dbcontext;
+﻿// <copyright file="SeedDataLocal.cs" company="Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ">
+// Copyright (c) Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ. All rights reserved.
+// </copyright>
 
-public static class SeedDataLocal
+namespace Webzine.WebApplication.Seeder
 {
-    public static void Initialize(IServiceProvider services)
+    using Webzine.Entity.Fixtures;
+    using Webzine.EntityContext.Dbcontext;
+
+    /// <summary>
+    /// Seeder local.
+    /// </summary>
+    public static class SeedDataLocal
     {
-        using (var scope = services.CreateScope())
+        /// <summary>
+        /// Classe statique pour seeder une base de données.
+        /// </summary>
+        /// <param name="services">Provider de service de type <see cref="IServiceProvider"/>.</param>
+        public static void Initialize(IServiceProvider services)
         {
-            var context = scope.ServiceProvider.GetRequiredService<SQLiteContext>();
+            using (var scope = services.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<SQLiteContext>();
 
-            // Récupérer les données générées par les factories
-            var artistes = Factory.Artistes;
-            var styles = Factory.Styles;
-            var titres = Factory.Titres;
-            var commentaires = Factory.Commentaires;
+                // Récupérer les données générées par les factories
+                var artistes = Factory.Artistes;
+                var styles = Factory.Styles;
+                var titres = Factory.Titres;
+                var commentaires = Factory.Commentaires;
 
-            // Ajouter les données à la base de données
-            context.Artistes.AddRange(artistes);
-            context.Styles.AddRange(styles);
-            context.Titres.AddRange(titres);
-            context.Commentaires.AddRange(commentaires);
+                // Ajouter les données à la base de données
+                context.Artistes.AddRange(artistes);
+                context.Styles.AddRange(styles);
+                context.Titres.AddRange(titres);
+                context.Commentaires.AddRange(commentaires);
 
-            // Sauvegarder les modifications
-            context.SaveChanges();
+                // Sauvegarder les modifications
+                context.SaveChanges();
+            }
         }
     }
 }
