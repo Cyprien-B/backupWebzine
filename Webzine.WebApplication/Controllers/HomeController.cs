@@ -4,6 +4,7 @@
 
 namespace Webzine.WebApplication.Controllers
 {
+    using Microsoft.AspNetCore.Diagnostics;
     using Microsoft.AspNetCore.Mvc;
     using Webzine.Entity.Fixtures;
     using Webzine.Repository.Contracts;
@@ -40,11 +41,27 @@ namespace Webzine.WebApplication.Controllers
         /// <summary>
         /// Gestion des erreur de pages.
         /// </summary>
-        /// <returns>Retourne quand page est mauvaise.</returns>
+        /// <returns>Retourne quand la page est mauvaise.</returns>
         [HttpGet]
         public IActionResult NotFound404()
         {
             return this.View();
+        }
+
+        /// <summary>
+        /// Gestion des erreurs exception.
+        /// </summary>
+        /// <returns>Retourne la page avec les information sur les exception et permettant de revenir à l'accueil.</returns>
+        [HttpGet]
+        public IActionResult Error()
+        {
+            var exceptionFeature = this.HttpContext.Features.Get<IExceptionHandlerFeature>();
+            if (exceptionFeature?.Error != null)
+            {
+                return this.View(exceptionFeature.Error); // Passe l'exception au modèle de la vue Error.cshtml
+            }
+
+            return this.View(); // Affiche la vue même si aucune exception n'est disponible
         }
     }
 }

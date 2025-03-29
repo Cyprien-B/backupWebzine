@@ -204,6 +204,8 @@ public static class Program
         App!.UseStaticFiles();
         App!.UseRouting();
 
+        App!.UseExceptionHandler(usepathbase + "/Home/Error");
+
         // Gestion des erreurs 404
         App!.UseStatusCodePages(context =>
         {
