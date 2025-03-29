@@ -18,6 +18,15 @@ namespace Webzine.Repository.Db
         /// <inheritdoc/>
         public void Add(Artiste artiste)
         {
+            // Vérifie si un style avec le même libellé existe déjà
+            bool artisteExiste = context.Artistes.Any(a => a.Nom == artiste.Nom);
+
+            if (artisteExiste)
+            {
+                // Ignorer l'ajout si le style existe déjà
+                return;
+            }
+
             context.Artistes.Add(artiste);
             context.SaveChanges();
         }
@@ -58,6 +67,15 @@ namespace Webzine.Repository.Db
             }
             else
             {
+                // Vérifie si un style avec le même libellé existe déjà
+                bool artisteExiste = context.Artistes.Any(a => a.Nom == artiste.Nom);
+
+                if (artisteExiste)
+                {
+                    // Ignorer l'ajout si le style existe déjà
+                    return;
+                }
+
                 existingArtiste.Nom = artiste.Nom;
                 existingArtiste.Biographie = artiste.Biographie;
                 existingArtiste.Titres = artiste.Titres;

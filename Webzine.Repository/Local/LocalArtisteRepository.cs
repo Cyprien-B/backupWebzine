@@ -15,6 +15,15 @@ namespace Webzine.Repository.Local
         /// <inheritdoc/>
         public void Add(Artiste artiste)
         {
+            // Vérifie si un style avec le même libellé existe déjà
+            bool artisteExiste = Factory.Artistes.Any(a => a.Nom == artiste.Nom);
+
+            if (artisteExiste)
+            {
+                // Ignorer l'ajout si le style existe déjà
+                return;
+            }
+
             // Trouver le premier ID disponible
             int newId = 1;
             while (Factory.Artistes.Any(a => a.IdArtiste == newId))
@@ -57,6 +66,14 @@ namespace Webzine.Repository.Local
             }
             else
             {
+                // Vérifie si un style avec le même libellé existe déjà
+                bool artisteExiste = Factory.Artistes.Any(a => a.Nom == artiste.Nom);
+
+                if (artisteExiste)
+                {
+                    // Ignorer l'ajout si le style existe déjà
+                    return;
+                }
                 // Mise à jour des propriétés de l'artiste existant
                 existingArtiste.Nom = artiste.Nom;
                 existingArtiste.Biographie = artiste.Biographie;

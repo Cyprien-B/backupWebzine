@@ -15,6 +15,15 @@ namespace Webzine.Repository.Local
         /// <inheritdoc/>
         public void Add(Style style)
         {
+            // Vérifie si un style avec le même libellé existe déjà
+            bool styleExiste = Factory.Styles.Any(s => s.Libelle == style.Libelle);
+
+            if (styleExiste)
+            {
+                // Ignorer l'ajout si le style existe déjà
+                return;
+            }
+
             // Trouver le premier ID disponible
             int newId = 1;
             while (Factory.Styles.Any(s => s.IdStyle == newId))
@@ -68,6 +77,15 @@ namespace Webzine.Repository.Local
             }
             else
             {
+                // Vérifie si un style avec le même libellé existe déjà
+                bool styleExiste = Factory.Styles.Any(s => s.Libelle == style.Libelle);
+
+                if (styleExiste)
+                {
+                    // Ignorer l'ajout si le style existe déjà
+                    return;
+                }
+
                 // Mise à jour des propriétés du style existant
                 existingStyle.Libelle = style.Libelle;
 

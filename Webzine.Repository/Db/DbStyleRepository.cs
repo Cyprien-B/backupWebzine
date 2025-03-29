@@ -17,6 +17,16 @@ namespace Webzine.Repository.Local
         /// <inheritdoc/>
         public void Add(Style style)
         {
+            // Vérifie si un style avec le même libellé existe déjà
+            bool styleExiste = context.Styles.Any(s => s.Libelle == style.Libelle);
+
+            if (styleExiste)
+            {
+                // Ignorer l'ajout si le style existe déjà
+                return;
+            }
+
+            // Ajouter le style s'il n'existe pas
             context.Styles.Add(style);
             context.SaveChanges();
         }
@@ -57,6 +67,15 @@ namespace Webzine.Repository.Local
             }
             else
             {
+                // Vérifie si un style avec le même libellé existe déjà
+                bool styleExiste = context.Styles.Any(s => s.Libelle == style.Libelle);
+
+                if (styleExiste)
+                {
+                    // Ignorer l'ajout si le style existe déjà
+                    return;
+                }
+
                 existingStyle.Libelle = style.Libelle;
                 context.SaveChanges();
             }
