@@ -17,7 +17,7 @@
                             <!-- Image jaquette -->
                             <div class="col-12 col-md-3 mb-3 mb-md-0 d-flex align-items-center">
                                 <a asp-controller="Titre" asp-action="Index" asp-route-id="@titre.IdTitre" class="w-100 ratio ratio-1x1">
-                                    <img src="@titre.UrlJaquette" class="img-fluid rounded object-fit-cover" alt="Jaquette" width="200" height="200">
+                                    <img src="@titre.UrlJaquette" onerror="this.src='/images/JaquetteDefault.png';" class="img-fluid rounded object-fit-cover" alt="Jaquette" width="200" height="200">
                                 </a>
                             </div>
                             <div class="col-12 col-md-9 d-flex flex-column">
