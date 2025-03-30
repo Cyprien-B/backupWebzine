@@ -11,7 +11,7 @@
             <h1 class="h2 mb-4">Titres ayant le style "@Model.Style.Libelle"</h1>
             <hr class="mb-4" />
 
-            @await Component.InvokeAsync("TitresList", Model.Titres)
+            <partial name="~/Views/Shared/_TitreList.cshtml" for="@Model.Titres" />
         </div>
 
         <!-- Sidebar -->

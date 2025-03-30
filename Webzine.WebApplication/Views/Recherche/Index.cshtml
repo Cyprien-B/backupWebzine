@@ -14,13 +14,13 @@
             <!-- Section Artistes -->
             <div class="mb-5">
                 <h2 class="h4 mb-3">Artistes</h2>
-                @await Component.InvokeAsync("ArtistesList", Model.Artistes)
+                <partial name="~/Views/Shared/_ArtisteList.cshtml" for="@Model.Artistes" />
             </div>
 
             <!-- Section Titres -->
             <div>
                 <h2 class="h4 mb-3">Titres</h2>
-                @await Component.InvokeAsync("TitresList", Model.Titres)
+                <partial name="~/Views/Shared/_TitreList.cshtml" for="@Model.Titres" />
             </div>
         </div>
 
