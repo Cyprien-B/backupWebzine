@@ -76,6 +76,10 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
                 return this.RedirectToAction(nameof(this.Index));
             }
 
+            titre.Styles = styleRepository.FindAll()
+                    .Where(s => selectedStyleIds.Contains(s.IdStyle))
+                    .ToList();
+
             CreationAndEditionTitreModel model = new()
             {
                 Artistes = artisteRepository.FindAll().OrderBy(a => a.Nom).ToList(),
@@ -149,6 +153,10 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
 
                 return this.RedirectToAction(nameof(this.Index));
             }
+
+            titre.Styles = styleRepository.FindAll()
+                    .Where(s => selectedStyleIds.Contains(s.IdStyle))
+                    .ToList();
 
             CreationAndEditionTitreModel model = new()
             {
