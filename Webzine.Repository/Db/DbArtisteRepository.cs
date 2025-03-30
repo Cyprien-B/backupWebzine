@@ -7,13 +7,13 @@ namespace Webzine.Repository.Db
     using System.Collections.Generic;
     using Microsoft.EntityFrameworkCore;
     using Webzine.Entity;
-    using Webzine.EntityContext.Dbcontext;
+    using Webzine.EntityContext;
     using Webzine.Repository.Contracts;
 
     /// <summary>
     /// Implémentation du dépôt pour gérer les artistes avec une base de données.
     /// </summary>
-    public class DbArtisteRepository(SQLiteContext context) : IArtisteRepository
+    public class DbArtisteRepository(WebzineDbContext context) : IArtisteRepository
     {
         /// <inheritdoc/>
         public void Add(Artiste artiste)

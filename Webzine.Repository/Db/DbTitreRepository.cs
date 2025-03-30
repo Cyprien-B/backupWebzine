@@ -9,11 +9,11 @@ namespace Webzine.Repository.Db
     using System.Linq;
     using Microsoft.EntityFrameworkCore;
     using Webzine.Entity;
-    using Webzine.EntityContext.Dbcontext;
+    using Webzine.EntityContext;
     using Webzine.Repository.Contracts;
 
     /// <inheritdoc/>
-    public class DbTitreRepository(SQLiteContext context) : ITitreRepository
+    public class DbTitreRepository(WebzineDbContext context) : ITitreRepository
     {
         /// <inheritdoc/>
         public void Add(Titre titre)

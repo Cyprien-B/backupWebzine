@@ -6,13 +6,13 @@ namespace Webzine.Repository.Local
 {
     using System.Collections.Generic;
     using Webzine.Entity;
-    using Webzine.EntityContext.Dbcontext;
+    using Webzine.EntityContext;
     using Webzine.Repository.Contracts;
 
     /// <summary>
     /// Implémentation du dépôt pour gérer les styles.
     /// </summary>
-    public class DbStyleRepository(SQLiteContext context) : IStyleRepository
+    public class DbStyleRepository(WebzineDbContext context) : IStyleRepository
     {
         /// <inheritdoc/>
         public void Add(Style style)

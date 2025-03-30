@@ -5,7 +5,7 @@
 namespace Webzine.WebApplication.Seeder
 {
     using Webzine.Entity.Fixtures;
-    using Webzine.EntityContext.Dbcontext;
+    using Webzine.EntityContext;
 
     /// <summary>
     /// Seeder local.
@@ -20,7 +20,7 @@ namespace Webzine.WebApplication.Seeder
         {
             using (var scope = services.CreateScope())
             {
-                var context = scope.ServiceProvider.GetRequiredService<SQLiteContext>();
+                var context = scope.ServiceProvider.GetRequiredService<WebzineDbContext>();
 
                 // Récupérer les données générées par les factories
                 var artistes = Factory.Artistes;

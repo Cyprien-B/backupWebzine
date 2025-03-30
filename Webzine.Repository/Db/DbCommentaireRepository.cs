@@ -9,11 +9,11 @@ namespace Webzine.Repository.Db
     using System.Linq;
     using Microsoft.EntityFrameworkCore;
     using Webzine.Entity;
-    using Webzine.EntityContext.Dbcontext;
+    using Webzine.EntityContext;
     using Webzine.Repository.Contracts;
 
     /// <inheritdoc/>
-    public class DbCommentaireRepository(SQLiteContext context) : ICommentaireRepository
+    public class DbCommentaireRepository(WebzineDbContext context) : ICommentaireRepository
     {
         /// <inheritdoc/>
         public void Add(Commentaire commentaire)

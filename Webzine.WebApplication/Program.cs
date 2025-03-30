@@ -5,7 +5,7 @@
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using NLog.Web;
-using Webzine.EntityContext.Dbcontext;
+using Webzine.EntityContext;
 using Webzine.Repository.Contracts;
 using Webzine.Repository.Db;
 using Webzine.Repository.Local;
@@ -155,7 +155,7 @@ public static class Program
 
     private static void ConfigureConnexionSGBD()
     {
-        Builder!.Services.AddDbContext<SQLiteContext>(options =>
+        Builder!.Services.AddDbContext<WebzineDbContext>(options =>
             options.UseSqlite(
                 Builder!.Configuration.GetValue<string>("App:DbConnexion") ?? string.Empty,
                 b => b.MigrationsAssembly("Webzine.WebApplication")));
@@ -246,7 +246,7 @@ public static class Program
         // Vider et recréer la base de données
         using (var scope = App!.Services.CreateScope())
         {
-            var context = scope.ServiceProvider.GetRequiredService<SQLiteContext>();
+            var context = scope.ServiceProvider.GetRequiredService<WebzineDbContext>();
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
             if (Builder!.Configuration.GetValue<string>("App:Seeder") != "Ignore")
