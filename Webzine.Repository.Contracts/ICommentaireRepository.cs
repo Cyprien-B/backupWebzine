@@ -31,6 +31,14 @@ namespace Webzine.Repository.Contracts
         Commentaire Find(int id);
 
         /// <summary>
+        /// Retourne une liste paginée de commentaires triés par date du plus récent au plus ancien.
+        /// </summary>
+        /// <param name="offset">Index de départ des résultats.</param>
+        /// <param name="limit">Nombre de résultats à retourner.</param>
+        /// <returns>Une collection de style triés.</returns>
+        IEnumerable<Commentaire> AdministrationFindCommentaires(int offset, int limit);
+
+        /// <summary>
         /// Retourne tous les commentaires disponibles dans la base de données.
         /// </summary>
         /// <returns>Une collection de commentaires.</returns>

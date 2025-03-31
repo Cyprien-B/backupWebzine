@@ -5,6 +5,7 @@
 namespace Webzine.Repository.Local
 {
     using System.Collections.Generic;
+    using Microsoft.EntityFrameworkCore;
     using Webzine.Entity;
     using Webzine.EntityContext;
     using Webzine.Repository.Contracts;
@@ -29,6 +30,12 @@ namespace Webzine.Repository.Local
             // Ajouter le style s'il n'existe pas
             context.Styles.Add(style);
             context.SaveChanges();
+        }
+
+        /// <inheritdoc/>
+        public IEnumerable<Style> AdministrationFindStyles(int offset, int limit)
+        {
+            return context.Styles.OrderBy(s => s.Libelle).Skip(limit * (int)(offset - 1)).Take(limit).AsNoTracking().ToList();
         }
 
         /// <inheritdoc/>

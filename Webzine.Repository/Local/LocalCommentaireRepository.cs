@@ -32,6 +32,12 @@ namespace Webzine.Repository.Local
         }
 
         /// <inheritdoc/>
+        public IEnumerable<Commentaire> AdministrationFindCommentaires(int offset, int limit)
+        {
+            return Factory.Commentaires.OrderByDescending(c => c.DateCreation).Skip(limit * (int)(offset - 1)).Take(limit).ToList();
+        }
+
+        /// <inheritdoc/>
         public void Delete(Commentaire commentaire)
         {
             // Trouver le vrai commentaire à partir de l'ID fourni

@@ -5,6 +5,7 @@
 namespace Webzine.WebApplication.Areas.Administration.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Configuration;
     using Webzine.Entity;
     using Webzine.Repository.Contracts;
     using Webzine.WebApplication.Areas.Administration.ViewModels;
@@ -13,16 +14,19 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
     /// Contrôleur de titre.
     /// </summary>
     [Area("Administration")]
-    public class TitreController(ITitreRepository titreRepository, IStyleRepository styleRepository, IArtisteRepository artisteRepository) : Controller
+    public class TitreController(IConfiguration configuration, ITitreRepository titreRepository, IStyleRepository styleRepository, IArtisteRepository artisteRepository) : Controller
     {
         /// <summary>
         /// Administration principale des titre.
         /// </summary>
+        /// <param name="page">Numéro de la page des titres dans la pagination.</param>
         /// <returns>Retourne une vue, avec la liste des titres pouvant être modéré.</returns>
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(int page = 1)
         {
-            return this.View(titreRepository.FindAll().OrderBy(t => t.Artiste.Nom).ThenBy(t => t.Libelle).ToList());
+            var paginationLimitTitre = configuration.GetValue<int>("App:Pages:Administration:NbTitresParPagination");
+
+            return this.View(titreRepository.AdministrationFindTitres(page, paginationLimitTitre));
         }
 
         /// <summary>

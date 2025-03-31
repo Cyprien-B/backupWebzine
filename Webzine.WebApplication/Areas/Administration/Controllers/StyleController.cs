@@ -12,16 +12,19 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
     /// Contrôleur de style.
     /// </summary>
     [Area("Administration")]
-    public class StyleController(IStyleRepository styleRepository) : Controller
+    public class StyleController(IStyleRepository styleRepository, IConfiguration configuration) : Controller
     {
         /// <summary>
         /// Administration principale des styles.
         /// </summary>
+        /// <param name="page">Numéro de la page des styles dans la pagination.</param>
         /// <returns>Retourne une vue, avec la liste des styles pouvant être modéré.</returns>
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(int page = 1)
         {
-            return this.View(styleRepository.FindAll().OrderBy(s => s.Libelle).ToList());
+            var paginationLimitStyle = configuration.GetValue<int>("App:Pages:Administration:NbStylesParPagination");
+
+            return this.View(styleRepository.AdministrationFindStyles(page, paginationLimitStyle));
         }
 
         /// <summary>

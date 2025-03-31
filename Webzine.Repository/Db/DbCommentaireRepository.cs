@@ -45,6 +45,12 @@ namespace Webzine.Repository.Db
         }
 
         /// <inheritdoc/>
+        public IEnumerable<Commentaire> AdministrationFindCommentaires(int offset, int limit)
+        {
+            return context.Commentaires.Include(c => c.Titre).OrderBy(c => c.DateCreation).Skip(limit * (int)(offset - 1)).Take(limit).AsNoTracking().ToList();
+        }
+
+        /// <inheritdoc/>
         public void Delete(Commentaire commentaire)
         {
             // Charger le commentaire existant avec son titre et les entités liées

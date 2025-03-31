@@ -12,16 +12,19 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
     /// Contrôleur de commentaire.
     /// </summary>
     [Area("Administration")]
-    public class CommentaireController(ICommentaireRepository commentaireRepository) : Controller
+    public class CommentaireController(ICommentaireRepository commentaireRepository, IConfiguration configuration) : Controller
     {
         /// <summary>
         /// Administration principale des commentaires.
         /// </summary>
+        /// <param name="page">Numéro de la page des commentaires dans la pagination.</param>
         /// <returns>Retourne une vue, avec la liste des commentaires pouvant être modéré.</returns>
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(int page = 1)
         {
-            return this.View(commentaireRepository.FindAll().OrderByDescending(c => c.DateCreation).ToList());
+            var paginationLimitCommentaire = configuration.GetValue<int>("App:Pages:Administration:NbCommentairesParPagination");
+
+            return this.View(commentaireRepository.AdministrationFindCommentaires(page, paginationLimitCommentaire));
         }
 
         /// <summary>

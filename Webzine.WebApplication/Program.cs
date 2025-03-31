@@ -151,6 +151,34 @@ public static class Program
             homeTitresPopulairesParPagination = 3;
             Builder.Configuration["App:Pages:Home:NbTitresPopulaires"] = homeTitresPopulairesParPagination.ToString();
         }
+
+        // Vérification et configuration de Repository
+        if (!int.TryParse(Builder.Configuration["App:Pages:Administration:NbTitresParPagination"], out int adminitrationTitresParPagination) || adminitrationTitresParPagination < 1)
+        {
+            homeTitresPopulairesParPagination = 10;
+            Builder.Configuration["App:Pages:Administration:NbTitresParPagination"] = adminitrationTitresParPagination.ToString();
+        }
+
+        // Vérification et configuration de Repository
+        if (!int.TryParse(Builder.Configuration["App:Pages:Administration:NbArtistesParPagination"], out int administrationArtistesParPagination) || administrationArtistesParPagination < 1)
+        {
+            homeTitresPopulairesParPagination = 10;
+            Builder.Configuration["App:Pages:Administration:NbArtistesParPagination"] = administrationArtistesParPagination.ToString();
+        }
+
+        // Vérification et configuration de Repository
+        if (!int.TryParse(Builder.Configuration["App:Pages:Administration:NbStylesParPagination"], out int administrationStylesParPagination) || administrationStylesParPagination < 1)
+        {
+            homeTitresPopulairesParPagination = 10;
+            Builder.Configuration["App:Pages:Administration:NbStylesParPagination"] = administrationStylesParPagination.ToString();
+        }
+
+        // Vérification et configuration de Repository
+        if (!int.TryParse(Builder.Configuration["App:Pages:Administration:NbCommentairesParPagination"], out int administrationCommentairesParPagination) || administrationCommentairesParPagination < 1)
+        {
+            homeTitresPopulairesParPagination = 10;
+            Builder.Configuration["App:Pages:Administration:NbCommentairesParPagination"] = administrationCommentairesParPagination.ToString();
+        }
     }
 
     private static void ConfigureConnexionSGBD()
@@ -185,22 +213,22 @@ public static class Program
 
         App!.MapControllerRoute(
         name: "titres-administration",
-        pattern: "administration/artistes",
+        pattern: "administration/artistes/{page:int?}",
         defaults: new { area = "Administration", controller = "Artiste", action = "Index" });
 
         App!.MapControllerRoute(
         name: "titres-administration",
-        pattern: "administration/commentaires",
+        pattern: "administration/commentaires/{page:int?}",
         defaults: new { area = "Administration", controller = "Commentaire", action = "Index" });
 
         App!.MapControllerRoute(
         name: "titres-administration",
-        pattern: "administration/styles",
+        pattern: "administration/styles/{page:int?}",
         defaults: new { area = "Administration", controller = "Style", action = "Index" });
 
         App!.MapControllerRoute(
         name: "titres-administration",
-        pattern: "administration/titres",
+        pattern: "administration/titres/{page:int?}",
         defaults: new { area = "Administration", controller = "Titre", action = "Index" });
 
         App!.MapControllerRoute(

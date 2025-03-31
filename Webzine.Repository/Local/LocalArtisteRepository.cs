@@ -39,6 +39,12 @@ namespace Webzine.Repository.Local
         }
 
         /// <inheritdoc/>
+        public IEnumerable<Artiste> AdministrationFindArtistes(int offset, int limit)
+        {
+            return Factory.Artistes.OrderBy(a => a.Nom).Skip(limit * (int)(offset - 1)).Take(limit).ToList();
+        }
+
+        /// <inheritdoc/>
         public void Delete(Artiste artiste)
         {
             Factory.Artistes.RemoveAll(a => a.IdArtiste == artiste.IdArtiste);
@@ -74,6 +80,7 @@ namespace Webzine.Repository.Local
                     // Ignorer l'ajout si le style existe déjà
                     return;
                 }
+
                 // Mise à jour des propriétés de l'artiste existant
                 existingArtiste.Nom = artiste.Nom;
                 existingArtiste.Biographie = artiste.Biographie;

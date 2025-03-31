@@ -46,6 +46,14 @@ namespace Webzine.Repository.Contracts
         IEnumerable<Titre> FindTitres(int offset, int limit);
 
         /// <summary>
+        /// Retourne une liste paginée de titre triés par nom d'artistes dans l'ordre alphanumérique.
+        /// </summary>
+        /// <param name="offset">Index de départ des résultats.</param>
+        /// <param name="limit">Nombre de résultats à retourner.</param>
+        /// <returns>Une collection de titre triés.</returns>
+        IEnumerable<Titre> AdministrationFindTitres(int offset, int limit);
+
+        /// <summary>
         /// Retourne tous les titres disponibles dans la base de données.
         /// </summary>
         /// <returns>Une collection de tous les titres.</returns>

@@ -39,6 +39,12 @@ namespace Webzine.Repository.Local
         }
 
         /// <inheritdoc/>
+        public IEnumerable<Style> AdministrationFindStyles(int offset, int limit)
+        {
+            return Factory.Styles.OrderBy(s => s.Libelle).Skip(limit * (int)(offset - 1)).Take(limit).ToList();
+        }
+
+        /// <inheritdoc/>
         public void Delete(Style style)
         {
             // Supprimer le style de la liste globale des styles

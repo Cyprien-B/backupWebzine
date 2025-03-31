@@ -37,6 +37,14 @@ namespace Webzine.Repository.Contracts
         IEnumerable<Style> FindAll();
 
         /// <summary>
+        /// Retourne une liste paginée de style triés par nom dans l'ordre alphanumérique.
+        /// </summary>
+        /// <param name="offset">Index de départ des résultats.</param>
+        /// <param name="limit">Nombre de résultats à retourner.</param>
+        /// <returns>Une collection de style triés.</returns>
+        IEnumerable<Style> AdministrationFindStyles(int offset, int limit);
+
+        /// <summary>
         /// Met à jour un style de musique existant dans la base de données.
         /// </summary>
         /// <param name="style">L'objet style avec les nouvelles informations.</param>

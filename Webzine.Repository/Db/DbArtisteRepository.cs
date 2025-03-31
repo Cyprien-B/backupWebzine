@@ -32,6 +32,12 @@ namespace Webzine.Repository.Db
         }
 
         /// <inheritdoc/>
+        public IEnumerable<Artiste> AdministrationFindArtistes(int offset, int limit)
+        {
+            return context.Artistes.OrderBy(a => a.Nom).Skip(limit * (int)(offset - 1)).Take(limit).AsNoTracking().ToList();
+        }
+
+        /// <inheritdoc/>
         public void Delete(Artiste artiste)
         {
             context.Artistes.Remove(artiste);

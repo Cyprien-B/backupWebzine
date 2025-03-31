@@ -32,6 +32,14 @@ namespace Webzine.Repository.Contracts
         Artiste Find(int id);
 
         /// <summary>
+        /// Retourne une liste paginée d'artiste triés par nom dans l'ordre alphanumérique.
+        /// </summary>
+        /// <param name="offset">Index de départ des résultats.</param>
+        /// <param name="limit">Nombre de résultats à retourner.</param>
+        /// <returns>Une collection d'artiste triés.</returns>
+        IEnumerable<Artiste> AdministrationFindArtistes(int offset, int limit);
+
+        /// <summary>
         /// Récupère tous les artistes de la base de données.
         /// </summary>
         /// <returns>Une collection d'artistes.</returns>
