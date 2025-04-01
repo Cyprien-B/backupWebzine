@@ -54,6 +54,13 @@ namespace Webzine.Repository.Contracts
         IEnumerable<Titre> AdministrationFindTitres(int offset, int limit);
 
         /// <summary>
+        /// Retourne les premiers titres les plus populaires dans la limite.
+        /// </summary>
+        /// <param name="limit">Limite de titres populaires.</param>
+        /// <returns>Une liste de titres correspondant au premiers les plus populaires.</returns>
+        IEnumerable<Titre> FindTitresPopulaires(int limit);
+
+        /// <summary>
         /// Retourne tous les titres disponibles dans la base de données.
         /// </summary>
         /// <returns>Une collection de tous les titres.</returns>

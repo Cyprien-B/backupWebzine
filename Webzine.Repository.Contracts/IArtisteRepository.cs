@@ -28,8 +28,8 @@ namespace Webzine.Repository.Contracts
         /// Recherche un artiste par son identifiant unique.
         /// </summary>
         /// <param name="id">L'identifiant de l'artiste recherché.</param>
-        /// <returns>Retourne l'objet Artiste s'il existe, sinon null.</returns>
-        Artiste? Find(int id);
+        /// <returns>Retourne l'objet Artiste avec l'id correspondant.</returns>
+        Artiste Find(int id);
 
         /// <summary>
         /// Retourne une liste paginée d'artiste triés par nom dans l'ordre alphanumérique.
@@ -44,6 +44,13 @@ namespace Webzine.Repository.Contracts
         /// </summary>
         /// <returns>Une collection d'artistes.</returns>
         IEnumerable<Artiste> FindAll();
+
+        /// <summary>
+        /// Récupère l'artiste qui possède le bon nom.
+        /// </summary>
+        /// <param name="nom">Nom de l'artiste à obtenir.</param>
+        /// <returns>Un artiste avec le nom recherché.</returns>
+        Artiste GetArtisteByName(string nom);
 
         /// <summary>
         /// Met à jour un artiste existant dans la base de données.

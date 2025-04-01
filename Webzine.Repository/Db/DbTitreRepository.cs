@@ -134,6 +134,12 @@ namespace Webzine.Repository.Db
         }
 
         /// <inheritdoc/>
+        public IEnumerable<Titre> FindTitresPopulaires(int limit)
+        {
+            return context.Titres.OrderByDescending(t => t.NbLikes).Take(limit).AsNoTracking().ToList();
+        }
+
+        /// <inheritdoc/>
         public void IncrementNbLectures(Titre titre)
         {
             var titreToUpdate = context.Titres.Find(titre.IdTitre);

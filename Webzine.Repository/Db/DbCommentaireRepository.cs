@@ -80,7 +80,7 @@ namespace Webzine.Repository.Db
         }
 
         /// <inheritdoc/>
-        public Commentaire? Find(int id)
+        public Commentaire Find(int id)
         {
             return context.Commentaires
                 .Include(c => c.Titre)

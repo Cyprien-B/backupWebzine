@@ -134,9 +134,9 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         {
             CreationAndEditionTitreModel model = new()
             {
-                Artistes = artisteRepository.FindAll().OrderBy(a => a.Nom).ToList(),
-                Styles = styleRepository.FindAll().OrderBy(s => s.Libelle).ToList(),
-                Titre = titreRepository.Find(id),
+                Artistes = artisteRepository.FindAll(),
+                Styles = styleRepository.FindAll(),
+                Titre = titreRepository.Find(id)!,
             };
             return this.View(model);
         }
@@ -171,8 +171,8 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
 
             CreationAndEditionTitreModel model = new()
             {
-                Artistes = artisteRepository.FindAll().OrderBy(a => a.Nom).ToList(),
-                Styles = styleRepository.FindAll().OrderBy(s => s.Libelle).ToList(),
+                Artistes = artisteRepository.FindAll(),
+                Styles = styleRepository.FindAll(),
                 Titre = titre,
             };
 

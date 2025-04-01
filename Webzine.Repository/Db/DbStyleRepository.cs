@@ -60,7 +60,7 @@ namespace Webzine.Repository.Local
         /// <inheritdoc/>
         public IEnumerable<Style> FindAll()
         {
-            return context.Styles.AsNoTracking();
+            return context.Styles.OrderBy(s => s.Libelle).AsNoTracking().ToList();
         }
 
         /// <inheritdoc/>

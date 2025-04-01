@@ -51,15 +51,21 @@ namespace Webzine.Repository.Local
         }
 
         /// <inheritdoc/>
-        public Artiste? Find(int id)
+        public Artiste Find(int id)
         {
-            return Factory.Artistes.FirstOrDefault(a => a.IdArtiste == id);
+            return Factory.Artistes.Single(a => a.IdArtiste == id);
         }
 
         /// <inheritdoc/>
         public IEnumerable<Artiste> FindAll()
         {
-            return Factory.Artistes;
+            return Factory.Artistes.OrderBy(a => a.Nom).ToList();
+        }
+
+        /// <inheritdoc/>
+        public Artiste GetArtisteByName(string nom)
+        {
+            return Factory.Artistes.Single(a => a.Nom == nom);
         }
 
         /// <inheritdoc/>

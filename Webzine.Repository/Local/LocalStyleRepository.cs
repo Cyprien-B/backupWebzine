@@ -73,7 +73,7 @@ namespace Webzine.Repository.Local
         /// <inheritdoc/>
         public IEnumerable<Style> FindAll()
         {
-            return Factory.Styles;
+            return Factory.Styles.OrderBy(s => s.Libelle).ToList();
         }
 
         /// <inheritdoc/>

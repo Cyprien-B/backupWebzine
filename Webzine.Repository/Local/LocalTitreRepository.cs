@@ -75,6 +75,12 @@ namespace Webzine.Repository.Local
         }
 
         /// <inheritdoc/>
+        public IEnumerable<Titre> FindTitresPopulaires(int limit)
+        {
+            return Factory.Titres.OrderByDescending(t => t.NbLikes).Take(limit).ToList();
+        }
+
+        /// <inheritdoc/>
         public void IncrementNbLectures(Titre titre)
         {
             Factory.Titres.Where(t => t.IdTitre == titre.IdTitre)

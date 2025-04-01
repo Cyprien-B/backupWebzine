@@ -49,9 +49,9 @@ namespace Webzine.Repository.Db
         }
 
         /// <inheritdoc/>
-        public Artiste? Find(int id)
+        public Artiste Find(int id)
         {
-            var artisteFind = context.Artistes.Find(id);
+            var artisteFind = context.Artistes.AsNoTracking().Single(a => a.IdArtiste == id);
 
             return artisteFind;
         }
@@ -59,7 +59,13 @@ namespace Webzine.Repository.Db
         /// <inheritdoc/>
         public IEnumerable<Artiste> FindAll()
         {
-            return context.Artistes.AsNoTracking().Include(a => a.Titres);
+            return context.Artistes.Include(a => a.Titres).OrderBy(a => a.Nom).AsNoTracking().ToList();
+        }
+
+        /// <inheritdoc/>
+        public Artiste GetArtisteByName(string nom)
+        {
+            return context.Artistes.AsNoTracking().Single(a => a.Nom == nom);
         }
 
         /// <inheritdoc/>
