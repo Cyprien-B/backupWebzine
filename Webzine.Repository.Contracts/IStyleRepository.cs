@@ -34,7 +34,7 @@ namespace Webzine.Repository.Contracts
         /// </summary>
         /// <param name="id">L'identifiant du style recherché.</param>
         /// <returns>Retourne l'objet Style s'il existe, sinon null.</returns>
-        Style Find(int id);
+        Style? Find(int id);
 
         /// <summary>
         /// Retourne tous les styles de musique disponibles dans la base de données.

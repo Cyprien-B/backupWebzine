@@ -115,7 +115,7 @@ namespace Webzine.Repository.Db
         /// <inheritdoc/>
         public Titre Find(int idTitre)
         {
-            return context.Titres.Include(t => t.Artiste).Include(t => t.Styles).Include(t => t.Commentaires).Single(t => t.IdTitre == idTitre) ?? throw new Exception("Aucun titre correspondant à l'id.");
+            return context.Titres.Include(t => t.Artiste).Include(t => t.Styles).Include(t => t.Commentaires).Single(t => t.IdTitre == idTitre);
         }
 
         /// <inheritdoc/>

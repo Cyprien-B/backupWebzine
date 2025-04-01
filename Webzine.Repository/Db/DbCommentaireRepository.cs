@@ -38,10 +38,6 @@ namespace Webzine.Repository.Db
                 // Sauvegarder les changements
                 context.SaveChanges();
             }
-            else
-            {
-                throw new InvalidDataException("Le titre est inexistant");
-            }
         }
 
         /// <inheritdoc/>
@@ -82,11 +78,11 @@ namespace Webzine.Repository.Db
         }
 
         /// <inheritdoc/>
-        public Commentaire Find(int id)
+        public Commentaire? Find(int id)
         {
             return context.Commentaires
                 .Include(c => c.Titre)
-                .FirstOrDefault(c => c.IdCommentaire == id) ?? new Commentaire();
+                .FirstOrDefault(c => c.IdCommentaire == id);
         }
 
         /// <inheritdoc/>

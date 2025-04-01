@@ -85,13 +85,13 @@ namespace Webzine.Repository.Local
 
                 if (styleExiste)
                 {
-                    // Ignorer l'ajout si le style existe déjà
                     return;
                 }
 
                 existingStyle.Libelle = style.Libelle;
-                context.SaveChanges();
             }
+
+            context.SaveChanges();
         }
     }
 }
