@@ -23,15 +23,9 @@ namespace Webzine.WebApplication.Controllers
         [HttpGet]
         public IActionResult Index(int id)
         {
-            titreRepository.IncrementNbLectures(new() { IdTitre = id });
-
-            // TODO: Enlever le Model inutile.
-            TitreModel model = new()
-            {
-                Titre = titreRepository.Find(id),
-            };
-
-            return this.View(model);
+            Titre? titreForIncrement = titreRepository.Find(id);
+            titreRepository.IncrementNbLectures(titreForIncrement);
+            return this.View(titreForIncrement);
         }
 
         /// <summary>
