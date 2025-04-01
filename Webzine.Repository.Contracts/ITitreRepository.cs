@@ -35,7 +35,7 @@ namespace Webzine.Repository.Contracts
         /// </summary>
         /// <param name="idTitre">L'identifiant du titre recherché.</param>
         /// <returns>Retourne l'objet Titre s'il existe, sinon null.</returns>
-        Titre Find(int idTitre);
+        Titre? Find(int idTitre);
 
         /// <summary>
         /// Retourne une liste paginée de titres triés par date de création (du plus récent au plus ancien).

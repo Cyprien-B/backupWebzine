@@ -111,7 +111,7 @@ namespace Webzine.Repository.Db
         /// <inheritdoc/>
         public Titre? Find(int idTitre)
         {
-            return context.Titres.Include(t => t.Artiste).Include(t => t.Styles).Include(t => t.Commentaires).Single(t => t.IdTitre == idTitre);
+            return context.Titres.Include(t => t.Artiste).Include(t => t.Styles).Include(t => t.Commentaires).AsNoTracking().Single(t => t.IdTitre == idTitre);
         }
 
         /// <inheritdoc/>
@@ -129,6 +129,7 @@ namespace Webzine.Repository.Db
                 .OrderByDescending(t => t.DateCreation)
                 .Skip(limit * (offset - 1))
                 .Take(limit)
+                .AsNoTracking()
                 .ToList();
         }
 
@@ -161,6 +162,7 @@ namespace Webzine.Repository.Db
                 .Include(t => t.Artiste)
                 .Include(t => t.Styles)
                 .Where(t => t.Libelle.Contains(mot))
+                .AsNoTracking()
                 .ToList();
         }
 

@@ -43,7 +43,12 @@ namespace Webzine.Repository.Db
         /// <inheritdoc/>
         public IEnumerable<Commentaire> AdministrationFindCommentaires(int offset, int limit)
         {
-            return context.Commentaires.Include(c => c.Titre).OrderBy(c => c.DateCreation).Skip(limit * (int)(offset - 1)).Take(limit).AsNoTracking().ToList();
+            return context.Commentaires
+                .Include(c => c.Titre)
+                .OrderBy(c => c.DateCreation)
+                .Skip(limit * (int)(offset - 1))
+                .Take(limit)
+                .AsNoTracking().ToList();
         }
 
         /// <inheritdoc/>
@@ -79,6 +84,7 @@ namespace Webzine.Repository.Db
         {
             return context.Commentaires
                 .Include(c => c.Titre)
+                .AsNoTracking()
                 .Single(c => c.IdCommentaire == id);
         }
 
@@ -87,6 +93,7 @@ namespace Webzine.Repository.Db
         {
             return context.Commentaires
                 .Include(c => c.Titre)
+                .AsNoTracking()
                 .ToList();
         }
     }

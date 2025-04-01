@@ -48,26 +48,19 @@ namespace Webzine.Repository.Local
         /// <inheritdoc/>
         public int Count()
         {
-            return context.Styles.Count();
+            return context.Styles.AsNoTracking().Count();
         }
 
         /// <inheritdoc/>
-        public Style Find(int id)
+        public Style? Find(int id)
         {
-            var styleFind = context.Styles.Find(id);
-
-            if (styleFind == null)
-            {
-                throw new KeyNotFoundException($"Le style avec l'identifiant {id} n'a pas été trouvé.");
-            }
-
-            return styleFind;
+            return context.Styles.AsNoTracking().Single(s => s.IdStyle == id);
         }
 
         /// <inheritdoc/>
         public IEnumerable<Style> FindAll()
         {
-            return context.Styles;
+            return context.Styles.AsNoTracking();
         }
 
         /// <inheritdoc/>

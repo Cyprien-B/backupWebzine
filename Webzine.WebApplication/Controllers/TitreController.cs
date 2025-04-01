@@ -24,10 +24,10 @@ namespace Webzine.WebApplication.Controllers
         public IActionResult Index(int id)
         {
             Titre? titreForIncrement = titreRepository.Find(id);
-            titreRepository.IncrementNbLectures(titreForIncrement);
+            titreRepository.IncrementNbLectures(titreForIncrement!);
 
             // ViewModel necessaire pour la soumission d'un commmentaire non valide
-            TitreModel model = new() { Titre = titreForIncrement };
+            TitreModel model = new() { Titre = titreForIncrement! };
 
             return this.View(model);
         }
@@ -85,7 +85,7 @@ namespace Webzine.WebApplication.Controllers
 
             TitreModel titreModel = new()
             {
-                Titre = titreRepository.Find(commentaire.IdTitre),
+                Titre = titreRepository.Find(commentaire.IdTitre)!,
                 Commentaire = commentaire,
             };
 
