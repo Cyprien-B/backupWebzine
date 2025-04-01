@@ -46,6 +46,12 @@ namespace Webzine.Repository.Local
         }
 
         /// <inheritdoc/>
+        public int Count()
+        {
+            return context.Styles.Count();
+        }
+
+        /// <inheritdoc/>
         public Style Find(int id)
         {
             var styleFind = context.Styles.Find(id);

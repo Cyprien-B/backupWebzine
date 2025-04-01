@@ -95,13 +95,13 @@ namespace Webzine.Entity.Fixtures
             var random = new Random();
 
             // Générer les styles
-            Styles = StyleFake.Generate(20).DistinctBy(s => s.Libelle).ToList();
+            Styles = StyleFake.Generate(40).DistinctBy(s => s.Libelle).ToList();
 
             // Générer les artistes
-            Artistes = ArtisteFake.Generate(30);
+            Artistes = ArtisteFake.Generate(3000).DistinctBy(a => a.Nom).ToList();
 
             // Générer les titres et associer artistes et styles
-            Titres = TitreFake.Generate(60);
+            Titres = TitreFake.Generate(10000).DistinctBy(a => a.Libelle).ToList();
             foreach (var titre in Titres)
             {
                 var artiste = Artistes[random.Next(Artistes.Count)];
@@ -118,7 +118,7 @@ namespace Webzine.Entity.Fixtures
             }
 
             // Générer les commentaires et associer aux titres
-            Commentaires = CommentaireFake.Generate(100);
+            Commentaires = CommentaireFake.Generate(1000);
             foreach (var commentaire in Commentaires)
             {
                 var titre = Titres[random.Next(Titres.Count)];

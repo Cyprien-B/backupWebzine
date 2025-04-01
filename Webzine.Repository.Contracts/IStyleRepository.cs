@@ -18,6 +18,12 @@ namespace Webzine.Repository.Contracts
         void Add(Style style);
 
         /// <summary>
+        /// Compte le nombre total de Style dans la base de données.
+        /// </summary>
+        /// <returns>Le nombre total de Style.</returns>
+        int Count();
+
+        /// <summary>
         /// Supprime un style de musique de la base de données.
         /// </summary>
         /// <param name="style">L'objet style à supprimer.</param>

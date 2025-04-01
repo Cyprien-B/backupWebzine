@@ -45,14 +45,9 @@ namespace Webzine.Repository.Db
         }
 
         /// <inheritdoc/>
-        public Artiste Find(int id)
+        public Artiste? Find(int id)
         {
             var artisteFind = context.Artistes.Find(id);
-
-            if (artisteFind == null)
-            {
-                throw new KeyNotFoundException($"L'artiste avec l'identifiant {id} n'a pas été trouvé.");
-            }
 
             return artisteFind;
         }
@@ -73,20 +68,12 @@ namespace Webzine.Repository.Db
             }
             else
             {
-                // Vérifie si un style avec le même libellé existe déjà
-                bool artisteExiste = context.Artistes.Any(a => a.Nom == artiste.Nom);
-
-                if (artisteExiste)
-                {
-                    // Ignorer l'ajout si le style existe déjà
-                    return;
-                }
-
                 existingArtiste.Nom = artiste.Nom;
                 existingArtiste.Biographie = artiste.Biographie;
                 existingArtiste.Titres = artiste.Titres;
-                context.SaveChanges();
             }
+
+            context.SaveChanges();
         }
     }
 }
