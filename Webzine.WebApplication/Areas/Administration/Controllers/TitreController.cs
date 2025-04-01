@@ -26,7 +26,14 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         {
             var paginationLimitTitre = configuration.GetValue<int>("App:Pages:Administration:NbTitresParPagination");
 
-            return this.View(titreRepository.AdministrationFindTitres(page, paginationLimitTitre));
+            AdministrationTitreModel administrationTitreModel = new AdministrationTitreModel()
+            {
+                PaginationActuelle = (uint)page,
+                PaginationMax = (uint)Math.Ceiling((double)titreRepository.Count() / paginationLimitTitre),
+                Titres = titreRepository.AdministrationFindTitres(page, paginationLimitTitre),
+            };
+
+            return this.View(administrationTitreModel);
         }
 
         /// <summary>
