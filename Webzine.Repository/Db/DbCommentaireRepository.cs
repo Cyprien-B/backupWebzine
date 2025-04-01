@@ -79,7 +79,7 @@ namespace Webzine.Repository.Db
         {
             return context.Commentaires
                 .Include(c => c.Titre)
-                .FirstOrDefault(c => c.IdCommentaire == id);
+                .Single(c => c.IdCommentaire == id);
         }
 
         /// <inheritdoc/>
