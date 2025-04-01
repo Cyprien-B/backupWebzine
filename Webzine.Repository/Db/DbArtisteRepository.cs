@@ -18,12 +18,12 @@ namespace Webzine.Repository.Db
         /// <inheritdoc/>
         public void Add(Artiste artiste)
         {
-            // Vérifie si un style avec le même libellé existe déjà
+            // Vérifie si un artiste avec le même libellé existe déjà
             bool artisteExiste = context.Artistes.Any(a => a.Nom == artiste.Nom);
 
             if (artisteExiste)
             {
-                // Ignorer l'ajout si le style existe déjà
+                // Ignorer l'ajout si le artiste existe déjà
                 return;
             }
 
@@ -34,7 +34,11 @@ namespace Webzine.Repository.Db
         /// <inheritdoc/>
         public IEnumerable<Artiste> AdministrationFindArtistes(int offset, int limit)
         {
-            return context.Artistes.OrderBy(a => a.Nom).Skip(limit * (int)(offset - 1)).Take(limit).AsNoTracking().ToList();
+            return context.Artistes
+                .OrderBy(a => a.Nom)
+                .Skip(limit * (int)(offset - 1))
+                .Take(limit)
+                .AsNoTracking().ToList();
         }
 
         /// <inheritdoc/>
@@ -45,14 +49,9 @@ namespace Webzine.Repository.Db
         }
 
         /// <inheritdoc/>
-        public Artiste Find(int id)
+        public Artiste? Find(int id)
         {
             var artisteFind = context.Artistes.Find(id);
-
-            if (artisteFind == null)
-            {
-                throw new KeyNotFoundException($"L'artiste avec l'identifiant {id} n'a pas été trouvé.");
-            }
 
             return artisteFind;
         }
@@ -60,7 +59,7 @@ namespace Webzine.Repository.Db
         /// <inheritdoc/>
         public IEnumerable<Artiste> FindAll()
         {
-            return context.Artistes.Include(a => a.Titres);
+            return context.Artistes.AsNoTracking().Include(a => a.Titres);
         }
 
         /// <inheritdoc/>
@@ -73,20 +72,12 @@ namespace Webzine.Repository.Db
             }
             else
             {
-                // Vérifie si un style avec le même libellé existe déjà
-                bool artisteExiste = context.Artistes.Any(a => a.Nom == artiste.Nom);
-
-                if (artisteExiste)
-                {
-                    // Ignorer l'ajout si le style existe déjà
-                    return;
-                }
-
                 existingArtiste.Nom = artiste.Nom;
                 existingArtiste.Biographie = artiste.Biographie;
                 existingArtiste.Titres = artiste.Titres;
-                context.SaveChanges();
             }
+
+            context.SaveChanges();
         }
     }
 }

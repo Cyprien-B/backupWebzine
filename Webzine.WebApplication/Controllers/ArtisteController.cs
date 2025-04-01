@@ -23,11 +23,6 @@ namespace Webzine.WebApplication.Controllers
         {
             Artiste? artiste = artisteRepository.FindAll().FirstOrDefault(a => a.Nom == nomArtiste);
 
-            if (artiste == null)
-            {
-                return this.NotFound();
-            }
-
             return this.View(artiste);
         }
     }

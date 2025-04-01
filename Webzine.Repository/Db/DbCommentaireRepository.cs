@@ -38,16 +38,17 @@ namespace Webzine.Repository.Db
                 // Sauvegarder les changements
                 context.SaveChanges();
             }
-            else
-            {
-                throw new InvalidDataException("Le titre est inexistant");
-            }
         }
 
         /// <inheritdoc/>
         public IEnumerable<Commentaire> AdministrationFindCommentaires(int offset, int limit)
         {
-            return context.Commentaires.Include(c => c.Titre).OrderBy(c => c.DateCreation).Skip(limit * (int)(offset - 1)).Take(limit).AsNoTracking().ToList();
+            return context.Commentaires
+                .Include(c => c.Titre)
+                .OrderBy(c => c.DateCreation)
+                .Skip(limit * (int)(offset - 1))
+                .Take(limit)
+                .AsNoTracking().ToList();
         }
 
         /// <inheritdoc/>
@@ -59,6 +60,7 @@ namespace Webzine.Repository.Db
                 .ThenInclude(t => t.Artiste)
                 .Include(c => c.Titre)
                 .ThenInclude(t => t.Styles)
+                .AsNoTracking()
                 .FirstOrDefault(c => c.IdCommentaire == commentaire.IdCommentaire);
 
             if (commentaireExistant != null)
@@ -75,18 +77,15 @@ namespace Webzine.Repository.Db
                 // Sauvegarder les changements
                 context.SaveChanges();
             }
-            else
-            {
-                throw new InvalidDataException("Le commentaire est inexistant");
-            }
         }
 
         /// <inheritdoc/>
-        public Commentaire Find(int id)
+        public Commentaire? Find(int id)
         {
             return context.Commentaires
                 .Include(c => c.Titre)
-                .FirstOrDefault(c => c.IdCommentaire == id) ?? new Commentaire();
+                .AsNoTracking()
+                .Single(c => c.IdCommentaire == id);
         }
 
         /// <inheritdoc/>
@@ -94,6 +93,7 @@ namespace Webzine.Repository.Db
         {
             return context.Commentaires
                 .Include(c => c.Titre)
+                .AsNoTracking()
                 .ToList();
         }
     }

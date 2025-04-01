@@ -106,16 +106,12 @@ namespace Webzine.Repository.Db
                 // Sauvegarder les changements
                 context.SaveChanges();
             }
-            else
-            {
-                throw new InvalidDataException("Le titre est inexistant");
-            }
         }
 
         /// <inheritdoc/>
-        public Titre Find(int idTitre)
+        public Titre? Find(int idTitre)
         {
-            return context.Titres.Include(t => t.Artiste).Include(t => t.Styles).Include(t => t.Commentaires).Single(t => t.IdTitre == idTitre) ?? throw new Exception("Aucun titre correspondant à l'id.");
+            return context.Titres.Include(t => t.Artiste).Include(t => t.Styles).Include(t => t.Commentaires).AsNoTracking().Single(t => t.IdTitre == idTitre);
         }
 
         /// <inheritdoc/>
@@ -133,6 +129,7 @@ namespace Webzine.Repository.Db
                 .OrderByDescending(t => t.DateCreation)
                 .Skip(limit * (offset - 1))
                 .Take(limit)
+                .AsNoTracking()
                 .ToList();
         }
 
@@ -164,7 +161,8 @@ namespace Webzine.Repository.Db
             return context.Titres
                 .Include(t => t.Artiste)
                 .Include(t => t.Styles)
-                .Where(t => EF.Functions.Like(t.Libelle, $"%{mot}%"))
+                .Where(t => t.Libelle.Contains(mot))
+                .AsNoTracking()
                 .ToList();
         }
 
@@ -174,7 +172,7 @@ namespace Webzine.Repository.Db
             return context.Titres
                 .Include(t => t.Artiste)
                 .Include(t => t.Styles)
-                .Where(t => t.Styles.Any(s => EF.Functions.Like(s.Libelle, libelle)))
+                .Where(t => t.Styles.Any(s => s.Libelle.Contains(libelle)))
                 .ToList();
         }
 

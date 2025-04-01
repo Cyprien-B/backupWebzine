@@ -46,22 +46,21 @@ namespace Webzine.Repository.Local
         }
 
         /// <inheritdoc/>
-        public Style Find(int id)
+        public int Count()
         {
-            var styleFind = context.Styles.Find(id);
+            return context.Styles.AsNoTracking().Count();
+        }
 
-            if (styleFind == null)
-            {
-                throw new KeyNotFoundException($"Le style avec l'identifiant {id} n'a pas été trouvé.");
-            }
-
-            return styleFind;
+        /// <inheritdoc/>
+        public Style? Find(int id)
+        {
+            return context.Styles.AsNoTracking().Single(s => s.IdStyle == id);
         }
 
         /// <inheritdoc/>
         public IEnumerable<Style> FindAll()
         {
-            return context.Styles;
+            return context.Styles.AsNoTracking();
         }
 
         /// <inheritdoc/>
@@ -79,13 +78,13 @@ namespace Webzine.Repository.Local
 
                 if (styleExiste)
                 {
-                    // Ignorer l'ajout si le style existe déjà
                     return;
                 }
 
                 existingStyle.Libelle = style.Libelle;
-                context.SaveChanges();
             }
+
+            context.SaveChanges();
         }
     }
 }

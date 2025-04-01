@@ -58,9 +58,9 @@ namespace Webzine.Repository.Local
         }
 
         /// <inheritdoc/>
-        public Commentaire Find(int id)
+        public Commentaire? Find(int id)
         {
-            return Factory.Commentaires.FirstOrDefault(c => c.IdCommentaire == id) ?? new();
+            return Factory.Commentaires.FirstOrDefault(c => c.IdCommentaire == id);
         }
 
         /// <inheritdoc/>
