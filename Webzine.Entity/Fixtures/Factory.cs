@@ -112,7 +112,7 @@ namespace Webzine.Entity.Fixtures
                 var randomStyles = Styles.OrderBy(_ => random.Next()).Take(random.Next(1, 4)).ToList();
                 foreach (var style in randomStyles)
                 {
-                    titre.Styles.Add(style);
+                    titre.Styles.Append(style);
                     style.Titres.Add(titre);
                 }
             }

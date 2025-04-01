@@ -116,6 +116,6 @@ namespace Webzine.Entity
         /// <summary>
         /// Obtient ou définit une liste de styles lié au titre automatiquement représentant le many to many.
         /// </summary>
-        public IEnumerable<Style> Styles { get; set; } = [];
+        public List<Style> Styles { get; set; } = [];
     }
 }

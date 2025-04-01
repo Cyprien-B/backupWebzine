@@ -54,7 +54,7 @@ namespace Webzine.Repository.Local
             foreach (var titre in Factory.Titres)
             {
                 // Supprimer le style de la liste des styles du titre si présent
-                titre.Styles.RemoveAll(s => s.IdStyle == style.IdStyle);
+                titre.Styles = titre.Styles.Where(s => s.IdStyle != style.IdStyle).ToList();
             }
         }
 
