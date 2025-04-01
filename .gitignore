@@ -19,8 +19,7 @@ Webzine.db-wal
 *.sln.docstates
 *.sqlite
 *.db
-appsettings.*
-
+appsettings.*.json
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
