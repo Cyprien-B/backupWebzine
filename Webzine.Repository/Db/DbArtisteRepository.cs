@@ -18,12 +18,12 @@ namespace Webzine.Repository.Db
         /// <inheritdoc/>
         public void Add(Artiste artiste)
         {
-            // Vérifie si un style avec le même libellé existe déjà
+            // Vérifie si un artiste avec le même libellé existe déjà
             bool artisteExiste = context.Artistes.Any(a => a.Nom == artiste.Nom);
 
             if (artisteExiste)
             {
-                // Ignorer l'ajout si le style existe déjà
+                // Ignorer l'ajout si le artiste existe déjà
                 return;
             }
 
