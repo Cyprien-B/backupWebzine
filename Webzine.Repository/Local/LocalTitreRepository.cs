@@ -57,9 +57,9 @@ namespace Webzine.Repository.Local
         }
 
         /// <inheritdoc/>
-        public Titre Find(int idTitre)
+        public Titre? Find(int idTitre)
         {
-            return Factory.Titres.FirstOrDefault(s => s.IdTitre == idTitre) ?? new();
+            return Factory.Titres.FirstOrDefault(s => s.IdTitre == idTitre);
         }
 
         /// <inheritdoc/>

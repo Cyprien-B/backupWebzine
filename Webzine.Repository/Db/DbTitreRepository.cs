@@ -106,10 +106,6 @@ namespace Webzine.Repository.Db
                 // Sauvegarder les changements
                 context.SaveChanges();
             }
-            else
-            {
-                throw new InvalidDataException("Le titre est inexistant");
-            }
         }
 
         /// <inheritdoc/>
@@ -164,7 +160,7 @@ namespace Webzine.Repository.Db
             return context.Titres
                 .Include(t => t.Artiste)
                 .Include(t => t.Styles)
-                .Where(t => EF.Functions.Like(t.Libelle, $"%{mot}%"))
+                .Where(t => t.Libelle.Contains(mot))
                 .ToList();
         }
 
@@ -174,7 +170,7 @@ namespace Webzine.Repository.Db
             return context.Titres
                 .Include(t => t.Artiste)
                 .Include(t => t.Styles)
-                .Where(t => t.Styles.Any(s => EF.Functions.Like(s.Libelle, libelle)))
+                .Where(t => t.Styles.Any(s => s.Libelle.Contains(libelle)))
                 .ToList();
         }
 

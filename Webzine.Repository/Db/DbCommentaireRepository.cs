@@ -55,6 +55,7 @@ namespace Webzine.Repository.Db
                 .ThenInclude(t => t.Artiste)
                 .Include(c => c.Titre)
                 .ThenInclude(t => t.Styles)
+                .AsNoTracking()
                 .FirstOrDefault(c => c.IdCommentaire == commentaire.IdCommentaire);
 
             if (commentaireExistant != null)
@@ -70,10 +71,6 @@ namespace Webzine.Repository.Db
 
                 // Sauvegarder les changements
                 context.SaveChanges();
-            }
-            else
-            {
-                throw new InvalidDataException("Le commentaire est inexistant");
             }
         }
 
