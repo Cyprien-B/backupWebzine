@@ -79,6 +79,12 @@ namespace Webzine.Repository.Contracts
         void IncrementNbLikes(Titre titre);
 
         /// <summary>
+        /// Cherche si un artiste possède le titre.
+        /// </summary>
+        /// <returns>Retourne un booléen <see cref="bool"/> indiquant si le titre existe déjà pour son artiste.</returns>
+        bool LibelleToArtisteAny(Titre titre);
+
+        /// <summary>
         /// Recherche les titres contenant un mot spécifique (recherche insensible à la casse).
         /// </summary>
         /// <param name="mot">Le mot clé à rechercher.</param>

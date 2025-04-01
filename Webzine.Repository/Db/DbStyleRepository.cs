@@ -86,5 +86,13 @@ namespace Webzine.Repository.Local
 
             context.SaveChanges();
         }
+
+        /// <inheritdoc/>
+        public IEnumerable<Style> FindStylesByIds(IEnumerable<int> styleIds)
+        {
+            return context.Styles
+                    .Where(s => styleIds.Contains(s.IdStyle))
+                    .ToList();
+        }
     }
 }

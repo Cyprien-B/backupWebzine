@@ -39,7 +39,7 @@ namespace Webzine.Repository.Db
                 .Where(s => titre.Styles.Select(ts => ts.IdStyle).Contains(s.IdStyle))
                 .ToList();
 
-            if (stylesExistants.Count != titre.Styles.Count)
+            if (stylesExistants.Count != titre.Styles.Count())
             {
                 throw new InvalidDataException("Un ou plusieurs styles spécifiés n'existent pas");
             }
@@ -48,10 +48,10 @@ namespace Webzine.Repository.Db
             titre.Artiste = artisteExistant;
 
             // Remplacer les styles du titre par les styles existants
-            titre.Styles.Clear();
+            titre.Styles = [];
             foreach (Style style in stylesExistants)
             {
-                titre.Styles.Add(style);
+                titre.Styles.Append(style);
             }
 
             // Ajouter le titre
@@ -162,6 +162,12 @@ namespace Webzine.Repository.Db
         }
 
         /// <inheritdoc/>
+        public bool LibelleToArtisteAny(Titre titre)
+        {
+            return context.Titres.Any(t => t.Libelle == titre.Libelle && t.IdArtiste == titre.IdArtiste);
+        }
+
+        /// <inheritdoc/>
         public IEnumerable<Titre> Search(string mot)
         {
             return context.Titres
@@ -210,15 +216,15 @@ namespace Webzine.Repository.Db
                 .Where(s => titre.Styles.Select(ts => ts.IdStyle).Contains(s.IdStyle))
                 .ToList();
 
-            if (stylesExistants.Count != titre.Styles.Count)
+            if (stylesExistants.Count != titre.Styles.Count())
             {
                 throw new InvalidDataException("Un ou plusieurs styles spécifiés n'existent pas");
             }
 
-            existingTitre.Styles.Clear();
+            existingTitre.Styles = [];
             foreach (var style in stylesExistants)
             {
-                existingTitre.Styles.Add(style);
+                existingTitre.Styles.Append(style);
             }
 
             // Mise à jour des propriétés simples

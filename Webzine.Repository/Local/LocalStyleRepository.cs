@@ -114,5 +114,13 @@ namespace Webzine.Repository.Local
                 }
             }
         }
+
+        /// <inheritdoc/>
+        public IEnumerable<Style> FindStylesByIds(IEnumerable<int> styleIds)
+        {
+            return Factory.Styles
+                    .Where(s => styleIds.Contains(s.IdStyle))
+                    .ToList();
+        }
     }
 }

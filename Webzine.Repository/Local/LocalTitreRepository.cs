@@ -97,6 +97,12 @@ namespace Webzine.Repository.Local
         }
 
         /// <inheritdoc/>
+        public bool LibelleToArtisteAny(Titre titre)
+        {
+            return Factory.Titres.Any(t => t.Libelle == titre.Libelle && t.IdArtiste == titre.IdArtiste);
+        }
+
+        /// <inheritdoc/>
         public IEnumerable<Titre> Search(string mot)
         {
             return Factory.Titres
