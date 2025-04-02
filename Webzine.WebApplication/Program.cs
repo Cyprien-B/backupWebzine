@@ -5,10 +5,12 @@
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using NLog.Web;
+using System.Net;
 using Webzine.EntityContext;
 using Webzine.Repository.Contracts;
 using Webzine.Repository.Db;
 using Webzine.Repository.Local;
+using Webzine.WebApplication.Filters;
 using Webzine.WebApplication.Seeder;
 
 /// <summary>
@@ -50,6 +52,7 @@ public static class Program
         Builder.Services.AddControllersWithViews(options =>
         {
             options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+            options.Filters.Add<LoggerActionFilter>();
         });
 
         ConfigureConnexionSGBD();
@@ -249,17 +252,18 @@ public static class Program
         App!.UseStaticFiles();
         App!.UseRouting();
 
+        // Configuration pour que toutes les erreurs passent par ExceptionFilter
         App!.UseExceptionHandler(usepathbase + "/Home/Error");
-
-        // Gestion des erreurs 404
-        App!.UseStatusCodePages(context =>
+        
+        // Convertir les erreurs HTTP en exceptions pour qu'elles passent par ExceptionFilter
+        App!.Use(async (context, next) =>
         {
-            if (context.HttpContext.Response.StatusCode == 404)
+            await next();
+            
+            if (context.Response.StatusCode == 404)
             {
-                context.HttpContext.Response.Redirect(usepathbase + "/Home/NotFound404");
+                throw new HttpRequestException("Page non trouvée", null, HttpStatusCode.NotFound);
             }
-
-            return Task.CompletedTask;
         });
     }
 
