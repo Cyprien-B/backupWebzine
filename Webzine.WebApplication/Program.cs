@@ -32,6 +32,11 @@ public static class Program
     public static Logger? Logger { get; set; } = null;
 
     /// <summary>
+    /// Obtient ou définit l'URL de lancement de l'application.
+    /// </summary>
+    public static string Url { get; set; } = string.Empty;
+
+    /// <summary>
     /// Point d'entrée principal de l'application.
     /// </summary>
     /// <param name="args">Les arguments de ligne de commande passés au programme.</param>
@@ -58,6 +63,11 @@ public static class Program
         Builder.Services.AddControllersWithViews();
 
         App = Builder.Build();
+
+        if (Url != string.Empty)
+        {
+            App.Urls.Add(Url);
+        }
 
         SeedDataBase();
 
@@ -137,6 +147,33 @@ public static class Program
         {
             Logger!.Info($"Connexion à {Builder!.Configuration.GetValue<string>("App:DbConnexion") ?? string.Empty}");
         }
+
+        // Vérification et configuration de la chaîne de connexion
+        string useurlenv = Builder.Configuration["App:Urls:UseEnvironment"] ?? string.Empty;
+        if (string.IsNullOrEmpty(useurlenv))
+        {
+            Builder.Configuration["App:Urls:UseEnvironment"] = "Test";
+            Logger!.Info("UseUrlEnvironment par defaut -> Test");
+        }
+        else
+        {
+            Logger!.Info($"UseUrlEnvironment à {Builder!.Configuration.GetValue<string>("App:Urls:UseEnvironment") ?? string.Empty}");
+        }
+
+        useurlenv = Builder.Configuration["App:Urls:UseEnvironment"] ?? string.Empty;
+
+        // Vérification et configuration de la chaîne de connexion
+        string urltoset = Builder.Configuration[$"App:Urls:Environments:{useurlenv}"] ?? string.Empty;
+        if (string.IsNullOrEmpty(urltoset))
+        {
+            Logger!.Info("Environment par defaut -> Test");
+        }
+        else
+        {
+            Logger!.Info($"Environment à {urltoset}");
+        }
+
+        Url = urltoset;
 
         // Vérification et configuration de Repository
         if (!int.TryParse(Builder.Configuration["App:Pages:Home:NbTitresChroniquesParPaginations"], out int homeTitresChroniquesParPagination) || homeTitresChroniquesParPagination < 1)
