@@ -74,6 +74,18 @@ namespace Webzine.Repository.Db
         }
 
         /// <inheritdoc/>
+        public long CountGlobalLectures()
+        {
+            return context.Titres.AsNoTracking().Sum(t => t.NbLectures);
+        }
+
+        /// <inheritdoc/>
+        public long CountGlobalLikes()
+        {
+            return context.Titres.AsNoTracking().Sum(t => t.NbLikes);
+        }
+
+        /// <inheritdoc/>
         public void Delete(Titre titre)
         {
             // Charger le titre existant avec toutes ses relations
@@ -134,9 +146,15 @@ namespace Webzine.Repository.Db
         }
 
         /// <inheritdoc/>
+        public Titre? FindTitresPlusLu()
+        {
+            return context.Titres.Include(t => t.Artiste).OrderByDescending(t => t.NbLectures).AsNoTracking().FirstOrDefault();
+        }
+
+        /// <inheritdoc/>
         public IEnumerable<Titre> FindTitresPopulaires(int limit)
         {
-            return context.Titres.OrderByDescending(t => t.NbLikes).Take(limit).AsNoTracking().ToList();
+            return context.Titres.Include(t => t.Artiste).OrderByDescending(t => t.NbLikes).Take(limit).AsNoTracking().ToList();
         }
 
         /// <inheritdoc/>

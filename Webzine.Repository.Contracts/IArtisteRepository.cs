@@ -19,6 +19,18 @@ namespace Webzine.Repository.Contracts
         void Add(Artiste artiste);
 
         /// <summary>
+        /// Compte le nombre d'artistes total existant.
+        /// </summary>
+        /// <returns>Un entier de type <see cref="int"/> contenant les artistes totaux.</returns>
+        int Count();
+
+        /// <summary>
+        /// Compte le nombre de biographie qui existe en tout, tout artiste confondu.
+        /// </summary>
+        /// <returns>Un entier de type <see cref="int"/> contenant les biographies totales.</returns>
+        int CountBiographies();
+
+        /// <summary>
         /// Supprime un artiste de la base de données.
         /// </summary>
         /// <param name="artiste">L'objet artiste à supprimer.</param>
@@ -46,11 +58,23 @@ namespace Webzine.Repository.Contracts
         IEnumerable<Artiste> FindAll();
 
         /// <summary>
+        /// Cherche l'artiste ayant composé le plus de titre.
+        /// </summary>
+        /// <returns>Retourne un artiste de type <see cref="Artiste"/> ayant composé le plus de titre sinon un artiste par défaut.</returns>
+        Artiste? FindArtisteComposePlusTitre();
+
+        /// <summary>
+        /// Cherche l'artiste ayant composé le plus de chronique.
+        /// </summary>
+        /// <returns>Retourne un artiste de type <see cref="Artiste"/> soyant le plus chroniqué sinon un artiste par défaut.</returns>
+        Artiste? FindArtistePlusChronique();
+
+        /// <summary>
         /// Récupère l'artiste qui possède le bon nom.
         /// </summary>
         /// <param name="nom">Nom de l'artiste à obtenir.</param>
         /// <returns>Un artiste avec le nom recherché.</returns>
-        Artiste GetArtisteByName(string nom);
+        Artiste FindArtisteByName(string nom);
 
         /// <summary>
         /// Met à jour un artiste existant dans la base de données.

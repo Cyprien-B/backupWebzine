@@ -25,6 +25,18 @@ namespace Webzine.Repository.Contracts
         int Count();
 
         /// <summary>
+        /// Compte le nombre de lectures globaux pour tous les titres.
+        /// </summary>
+        /// <returns>Le nombre de lecture total de lecture, tout titres confondu.</returns>
+        long CountGlobalLectures();
+
+        /// <summary>
+        /// Compte le nombre de likes globaux pour tous les titres.
+        /// </summary>
+        /// <returns>Le nombre de like total de lecture, tout titres confondu.</returns>
+        long CountGlobalLikes();
+
+        /// <summary>
         /// Supprime un titre de la base de données.
         /// </summary>
         /// <param name="titre">L'objet titre à supprimer.</param>
@@ -54,11 +66,17 @@ namespace Webzine.Repository.Contracts
         IEnumerable<Titre> AdministrationFindTitres(int offset, int limit);
 
         /// <summary>
-        /// Retourne les premiers titres les plus populaires dans la limite.
+        /// Cherche les premiers titres les plus populaires dans la limite.
         /// </summary>
         /// <param name="limit">Limite de titres populaires.</param>
         /// <returns>Une liste de titres correspondant au premiers les plus populaires.</returns>
         IEnumerable<Titre> FindTitresPopulaires(int limit);
+
+        /// <summary>
+        /// Cherche le titre le plus lu.
+        /// </summary>
+        /// <returns>Retourne le titre le plus lu de type <see cref="Titre"/>.</returns>
+        Titre? FindTitresPlusLu();
 
         /// <summary>
         /// Retourne tous les titres disponibles dans la base de données.
@@ -81,6 +99,7 @@ namespace Webzine.Repository.Contracts
         /// <summary>
         /// Cherche si un artiste possède le titre.
         /// </summary>
+        /// <param name="titre">Est le titre qu'on veut comparer.</param>
         /// <returns>Retourne un booléen <see cref="bool"/> indiquant si le titre existe déjà pour son artiste.</returns>
         bool LibelleToArtisteAny(Titre titre);
 

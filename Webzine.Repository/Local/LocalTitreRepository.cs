@@ -51,6 +51,18 @@ namespace Webzine.Repository.Local
         }
 
         /// <inheritdoc/>
+        public long CountGlobalLectures()
+        {
+            return Factory.Titres.Sum(t => t.NbLectures);
+        }
+
+        /// <inheritdoc/>
+        public long CountGlobalLikes()
+        {
+            return Factory.Titres.Sum(t => t.NbLikes);
+        }
+
+        /// <inheritdoc/>
         public void Delete(Titre titre)
         {
             Factory.Titres.RemoveAll(s => s.IdTitre == titre.IdTitre);
@@ -72,6 +84,12 @@ namespace Webzine.Repository.Local
         public IEnumerable<Titre> FindTitres(int offset, int limit)
         {
             return Factory.Titres.OrderByDescending(t => t.DateCreation).Skip(limit * (int)(offset - 1)).Take(limit).ToList();
+        }
+
+        /// <inheritdoc/>
+        public Titre? FindTitresPlusLu()
+        {
+            return Factory.Titres.OrderByDescending(t => t.NbLectures).FirstOrDefault();
         }
 
         /// <inheritdoc/>
