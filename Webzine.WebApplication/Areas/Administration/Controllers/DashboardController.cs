@@ -5,7 +5,7 @@
 namespace Webzine.WebApplication.Areas.Administration.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
-    using Webzine.Entity.Fixtures;
+    using Webzine.Entity;
     using Webzine.Repository.Contracts;
     using Webzine.WebApplication.Areas.Administration.ViewModels;
 
@@ -22,21 +22,28 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            var artisteParDefaut = new Artiste()
+            {
+                Nom = "Aucun artiste",
+            };
+
+            var titreParDefaut = new Titre()
+            {
+                Libelle = "Aucun titre",
+                Artiste = artisteParDefaut,
+            };
+
             AdministrationDashboardModel model = new()
             {
-                NbArtistes = (uint)artisteRepository.FindAll().ToList().Count,
-                ArtisteComposeLePlusTitres = artisteRepository.FindAll()
-                    .OrderByDescending(a => a.Titres.Count)
-                    .FirstOrDefault() ?? new(),
-                ArtisteLePlusChronique = artisteRepository.FindAll()
-                    .OrderByDescending(a => a.Titres.Count(t => !string.IsNullOrEmpty(t.Chronique)))
-                    .FirstOrDefault() ?? new(),
-                NbBiographies = (uint)artisteRepository.FindAll().ToList().Where(a => a.Biographie != string.Empty).ToList().Count,
-                TitreLePlusLu = titreRepository.FindAll().OrderByDescending(t => t.NbLectures).First(),
-                NbLectures = (uint)titreRepository.FindAll().ToList().Sum(t => t.NbLectures),
-                NbLikes = (uint)titreRepository.FindAll().ToList().Sum(t => t.NbLikes),
-                NbStyles = (uint)styleRepository.FindAll().ToList().Count,
-                NbTitres = (uint)titreRepository.FindAll().ToList().Count,
+                NbArtistes = (uint)artisteRepository.Count(),
+                ArtisteComposeLePlusTitres = artisteRepository.FindArtisteComposePlusTitre() ?? artisteParDefaut,
+                ArtisteLePlusChronique = artisteRepository.FindArtistePlusChronique() ?? artisteParDefaut,
+                NbBiographies = (uint)artisteRepository.CountBiographies(),
+                TitreLePlusLu = titreRepository.FindTitresPlusLu() ?? titreParDefaut,
+                NbLectures = (uint)titreRepository.CountGlobalLectures(),
+                NbLikes = (uint)titreRepository.CountGlobalLikes(),
+                NbStyles = (uint)styleRepository.Count(),
+                NbTitres = (uint)titreRepository.Count(),
             };
 
             return this.View(model);

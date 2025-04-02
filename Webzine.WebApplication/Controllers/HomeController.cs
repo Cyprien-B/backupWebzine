@@ -30,7 +30,7 @@ namespace Webzine.WebApplication.Controllers
             {
                 PaginationMax = (uint)Math.Ceiling((double)titreRepository.Count() / nbTitresChroniques),
                 TitresRecemmentsChroniques = titreRepository.FindTitres((int)page, nbTitresChroniques).ToList(),
-                TitresPopulaires = titreRepository.FindAll().OrderByDescending(t => t.NbLikes).Take(nbTitresPopulaires).ToList(),
+                TitresPopulaires = titreRepository.FindTitresPopulaires(nbTitresPopulaires),
                 CaracteresChroniqueMax = 200,
                 PaginationActuelle = page,
             };

@@ -14,12 +14,12 @@ namespace Webzine.WebApplication.Areas.Administration.ViewModels
         /// <summary>
         /// Obtient ou définit la liste des styles sélectionnables.
         /// </summary>
-        public List<Style> Styles { get; set; } = [];
+        public IEnumerable<Style> Styles { get; set; } = [];
 
         /// <summary>
         /// Obtient ou définit la liste des artistes sélectionnables.
         /// </summary>
-        public List<Artiste> Artistes { get; set; } = [];
+        public IEnumerable<Artiste> Artistes { get; set; } = [];
 
         /// <summary>
         /// Obtient ou définit le titre à poster.

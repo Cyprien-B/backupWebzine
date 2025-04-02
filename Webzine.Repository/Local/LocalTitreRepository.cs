@@ -51,6 +51,18 @@ namespace Webzine.Repository.Local
         }
 
         /// <inheritdoc/>
+        public long CountGlobalLectures()
+        {
+            return Factory.Titres.Sum(t => t.NbLectures);
+        }
+
+        /// <inheritdoc/>
+        public long CountGlobalLikes()
+        {
+            return Factory.Titres.Sum(t => t.NbLikes);
+        }
+
+        /// <inheritdoc/>
         public void Delete(Titre titre)
         {
             Factory.Titres.RemoveAll(s => s.IdTitre == titre.IdTitre);
@@ -75,6 +87,18 @@ namespace Webzine.Repository.Local
         }
 
         /// <inheritdoc/>
+        public Titre? FindTitresPlusLu()
+        {
+            return Factory.Titres.OrderByDescending(t => t.NbLectures).FirstOrDefault();
+        }
+
+        /// <inheritdoc/>
+        public IEnumerable<Titre> FindTitresPopulaires(int limit)
+        {
+            return Factory.Titres.OrderByDescending(t => t.NbLikes).Take(limit).ToList();
+        }
+
+        /// <inheritdoc/>
         public void IncrementNbLectures(Titre titre)
         {
             Factory.Titres.Where(t => t.IdTitre == titre.IdTitre)
@@ -88,6 +112,12 @@ namespace Webzine.Repository.Local
             Factory.Titres.Where(t => t.IdTitre == titre.IdTitre)
                        .ToList()
                        .ForEach(t => t.NbLikes++);
+        }
+
+        /// <inheritdoc/>
+        public bool LibelleToArtisteAny(Titre titre)
+        {
+            return Factory.Titres.Any(t => t.Libelle == titre.Libelle && t.IdArtiste == titre.IdArtiste);
         }
 
         /// <inheritdoc/>

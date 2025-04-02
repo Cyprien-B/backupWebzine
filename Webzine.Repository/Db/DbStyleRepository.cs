@@ -60,7 +60,7 @@ namespace Webzine.Repository.Local
         /// <inheritdoc/>
         public IEnumerable<Style> FindAll()
         {
-            return context.Styles.AsNoTracking();
+            return context.Styles.OrderBy(s => s.Libelle).AsNoTracking().ToList();
         }
 
         /// <inheritdoc/>
@@ -85,6 +85,14 @@ namespace Webzine.Repository.Local
             }
 
             context.SaveChanges();
+        }
+
+        /// <inheritdoc/>
+        public IEnumerable<Style> FindStylesByIds(IEnumerable<int> styleIds)
+        {
+            return context.Styles
+                    .Where(s => styleIds.Contains(s.IdStyle))
+                    .ToList();
         }
     }
 }

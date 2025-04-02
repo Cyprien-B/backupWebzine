@@ -43,6 +43,13 @@ namespace Webzine.Repository.Contracts
         IEnumerable<Style> FindAll();
 
         /// <summary>
+        /// Retourne tous les styles de musique associés à leurs identifiants.
+        /// </summary>
+        /// <param name="styleIds">Enumerable <see cref="IEnumerable{int}"/> d'entier contenant la liste des styles à retourner.</param>
+        /// <returns>Une collection de styles de musique correspondant aux identifiants.</returns>
+        IEnumerable<Style> FindStylesByIds(IEnumerable<int> styleIds);
+
+        /// <summary>
         /// Retourne une liste paginée de style triés par nom dans l'ordre alphanumérique.
         /// </summary>
         /// <param name="offset">Index de départ des résultats.</param>

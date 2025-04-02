@@ -45,8 +45,8 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         {
             CreationAndEditionTitreModel model = new()
             {
-                Artistes = artisteRepository.FindAll().OrderBy(a => a.Nom).ToList(),
-                Styles = styleRepository.FindAll().OrderBy(s => s.Libelle).ToList(),
+                Artistes = artisteRepository.FindAll(),
+                Styles = styleRepository.FindAll(),
             };
             return this.View(model);
         }
@@ -61,10 +61,8 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         public IActionResult Create([FromForm] Titre titre, [FromForm] List<int> selectedStyleIds)
         {
             // Vérifie si un titre avec le même libellé existe déjà pour le même artiste
-            // TODO: Modifier l'emplacement et/ou créer un service ou une méthode de repository qui vient vérifier l'existence du libelle.
             bool titreExiste = titreRepository
-                .FindAll()
-                .Any(t => t.Libelle == titre.Libelle && t.IdArtiste == titre.IdArtiste);
+                .LibelleToArtisteAny(titre);
 
             if (titreExiste)
             {
@@ -72,14 +70,11 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
                 this.ModelState.AddModelError("Titre.Libelle", "Un titre avec ce libellé existe déjà pour cet artiste.");
             }
 
+            titre.Styles = styleRepository.FindStylesByIds(selectedStyleIds).ToList();
+
             if (this.ModelState.IsValid)
             {
                 titre.UrlEcoute ??= string.Empty;
-
-                // Récupérer les styles complets à partir des IDs sélectionnés
-                titre.Styles = styleRepository.FindAll()
-                    .Where(s => selectedStyleIds.Contains(s.IdStyle))
-                    .ToList();
 
                 // Ajouter le titre au dépôt ou à la base de données
                 titreRepository.Add(titre);
@@ -87,14 +82,10 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            titre.Styles = styleRepository.FindAll()
-                    .Where(s => selectedStyleIds.Contains(s.IdStyle))
-                    .ToList();
-
             CreationAndEditionTitreModel model = new()
             {
-                Artistes = artisteRepository.FindAll().OrderBy(a => a.Nom).ToList(),
-                Styles = styleRepository.FindAll().OrderBy(s => s.Libelle).ToList(),
+                Artistes = artisteRepository.FindAll(),
+                Styles = styleRepository.FindAll(),
                 Titre = titre,
             };
 
@@ -134,9 +125,9 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         {
             CreationAndEditionTitreModel model = new()
             {
-                Artistes = artisteRepository.FindAll().OrderBy(a => a.Nom).ToList(),
-                Styles = styleRepository.FindAll().OrderBy(s => s.Libelle).ToList(),
-                Titre = titreRepository.Find(id),
+                Artistes = artisteRepository.FindAll(),
+                Styles = styleRepository.FindAll(),
+                Titre = titreRepository.Find(id)!,
             };
             return this.View(model);
         }
@@ -150,14 +141,21 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpPost]
         public IActionResult Edit([FromForm] Titre titre, [FromForm] List<int> selectedStyleIds)
         {
+            // Vérifie si un titre avec le même libellé existe déjà pour le même artiste
+            bool titreExiste = titreRepository
+                .LibelleToArtisteAny(titre);
+
+            if (titreExiste)
+            {
+                // Ajoute une erreur au ModelState pour le champ "Libelle"
+                this.ModelState.AddModelError("Titre.Libelle", "Un titre avec ce libellé existe déjà pour cet artiste.");
+            }
+
+            titre.Styles = styleRepository.FindStylesByIds(selectedStyleIds).ToList();
+
             if (this.ModelState.IsValid)
             {
                 titre.UrlEcoute ??= string.Empty;
-
-                // Récupérer les styles complets à partir des IDs sélectionnés
-                titre.Styles = styleRepository.FindAll()
-                    .Where(s => selectedStyleIds.Contains(s.IdStyle))
-                    .ToList();
 
                 // Ajouter le titre au dépôt ou à la base de données
                 titreRepository.Update(titre);
@@ -165,14 +163,10 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            titre.Styles = styleRepository.FindAll()
-                    .Where(s => selectedStyleIds.Contains(s.IdStyle))
-                    .ToList();
-
             CreationAndEditionTitreModel model = new()
             {
-                Artistes = artisteRepository.FindAll().OrderBy(a => a.Nom).ToList(),
-                Styles = styleRepository.FindAll().OrderBy(s => s.Libelle).ToList(),
+                Artistes = artisteRepository.FindAll(),
+                Styles = styleRepository.FindAll(),
                 Titre = titre,
             };
 

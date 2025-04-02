@@ -27,8 +27,8 @@ namespace Webzine.Repository.Contracts
         /// Recherche un commentaire par son identifiant unique.
         /// </summary>
         /// <param name="id">L'identifiant du commentaire recherché.</param>
-        /// <returns>Retourne l'objet Commentaire s'il existe, sinon null.</returns>
-        Commentaire? Find(int id);
+        /// <returns>Retourne l'objet Commentaire avec l'id correspondant.</returns>
+        Commentaire Find(int id);
 
         /// <summary>
         /// Retourne une liste paginée de commentaires triés par date du plus récent au plus ancien.

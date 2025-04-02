@@ -39,7 +39,7 @@ namespace Webzine.Repository.Db
                 .Where(s => titre.Styles.Select(ts => ts.IdStyle).Contains(s.IdStyle))
                 .ToList();
 
-            if (stylesExistants.Count != titre.Styles.Count)
+            if (stylesExistants.Count != titre.Styles.Count())
             {
                 throw new InvalidDataException("Un ou plusieurs styles spécifiés n'existent pas");
             }
@@ -48,10 +48,10 @@ namespace Webzine.Repository.Db
             titre.Artiste = artisteExistant;
 
             // Remplacer les styles du titre par les styles existants
-            titre.Styles.Clear();
+            titre.Styles = [];
             foreach (Style style in stylesExistants)
             {
-                titre.Styles.Add(style);
+                titre.Styles.Append(style);
             }
 
             // Ajouter le titre
@@ -71,6 +71,18 @@ namespace Webzine.Repository.Db
         public int Count()
         {
             return context.Titres.Count();
+        }
+
+        /// <inheritdoc/>
+        public long CountGlobalLectures()
+        {
+            return context.Titres.AsNoTracking().Sum(t => t.NbLectures);
+        }
+
+        /// <inheritdoc/>
+        public long CountGlobalLikes()
+        {
+            return context.Titres.AsNoTracking().Sum(t => t.NbLikes);
         }
 
         /// <inheritdoc/>
@@ -134,6 +146,18 @@ namespace Webzine.Repository.Db
         }
 
         /// <inheritdoc/>
+        public Titre? FindTitresPlusLu()
+        {
+            return context.Titres.Include(t => t.Artiste).OrderByDescending(t => t.NbLectures).AsNoTracking().FirstOrDefault();
+        }
+
+        /// <inheritdoc/>
+        public IEnumerable<Titre> FindTitresPopulaires(int limit)
+        {
+            return context.Titres.Include(t => t.Artiste).OrderByDescending(t => t.NbLikes).Take(limit).AsNoTracking().ToList();
+        }
+
+        /// <inheritdoc/>
         public void IncrementNbLectures(Titre titre)
         {
             var titreToUpdate = context.Titres.Find(titre.IdTitre);
@@ -153,6 +177,12 @@ namespace Webzine.Repository.Db
                 titreToUpdate.NbLikes++;
                 context.SaveChanges();
             }
+        }
+
+        /// <inheritdoc/>
+        public bool LibelleToArtisteAny(Titre titre)
+        {
+            return context.Titres.Any(t => t.Libelle == titre.Libelle && t.IdArtiste == titre.IdArtiste);
         }
 
         /// <inheritdoc/>
@@ -204,15 +234,15 @@ namespace Webzine.Repository.Db
                 .Where(s => titre.Styles.Select(ts => ts.IdStyle).Contains(s.IdStyle))
                 .ToList();
 
-            if (stylesExistants.Count != titre.Styles.Count)
+            if (stylesExistants.Count != titre.Styles.Count())
             {
                 throw new InvalidDataException("Un ou plusieurs styles spécifiés n'existent pas");
             }
 
-            existingTitre.Styles.Clear();
+            existingTitre.Styles = [];
             foreach (var style in stylesExistants)
             {
-                existingTitre.Styles.Add(style);
+                existingTitre.Styles.Append(style);
             }
 
             // Mise à jour des propriétés simples

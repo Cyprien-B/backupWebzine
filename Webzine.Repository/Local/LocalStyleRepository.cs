@@ -54,7 +54,7 @@ namespace Webzine.Repository.Local
             foreach (var titre in Factory.Titres)
             {
                 // Supprimer le style de la liste des styles du titre si présent
-                titre.Styles.RemoveAll(s => s.IdStyle == style.IdStyle);
+                titre.Styles = titre.Styles.Where(s => s.IdStyle != style.IdStyle).ToList();
             }
         }
 
@@ -73,7 +73,7 @@ namespace Webzine.Repository.Local
         /// <inheritdoc/>
         public IEnumerable<Style> FindAll()
         {
-            return Factory.Styles;
+            return Factory.Styles.OrderBy(s => s.Libelle).ToList();
         }
 
         /// <inheritdoc/>
@@ -113,6 +113,14 @@ namespace Webzine.Repository.Local
                     }
                 }
             }
+        }
+
+        /// <inheritdoc/>
+        public IEnumerable<Style> FindStylesByIds(IEnumerable<int> styleIds)
+        {
+            return Factory.Styles
+                    .Where(s => styleIds.Contains(s.IdStyle))
+                    .ToList();
         }
     }
 }

@@ -45,21 +45,55 @@ namespace Webzine.Repository.Local
         }
 
         /// <inheritdoc/>
+        public int Count()
+        {
+            return Factory.Artistes.Count;
+        }
+
+        /// <inheritdoc/>
+        public int CountBiographies()
+        {
+            return Factory.Artistes.Where(a => a.Biographie != string.Empty).Count();
+        }
+
+        /// <inheritdoc/>
         public void Delete(Artiste artiste)
         {
             Factory.Artistes.RemoveAll(a => a.IdArtiste == artiste.IdArtiste);
         }
 
         /// <inheritdoc/>
-        public Artiste? Find(int id)
+        public Artiste Find(int id)
         {
-            return Factory.Artistes.FirstOrDefault(a => a.IdArtiste == id);
+            return Factory.Artistes.Single(a => a.IdArtiste == id);
         }
 
         /// <inheritdoc/>
         public IEnumerable<Artiste> FindAll()
         {
-            return Factory.Artistes;
+            return Factory.Artistes.OrderBy(a => a.Nom).ToList();
+        }
+
+        /// <inheritdoc/>
+        public Artiste FindArtisteByName(string nom)
+        {
+            return Factory.Artistes.Single(a => a.Nom == nom);
+        }
+
+        /// <inheritdoc/>
+        public Artiste? FindArtisteComposePlusTitre()
+        {
+            return Factory.Artistes
+                .OrderByDescending(a => a.Titres.Count)
+                .SingleOrDefault();
+        }
+
+        /// <inheritdoc/>
+        public Artiste? FindArtistePlusChronique()
+        {
+            return Factory.Artistes
+                .OrderByDescending(a => a.Titres.Count(t => !string.IsNullOrEmpty(t.Chronique)))
+                .SingleOrDefault();
         }
 
         /// <inheritdoc/>
