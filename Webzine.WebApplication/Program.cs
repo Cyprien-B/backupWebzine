@@ -11,6 +11,7 @@ using Webzine.EntityContext;
 using Webzine.Repository.Contracts;
 using Webzine.Repository.Db;
 using Webzine.Repository.Local;
+using Webzine.WebApplication.Middlewares;
 using Webzine.WebApplication.Seeder;
 
 /// <summary>
@@ -291,16 +292,25 @@ public static class Program
 
         App!.UseExceptionHandler(usepathbase + "/Home/Error");
 
-        // Gestion des erreurs 404
+        // Gestion des erreurs 404 et 429
         App!.UseStatusCodePages(context =>
         {
+            // Gestion de l'erreur 404
             if (context.HttpContext.Response.StatusCode == 404)
+            {
+                context.HttpContext.Response.Redirect(usepathbase + "/Home/NotFound404");
+            }
+
+            // Gestion de l'erreur 429
+            if (context.HttpContext.Response.StatusCode == StatusCodes.Status429TooManyRequests)
             {
                 context.HttpContext.Response.Redirect(usepathbase + "/Home/NotFound404");
             }
 
             return Task.CompletedTask;
         });
+
+        App!.UseMiddleware<RateLimiterMiddleware>(10, TimeSpan.FromSeconds(1));
     }
 
     private static void ConfigureNLog()
