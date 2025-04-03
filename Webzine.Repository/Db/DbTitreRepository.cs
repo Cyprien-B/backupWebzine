@@ -9,7 +9,6 @@ namespace Webzine.Repository.Db
     using System.Linq;
     using Microsoft.EntityFrameworkCore;
     using Webzine.Entity;
-    using Webzine.Entity.Fixtures;
     using Webzine.EntityContext;
     using Webzine.Repository.Contracts;
 
@@ -71,12 +70,6 @@ namespace Webzine.Repository.Db
         public int Count()
         {
             return context.Titres.Count();
-        }
-
-        /// <inheritdoc/>
-        public long CountGlobalLectures()
-        {
-            return context.Titres.AsNoTracking().Sum(t => t.NbLectures);
         }
 
         /// <inheritdoc/>
@@ -143,12 +136,6 @@ namespace Webzine.Repository.Db
                 .Take(limit)
                 .AsNoTracking()
                 .ToList();
-        }
-
-        /// <inheritdoc/>
-        public Titre? FindTitresPlusLu()
-        {
-            return context.Titres.Include(t => t.Artiste).OrderByDescending(t => t.NbLectures).AsNoTracking().FirstOrDefault();
         }
 
         /// <inheritdoc/>

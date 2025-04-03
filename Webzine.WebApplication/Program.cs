@@ -5,6 +5,8 @@
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using NLog.Web;
+using Webzine.Business;
+using Webzine.Business.Contracts;
 using Webzine.EntityContext;
 using Webzine.Repository.Contracts;
 using Webzine.Repository.Db;
@@ -93,6 +95,7 @@ public static class Program
             Builder!.Services.AddScoped<ITitreRepository, DbTitreRepository>();
             Builder!.Services.AddScoped<IArtisteRepository, DbArtisteRepository>();
             Builder!.Services.AddScoped<ICommentaireRepository, DbCommentaireRepository>();
+            Builder!.Services.AddTransient<IDashboardService, DashboardService>();
         }
     }
 

@@ -7,7 +7,6 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Webzine.Entity;
     using Webzine.Repository.Contracts;
-    using Webzine.Repository.Db;
     using Webzine.WebApplication.Areas.Administration.ViewModels;
 
     /// <summary>
