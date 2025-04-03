@@ -8,6 +8,7 @@ namespace Webzine.Repository.Local
     using Webzine.Entity;
     using Webzine.Entity.Fixtures;
     using Webzine.Repository.Contracts;
+    using Webzine.Repository.Db;
 
     /// <inheritdoc/>
     public class LocalArtisteRepository : IArtisteRepository
@@ -100,6 +101,12 @@ namespace Webzine.Repository.Local
         public bool NomAny(Artiste artiste)
         {
             return Factory.Artistes.Any(a => a.Nom == artiste.Nom);
+        }
+
+        /// <inheritdoc/>
+        public IEnumerable<Artiste> Search(string mot)
+        {
+            return Factory.Artistes.Where(a => a.Nom.Contains(mot, StringComparison.OrdinalIgnoreCase));
         }
 
         /// <inheritdoc/>

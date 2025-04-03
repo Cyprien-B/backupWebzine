@@ -19,6 +19,13 @@ namespace Webzine.Repository.Contracts
         void Add(Artiste artiste);
 
         /// <summary>
+        /// Retourne tous les style qui ressemble à l'artiste.
+        /// </summary>
+        /// <param name="mot"^>Mot de recherche.</param>
+        /// <returns>Retourne un énumérable d'artiste contenant mot en nom.</returns>
+        IEnumerable<Artiste> Search(string mot);
+
+        /// <summary>
         /// Confirme si le nom d'artiste est existant.
         /// </summary>
         /// <param name="artiste">Artiste dont le nom est recherché.</param>

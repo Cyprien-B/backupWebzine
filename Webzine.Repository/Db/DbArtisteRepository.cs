@@ -7,7 +7,6 @@ namespace Webzine.Repository.Db
     using System.Collections.Generic;
     using Microsoft.EntityFrameworkCore;
     using Webzine.Entity;
-    using Webzine.Entity.Fixtures;
     using Webzine.EntityContext;
     using Webzine.Repository.Contracts;
 
@@ -100,6 +99,15 @@ namespace Webzine.Repository.Db
         }
 
         /// <inheritdoc/>
+        public IEnumerable<Artiste> Search(string mot)
+        {
+            return context.Artistes
+                .Where(a => a.Nom.ToLower().Contains(mot.ToLower()))
+                .AsNoTracking()
+                .ToList();
+        }
+
+        /// <inheritdoc/>
         public void Update(Artiste artiste)
         {
             var existingArtiste = context.Artistes.Find(artiste.IdArtiste);
@@ -120,7 +128,7 @@ namespace Webzine.Repository.Db
         /// <inheritdoc/>
         public bool NomAny(Artiste artiste)
         {
-            return context.Artistes.Any(a => a.Nom == artiste.Nom);
+            return context.Artistes.AsNoTracking().Any(a => a.Nom == artiste.Nom);
         }
     }
 }

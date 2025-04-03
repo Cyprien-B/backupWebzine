@@ -29,8 +29,7 @@ namespace Webzine.WebApplication.Controllers
             RechercheModel model = new()
             {
                 TermeRecherche = recherche,
-                Artistes = artisteRepository.FindAll().Where(a => a.Nom.Contains(recherche, StringComparison.OrdinalIgnoreCase))
-                .ToList(),
+                Artistes = artisteRepository.Search(recherche).ToList(),
                 Titres = titreRepository.Search(recherche).ToList(),
             };
 
