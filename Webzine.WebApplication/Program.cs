@@ -2,10 +2,10 @@
 // Copyright (c) Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ. All rights reserved.
 // </copyright>
 
+using System.Net;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using NLog.Web;
-using System.Net;
 using Webzine.EntityContext;
 using Webzine.Repository.Contracts;
 using Webzine.Repository.Db;
@@ -254,12 +254,12 @@ public static class Program
 
         // Configuration pour que toutes les erreurs passent par ExceptionFilter
         App!.UseExceptionHandler(usepathbase + "/Home/Error");
-        
+
         // Convertir les erreurs HTTP en exceptions pour qu'elles passent par ExceptionFilter
         App!.Use(async (context, next) =>
         {
             await next();
-            
+
             if (context.Response.StatusCode == 404)
             {
                 throw new HttpRequestException("Page non trouvée", null, HttpStatusCode.NotFound);
