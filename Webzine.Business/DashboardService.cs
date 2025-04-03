@@ -1,61 +1,59 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Webzine.Business.Contracts;
-using Webzine.Entity;
-using Webzine.Repository.Contracts;
-
+﻿// <copyright file="DashboardService.cs" company="Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ">
+// Copyright (c) Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ. All rights reserved.
+// </copyright>
 namespace Webzine.Business
 {
+    using Webzine.Business.Contracts;
+    using Webzine.Entity;
+    using Webzine.Repository.Contracts;
+
     /// <summary>
     /// Classe de service pour le dashboard.
     /// </summary>
-    public class DashboardService : IDashboardService
+    /// <remarks>
+    /// Initialise une nouvelle instance de la classe <see cref="DashboardService"/>.
+    /// </remarks>
+    /// <param name="artisteRepository">Le repository d'artistes.</param>
+    /// <param name="titreRepository">Le repository de titres.</param>
+    public class DashboardService(IArtisteRepository artisteRepository, ITitreRepository titreRepository) : IDashboardService
     {
-        private readonly IArtisteRepository artisteRepository;
-        private readonly ITitreRepository titreRepository;
-
-        /// <summary>
-        /// Initialise une nouvelle instance de la classe <see cref="DashboardService"/>.
-        /// </summary>
-        /// <param name="artisteRepository">Le repository d'artistes.</param>
-        /// <param name="titreRepository">Le repository de titres.</param>
-        public DashboardService(IArtisteRepository artisteRepository, ITitreRepository titreRepository)
+        /// <inheritdoc/>
+        public Artiste FindArtisteComposePlusTitre()
         {
-            artisteRepository = artisteRepository;
-            titreRepository = titreRepository;
-        }
-
-        /// <summary>
-        /// Trouve l'artiste qui compose le plus de titres.
-        /// </summary>
-        /// <returns>L'artiste qui compose le plus de titres, ou null si aucun artiste n'est trouvé.</returns>
-        public Artiste? FindArtisteComposePlusTitre()
-        {
-            // Trouve l'artiste qui compose le plus de titres
-            return artisteRepository.FindAll()
+            var artistecomposeplustitre = artisteRepository.FindAll()
                 .OrderByDescending(a => a.Titres.Count)
                 .FirstOrDefault();
+
+            if (artistecomposeplustitre == null)
+            {
+                artistecomposeplustitre = new Artiste()
+                {
+                    Nom = "Aucun artiste",
+                };
+            }
+
+            return artistecomposeplustitre;
         }
 
-        /// <summary>
-        /// Trouve l'artiste qui est le plus chroniqué.
-        /// </summary>
-        /// <returns>L'artiste qui est le plus chroniqué, ou null si aucun artiste n'est trouvé.</returns>
-        public Artiste? FindArtistePlusChronique()
+        /// <inheritdoc/>
+        public Artiste FindArtistePlusChronique()
         {
-            // Trouve l'artiste qui est le plus chroniqué
-            return artisteRepository.FindAll()
+            var artistepluschronique = artisteRepository.FindAll()
                 .OrderByDescending(a => a.Titres.Count(t => !string.IsNullOrEmpty(t.Chronique)))
-                .FirstOrDefault();
+                .First();
+
+            if (artistepluschronique == null)
+            {
+                artistepluschronique = new Artiste()
+                {
+                    Nom = "Aucun artiste",
+                };
+            }
+
+            return artistepluschronique;
         }
 
-        /// <summary>
-        /// Compte le nombre de biographies d'artistes.
-        /// </summary>
-        /// <returns>Le nombre de biographies d'artistes.</returns>
+        /// <inheritdoc/>
         public int CountBiographies()
         {
             // Compte le nombre de biographies d'artistes
@@ -63,33 +61,32 @@ namespace Webzine.Business
                 .Count(a => !string.IsNullOrEmpty(a.Biographie));
         }
 
-        /// <summary>
-        /// Trouve le titre le plus lu.
-        /// </summary>
-        /// <returns>Le titre le plus lu, ou null si aucun titre n'est trouvé.</returns>
-        public Titre? FindTitresPlusLu()
+        /// <inheritdoc/>
+        public Titre FindTitresPlusLu()
         {
-            // Trouve le titre le plus lu
-            return titreRepository.FindAll()
+            var titrepluslu = titreRepository.FindAll()
                 .OrderByDescending(t => t.NbLectures)
-                .FirstOrDefault();
+                .First();
+
+            if (titrepluslu == null)
+            {
+                titrepluslu = new Titre()
+                {
+                    Libelle = "Aucun titre",
+                };
+            }
+
+            return titrepluslu;
         }
 
-        /// <summary>
-        /// Compte le nombre total de lectures de titres.
-        /// </summary>
-        /// <returns>Le nombre total de lectures de titres.</returns>
+        /// <inheritdoc/>
         public long CountGlobalLectures()
         {
-            // Compte le nombre total de lectures de titres
             return titreRepository.FindAll()
                 .Sum(t => t.NbLectures);
         }
 
-        /// <summary>
-        /// Compte le nombre total de likes de titres.
-        /// </summary>
-        /// <returns>Le nombre total de likes de titres.</returns>
+        /// <inheritdoc/>
         public long CountGlobalLikes()
         {
             return titreRepository.FindAll()

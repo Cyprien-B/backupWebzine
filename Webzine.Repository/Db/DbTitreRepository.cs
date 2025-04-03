@@ -9,7 +9,6 @@ namespace Webzine.Repository.Db
     using System.Linq;
     using Microsoft.EntityFrameworkCore;
     using Webzine.Entity;
-    using Webzine.Entity.Fixtures;
     using Webzine.EntityContext;
     using Webzine.Repository.Contracts;
 
