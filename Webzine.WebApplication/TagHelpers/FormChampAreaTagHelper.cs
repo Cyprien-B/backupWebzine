@@ -1,4 +1,4 @@
-﻿// <copyright file="FormChampTagHelper.cs" company="Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ">
+﻿// <copyright file="FormChampAreaTagHelper.cs" company="Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ">
 // Copyright (c) Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ. All rights reserved.
 // </copyright>
 
@@ -12,18 +12,18 @@ namespace Webzine.WebApplication.TagHelpers
     using Webzine.WebApplication.Extensions;
 
     /// <summary>
-    /// Tag Helper permettant de générer un champ de formulaire avec son label et son message de validation.
+    /// Tag Helper permettant de générer un champ de formulaire avec son label et son message de validation pour un textarea.
     /// </summary>
-    [HtmlTargetElement("form-champ", Attributes = "asp-for")]
-    public class FormChampTagHelper : TagHelper
+    [HtmlTargetElement("form-champ-area", Attributes = "asp-for")]
+    public class FormChampAreaTagHelper : TagHelper
     {
         private readonly IHtmlGenerator htmlGenerator;
 
         /// <summary>
-        /// Initialise une nouvelle instance de la classe <see cref="FormChampTagHelper"/>.
+        /// Initialise une nouvelle instance de la classe <see cref="FormChampAreaTagHelper"/>.
         /// </summary>
         /// <param name="htmlGenerator">Générateur HTML utilisé pour créer les balises.</param>
-        public FormChampTagHelper(IHtmlGenerator htmlGenerator)
+        public FormChampAreaTagHelper(IHtmlGenerator htmlGenerator)
         {
             this.htmlGenerator = htmlGenerator;
         }
@@ -77,14 +77,14 @@ namespace Webzine.WebApplication.TagHelpers
                 labelText: displayName, // Texte personnalisé pour le label
                 htmlAttributes: new { @class = "col-form-label" });
 
-            // Génération de l'input avec la valeur par défaut
-            var input = this.htmlGenerator.GenerateTextBox(
+            // Génération du textarea avec la valeur par défaut
+            var textarea = this.htmlGenerator.GenerateTextArea(
                 this.ViewContext,
                 this.For.ModelExplorer,
                 this.For.Name,
-                value: defaultValue, // Valeur par défaut explicitement passée
-                format: null,
-                htmlAttributes: new { @class = "form-control" });
+                rows: 9,
+                columns: 5,
+                htmlAttributes: new { @class = "form-control", value = defaultValue });
 
             // Génération du message de validation
             var validationMessage = this.htmlGenerator.GenerateValidationMessage(
@@ -103,7 +103,7 @@ namespace Webzine.WebApplication.TagHelpers
                     {label.GetString()}{(isRequired ? "<label class='text-danger'>*</label>" : string.Empty)}
                 </div>
                 <div class='col-sm-10'>
-                    {input.GetString()}
+                    {textarea.GetString()}
                     {validationMessage.GetString()}
                 </div>");
         }
