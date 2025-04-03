@@ -51,12 +51,6 @@ namespace Webzine.Repository.Local
         }
 
         /// <inheritdoc/>
-        public int CountBiographies()
-        {
-            return Factory.Artistes.Where(a => a.Biographie != string.Empty).Count();
-        }
-
-        /// <inheritdoc/>
         public void Delete(Artiste artiste)
         {
             Factory.Artistes.RemoveAll(a => a.IdArtiste == artiste.IdArtiste);
@@ -78,22 +72,6 @@ namespace Webzine.Repository.Local
         public Artiste FindArtisteByName(string nom)
         {
             return Factory.Artistes.Single(a => a.Nom == nom);
-        }
-
-        /// <inheritdoc/>
-        public Artiste? FindArtisteComposePlusTitre()
-        {
-            return Factory.Artistes
-                .OrderByDescending(a => a.Titres.Count)
-                .SingleOrDefault();
-        }
-
-        /// <inheritdoc/>
-        public Artiste? FindArtistePlusChronique()
-        {
-            return Factory.Artistes
-                .OrderByDescending(a => a.Titres.Count(t => !string.IsNullOrEmpty(t.Chronique)))
-                .SingleOrDefault();
         }
 
         /// <inheritdoc/>

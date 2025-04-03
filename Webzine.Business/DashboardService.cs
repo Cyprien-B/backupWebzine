@@ -18,37 +18,21 @@ namespace Webzine.Business
     public class DashboardService(IArtisteRepository artisteRepository, ITitreRepository titreRepository) : IDashboardService
     {
         /// <inheritdoc/>
-        public Artiste FindArtisteComposePlusTitre()
+        public Artiste? FindArtisteComposePlusTitre()
         {
             var artistecomposeplustitre = artisteRepository.FindAll()
                 .OrderByDescending(a => a.Titres.Count)
                 .FirstOrDefault();
 
-            if (artistecomposeplustitre == null)
-            {
-                artistecomposeplustitre = new Artiste()
-                {
-                    Nom = "Aucun artiste",
-                };
-            }
-
             return artistecomposeplustitre;
         }
 
         /// <inheritdoc/>
-        public Artiste FindArtistePlusChronique()
+        public Artiste? FindArtistePlusChronique()
         {
             var artistepluschronique = artisteRepository.FindAll()
                 .OrderByDescending(a => a.Titres.Count(t => !string.IsNullOrEmpty(t.Chronique)))
                 .FirstOrDefault();
-
-            if (artistepluschronique == null)
-            {
-                artistepluschronique = new Artiste()
-                {
-                    Nom = "Aucun artiste",
-                };
-            }
 
             return artistepluschronique;
         }
@@ -62,19 +46,11 @@ namespace Webzine.Business
         }
 
         /// <inheritdoc/>
-        public Titre FindTitresPlusLu()
+        public Titre? FindTitresPlusLu()
         {
             var titrepluslu = titreRepository.FindAll()
                 .OrderByDescending(t => t.NbLectures)
                 .FirstOrDefault();
-
-            if (titrepluslu == null)
-            {
-                titrepluslu = new Titre()
-                {
-                    Libelle = "Aucun titre",
-                };
-            }
 
             return titrepluslu;
         }
