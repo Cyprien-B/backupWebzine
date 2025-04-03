@@ -6,6 +6,7 @@ namespace Webzine.Entity
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Mvc.ModelBinding;
     using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
     /// <summary>
@@ -17,6 +18,7 @@ namespace Webzine.Entity
         /// Obtient ou définit un Identifiant unique au commentaire.
         /// </summary>
         [Key]
+        [BindNever]
         public int IdCommentaire { get; set; }
 
         /// <summary>
