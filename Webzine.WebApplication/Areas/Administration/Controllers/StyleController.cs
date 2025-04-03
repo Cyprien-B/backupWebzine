@@ -54,7 +54,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         {
             // Vérifie si le libellé existe déjà dans la base de données
             // TODO: Modifier l'emplacement et/ou créer un service ou une méthode de repository qui vient vérifier l'existence du libelle.
-            bool styleExiste = styleRepository.FindAll().Any(s => s.Libelle == style.Libelle);
+            bool styleExiste = styleRepository.LibelleAny(style);
 
             if (styleExiste)
             {
@@ -116,7 +116,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         {
             // Vérifie si le libellé existe déjà dans la base de données
             // TODO: Modifier l'emplacement et/ou créer un service ou une méthode de repository qui vient vérifier l'existence du libelle.
-            bool styleExiste = styleRepository.FindAll().Any(s => s.Libelle == style.Libelle);
+            bool styleExiste = styleRepository.LibelleAny(style);
 
             if (styleExiste)
             {

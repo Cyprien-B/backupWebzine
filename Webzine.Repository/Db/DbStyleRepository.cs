@@ -7,6 +7,7 @@ namespace Webzine.Repository.Local
     using System.Collections.Generic;
     using Microsoft.EntityFrameworkCore;
     using Webzine.Entity;
+    using Webzine.Entity.Fixtures;
     using Webzine.EntityContext;
     using Webzine.Repository.Contracts;
 
@@ -93,6 +94,12 @@ namespace Webzine.Repository.Local
             return context.Styles
                     .Where(s => styleIds.Contains(s.IdStyle))
                     .ToList();
+        }
+
+        /// <inheritdoc/>
+        public bool LibelleAny(Style style)
+        {
+            return context.Styles.Any(s => s.Libelle == style.Libelle);
         }
     }
 }

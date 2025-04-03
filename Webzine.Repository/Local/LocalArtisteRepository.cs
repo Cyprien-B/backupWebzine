@@ -16,7 +16,7 @@ namespace Webzine.Repository.Local
         public void Add(Artiste artiste)
         {
             // Vérifie si un style avec le même libellé existe déjà
-            bool artisteExiste = Factory.Artistes.Any(a => a.Nom == artiste.Nom);
+            bool artisteExiste = this.NomAny(artiste);
 
             if (artisteExiste)
             {
@@ -94,6 +94,12 @@ namespace Webzine.Repository.Local
             return Factory.Artistes
                 .OrderByDescending(a => a.Titres.Count(t => !string.IsNullOrEmpty(t.Chronique)))
                 .SingleOrDefault();
+        }
+
+        /// <inheritdoc/>
+        public bool NomAny(Artiste artiste)
+        {
+            return Factory.Artistes.Any(a => a.Nom == artiste.Nom);
         }
 
         /// <inheritdoc/>

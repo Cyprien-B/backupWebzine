@@ -20,7 +20,7 @@ namespace Webzine.Repository.Db
         public void Add(Artiste artiste)
         {
             // Vérifie si un artiste avec le même libellé existe déjà
-            bool artisteExiste = context.Artistes.Any(a => a.Nom == artiste.Nom);
+            bool artisteExiste = this.NomAny(artiste);
 
             if (artisteExiste)
             {
@@ -115,6 +115,12 @@ namespace Webzine.Repository.Db
             }
 
             context.SaveChanges();
+        }
+
+        /// <inheritdoc/>
+        public bool NomAny(Artiste artiste)
+        {
+            return context.Artistes.Any(a => a.Nom == artiste.Nom);
         }
     }
 }

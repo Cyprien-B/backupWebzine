@@ -19,6 +19,13 @@ namespace Webzine.Repository.Contracts
         void Add(Artiste artiste);
 
         /// <summary>
+        /// Confirme si le nom d'artiste est existant.
+        /// </summary>
+        /// <param name="artiste">Artiste dont le nom est recherché.</param>
+        /// <returns><see cref="true"/> si l'artiste existe sinon <see cref="false"/>.</returns>
+        bool NomAny(Artiste artiste);
+
+        /// <summary>
         /// Compte le nombre d'artistes total existant.
         /// </summary>
         /// <returns>Un entier de type <see cref="int"/> contenant les artistes totaux.</returns>

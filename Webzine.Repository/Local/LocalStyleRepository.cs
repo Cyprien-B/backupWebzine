@@ -122,5 +122,11 @@ namespace Webzine.Repository.Local
                     .Where(s => styleIds.Contains(s.IdStyle))
                     .ToList();
         }
+
+        /// <inheritdoc/>
+        public bool LibelleAny(Style style)
+        {
+            return Factory.Styles.Any(s => s.Libelle == style.Libelle);
+        }
     }
 }

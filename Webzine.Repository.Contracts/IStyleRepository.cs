@@ -18,6 +18,13 @@ namespace Webzine.Repository.Contracts
         void Add(Style style);
 
         /// <summary>
+        /// Confirme si le libelle du style existe.
+        /// </summary>
+        /// <param name="style">Style dont le libelle est à chercher.</param>
+        /// <returns>Un booleen, true si le nom existe.</returns>
+        bool LibelleAny(Style style);
+
+        /// <summary>
         /// Compte le nombre total de Style dans la base de données.
         /// </summary>
         /// <returns>Le nombre total de Style.</returns>
