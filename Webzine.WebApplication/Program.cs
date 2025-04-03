@@ -9,7 +9,8 @@ using Webzine.EntityContext;
 using Webzine.Repository.Contracts;
 using Webzine.Repository.Db;
 using Webzine.Repository.Local;
-using Webzine.WebApplication.Seeder;
+using Webzine.Seeders;
+using Webzine.WebApplication.Seeders;
 
 /// <summary>
 /// Contient le point d'entrée principal de l'application.
@@ -99,7 +100,7 @@ public static class Program
 
         // Vérification et configuration de Seeder
         string seeder = Builder.Configuration["App:Seeder"] ?? string.Empty;
-        if (string.IsNullOrEmpty(seeder) || (!seeder.Equals("Local", StringComparison.OrdinalIgnoreCase) && !seeder.Equals("Ignore", StringComparison.OrdinalIgnoreCase)))
+        if (string.IsNullOrEmpty(seeder) || (!seeder.Equals("Local", StringComparison.OrdinalIgnoreCase) && !seeder.Equals("Ignore", StringComparison.OrdinalIgnoreCase) && !seeder.Equals("Deezer", StringComparison.OrdinalIgnoreCase)))
         {
             Builder.Configuration["App:Seeder"] = "Local";
         }
@@ -269,7 +270,7 @@ public static class Program
         Builder!.Host.UseNLog();
     }
 
-    private static void SeedDataBase()
+    private static async void SeedDataBase()
     {
         // Vider et recréer la base de données
         using (var scope = App!.Services.CreateScope())
@@ -277,10 +278,19 @@ public static class Program
             var context = scope.ServiceProvider.GetRequiredService<WebzineDbContext>();
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
-            if (Builder!.Configuration.GetValue<string>("App:Seeder") != "Ignore")
+
+            var seederType = Builder!.Configuration.GetValue<string>("App:Seeder");
+
+            if (seederType == "Local")
             {
                 SeedDataLocal.Initialize(scope.ServiceProvider);
             }
+            else if (seederType == "Deezer")
+            {
+                await SeedDataDeezer.Initialize(scope.ServiceProvider);
+            }
+
+            // Si "App:Seeder" n'est ni "Local" ni "Deezer", aucun seeder n'est exécuté
         }
     }
 }
