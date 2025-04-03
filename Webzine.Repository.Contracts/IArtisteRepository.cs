@@ -25,12 +25,6 @@ namespace Webzine.Repository.Contracts
         int Count();
 
         /// <summary>
-        /// Compte le nombre de biographie qui existe en tout, tout artiste confondu.
-        /// </summary>
-        /// <returns>Un entier de type <see cref="int"/> contenant les biographies totales.</returns>
-        int CountBiographies();
-
-        /// <summary>
         /// Supprime un artiste de la base de données.
         /// </summary>
         /// <param name="artiste">L'objet artiste à supprimer.</param>
@@ -56,18 +50,6 @@ namespace Webzine.Repository.Contracts
         /// </summary>
         /// <returns>Une collection d'artistes.</returns>
         IEnumerable<Artiste> FindAll();
-
-        /// <summary>
-        /// Cherche l'artiste ayant composé le plus de titre.
-        /// </summary>
-        /// <returns>Retourne un artiste de type <see cref="Artiste"/> ayant composé le plus de titre sinon un artiste par défaut.</returns>
-        Artiste? FindArtisteComposePlusTitre();
-
-        /// <summary>
-        /// Cherche l'artiste ayant composé le plus de chronique.
-        /// </summary>
-        /// <returns>Retourne un artiste de type <see cref="Artiste"/> soyant le plus chroniqué sinon un artiste par défaut.</returns>
-        Artiste? FindArtistePlusChronique();
 
         /// <summary>
         /// Récupère l'artiste qui possède le bon nom.

@@ -73,12 +73,6 @@ namespace Webzine.Repository.Db
         }
 
         /// <inheritdoc/>
-        public long CountGlobalLectures()
-        {
-            return context.Titres.AsNoTracking().Sum(t => t.NbLectures);
-        }
-
-        /// <inheritdoc/>
         public long CountGlobalLikes()
         {
             return context.Titres.AsNoTracking().Sum(t => t.NbLikes);
@@ -142,12 +136,6 @@ namespace Webzine.Repository.Db
                 .Take(limit)
                 .AsNoTracking()
                 .ToList();
-        }
-
-        /// <inheritdoc/>
-        public Titre? FindTitresPlusLu()
-        {
-            return context.Titres.Include(t => t.Artiste).OrderByDescending(t => t.NbLectures).AsNoTracking().FirstOrDefault();
         }
 
         /// <inheritdoc/>

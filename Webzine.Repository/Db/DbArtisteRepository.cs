@@ -48,12 +48,6 @@ namespace Webzine.Repository.Db
         }
 
         /// <inheritdoc/>
-        public int CountBiographies()
-        {
-            return context.Artistes.Where(a => a.Biographie != string.Empty).AsNoTracking().Count();
-        }
-
-        /// <inheritdoc/>
         public void Delete(Artiste artiste)
         {
             context.Artistes.Remove(artiste);
@@ -72,24 +66,6 @@ namespace Webzine.Repository.Db
         public IEnumerable<Artiste> FindAll()
         {
             return context.Artistes.Include(a => a.Titres).OrderBy(a => a.Nom).AsNoTracking().ToList();
-        }
-
-        /// <inheritdoc/>
-        public Artiste? FindArtisteComposePlusTitre()
-        {
-            return context.Artistes
-                .OrderByDescending(a => a.Titres.Count)
-                .AsNoTracking()
-                .FirstOrDefault();
-        }
-
-        /// <inheritdoc/>
-        public Artiste? FindArtistePlusChronique()
-        {
-            return context.Artistes
-                .OrderByDescending(a => a.Titres.Count(t => !string.IsNullOrEmpty(t.Chronique)))
-                .AsNoTracking()
-                .FirstOrDefault();
         }
 
         /// <inheritdoc/>

@@ -25,12 +25,6 @@ namespace Webzine.Repository.Contracts
         int Count();
 
         /// <summary>
-        /// Compte le nombre de lectures globaux pour tous les titres.
-        /// </summary>
-        /// <returns>Le nombre de lecture total de lecture, tout titres confondu.</returns>
-        long CountGlobalLectures();
-
-        /// <summary>
         /// Compte le nombre de likes globaux pour tous les titres.
         /// </summary>
         /// <returns>Le nombre de like total de lecture, tout titres confondu.</returns>
@@ -71,12 +65,6 @@ namespace Webzine.Repository.Contracts
         /// <param name="limit">Limite de titres populaires.</param>
         /// <returns>Une liste de titres correspondant au premiers les plus populaires.</returns>
         IEnumerable<Titre> FindTitresPopulaires(int limit);
-
-        /// <summary>
-        /// Cherche le titre le plus lu.
-        /// </summary>
-        /// <returns>Retourne le titre le plus lu de type <see cref="Titre"/>.</returns>
-        Titre? FindTitresPlusLu();
 
         /// <summary>
         /// Retourne tous les titres disponibles dans la base de données.
