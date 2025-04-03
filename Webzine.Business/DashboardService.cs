@@ -40,7 +40,7 @@ namespace Webzine.Business
         {
             var artistepluschronique = artisteRepository.FindAll()
                 .OrderByDescending(a => a.Titres.Count(t => !string.IsNullOrEmpty(t.Chronique)))
-                .First();
+                .FirstOrDefault();
 
             if (artistepluschronique == null)
             {
@@ -66,7 +66,7 @@ namespace Webzine.Business
         {
             var titrepluslu = titreRepository.FindAll()
                 .OrderByDescending(t => t.NbLectures)
-                .First();
+                .FirstOrDefault();
 
             if (titrepluslu == null)
             {
