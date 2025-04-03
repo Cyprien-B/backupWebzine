@@ -47,7 +47,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         {
             // Vérifie si le libellé existe déjà dans la base de données
             // TODO: Modifier l'emplacement et/ou créer un service ou une méthode de repository qui vient vérifier l'existence de l'artiste.
-            bool artisteExiste = artisteRepository.FindAll().Any(a => a.Nom == artiste.Nom);
+            bool artisteExiste = artisteRepository.NomAny(artiste);
 
             if (artisteExiste)
             {
@@ -109,7 +109,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         {
             // Vérifie si le libellé existe déjà dans la base de données
             // TODO: Modifier l'emplacement et/ou créer un service ou une méthode de repository qui vient vérifier l'existence de l'artiste.
-            bool artisteExiste = artisteRepository.FindAll().Any(a => a.Nom == artiste.Nom);
+            bool artisteExiste = artisteRepository.NomAny(artiste);
 
             if (artisteExiste)
             {

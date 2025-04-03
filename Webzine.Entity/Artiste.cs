@@ -6,6 +6,7 @@ namespace Webzine.Entity
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Mvc.ModelBinding;
 
     /// <summary>
     /// Entite artiste.
@@ -17,6 +18,7 @@ namespace Webzine.Entity
         /// Cet identifiant sert de clé primaire dans la base de données.
         /// </summary>
         [Key]
+        [BindNever]
         public int IdArtiste { get; set; } = 0;
 
         /// <summary>

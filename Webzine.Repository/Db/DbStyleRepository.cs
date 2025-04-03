@@ -92,7 +92,14 @@ namespace Webzine.Repository.Local
         {
             return context.Styles
                     .Where(s => styleIds.Contains(s.IdStyle))
+                    .AsNoTracking()
                     .ToList();
+        }
+
+        /// <inheritdoc/>
+        public bool LibelleAny(Style style)
+        {
+            return context.Styles.AsNoTracking().Any(s => s.Libelle == style.Libelle);
         }
     }
 }
