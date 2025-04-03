@@ -13,13 +13,13 @@ namespace Webzine.Business.Contracts
         /// <summary>
         /// Cherche l'artiste ayant composé le plus de titre.
         /// </summary>
-        /// <returns>L'artiste ayant composé le plus de titre, ou un atiste nommer "Aucun artiste" si aucun artiste n'est trouvé.</returns>
+        /// <returns>L'artiste ayant composé le plus de titre, ou null si aucun artiste n'est trouvé.</returns>
         Artiste? FindArtisteComposePlusTitre();
 
         /// <summary>
         /// Cherche l'artiste ayant composé le plus de chronique.
         /// </summary>
-        /// <returns>L'artiste qui est le plus chroniqué, ou un atiste nommer "Aucun artiste" si aucun artiste n'est trouvé.</returns>
+        /// <returns>L'artiste qui est le plus chroniqué, ou null si aucun artiste n'est trouvé.</returns>
         Artiste? FindArtistePlusChronique();
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Webzine.Business.Contracts
         /// <summary>
         /// Cherche le titre le plus lu.
         /// </summary>
-        /// <returns>Le titre le plus lu, ou un titre "Aucun titre" si aucun titre n'est trouvé.</returns>
+        /// <returns>Le titre le plus lu, ou null si aucun titre n'est trouvé.</returns>
         Titre? FindTitresPlusLu();
 
         /// <summary>
