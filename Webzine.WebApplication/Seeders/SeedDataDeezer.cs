@@ -19,13 +19,31 @@ namespace Webzine.WebApplication.Seeders
     /// </summary>
     public static class SeedDataDeezer
     {
-        private static readonly HttpClient httpClient = new HttpClient();
+        private static readonly HttpClient HttpClient = new HttpClient();
 
-        // Listes temporaires pour stocker les entités
+        /// <summary>
+        /// Obtient la liste des artistes.
+        /// Cette liste contient les artistes récupérés ou générés pour le peuplement de la base de données.
+        /// </summary>
         public static List<Artiste> Artistes { get; private set; } = new List<Artiste>();
+
+        /// <summary>
+        /// Obtient la liste des styles.
+        /// Cette liste contient les styles musicaux associés aux titres.
+        /// </summary>
         public static List<Style> Styles { get; private set; } = new List<Style>();
+
+        /// <summary>
+        /// Obtient la liste des titres.
+        /// Cette liste contient les titres récupérés ou générés pour le peuplement de la base de données.
+        /// </summary>
         public static List<Titre> Titres { get; private set; } = new List<Titre>();
-        public static List<Commentaire> Commentaires { get; private set; } = new List<Commentaire>(); // Vide
+
+        /// <summary>
+        /// Obtient la liste des commentaires.
+        /// Cette liste est vide par défaut et peut être utilisée pour gérer les commentaires associés aux titres.
+        /// </summary>
+        public static List<Commentaire> Commentaires { get; private set; } = new List<Commentaire>();
 
         /// <summary>
         /// Initialise la base de données avec les données validées.
@@ -64,8 +82,8 @@ namespace Webzine.WebApplication.Seeders
         /// <returns>Une tâche asynchrone.</returns>
         public static async Task FetchDataFromDeezerAsync()
         {
-            const int total = 2000; // Nombre total de titres à récupérer
-            const int batchSize = 100; // Nombre de titres par lot
+            const int total = 3000; // Nombre total de titres à récupérer
+            const int batchSize = 300; // Nombre de titres par lot
 
             var tracks = await GetTracksAsync(total, batchSize);
 
@@ -95,7 +113,7 @@ namespace Webzine.WebApplication.Seeders
                     IdArtiste = 0, // Lien avec l'artiste sera vérifié plus tard
                     Styles = t.Genres?.Select(g => new Style { Libelle = g.Name }).ToList() ?? new List<Style>(),
                     DateCreation = DateTime.UtcNow,
-                    DateSortie = DateTime.UtcNow // Pas disponible dans l'API Deezer
+                    DateSortie = DateTime.UtcNow, // Pas disponible dans l'API Deezer
                 };
 
                 return titre;
@@ -179,11 +197,12 @@ namespace Webzine.WebApplication.Seeders
         private static async Task<List<DeezerTrack>> GetTracksAsync(int total, int limit)
         {
             var allTracks = new List<DeezerTrack>();
+            int index = 0; // Indice de départ pour la pagination
             string url = $"https://api.deezer.com/chart/0/tracks?limit={limit}";
 
             while (allTracks.Count < total)
             {
-                HttpResponseMessage response = await httpClient.GetAsync(url);
+                HttpResponseMessage response = await HttpClient.GetAsync(url);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -193,12 +212,12 @@ namespace Webzine.WebApplication.Seeders
                 string json = await response.Content.ReadAsStringAsync();
                 var result = JsonSerializer.Deserialize<DeezerResponse>(json, new JsonSerializerOptions
                 {
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                 });
 
                 if (result?.Data == null || result.Data.Count == 0)
                 {
-                    break;
+                    break; // Arrêter si aucune donnée n'est retournée
                 }
 
                 allTracks.AddRange(result.Data);
@@ -209,8 +228,9 @@ namespace Webzine.WebApplication.Seeders
                     break;
                 }
 
-                // Mise à jour de l'URL pour paginer
-                url = $"https://api.deezer.com/chart/0/tracks?limit={limit}&index={allTracks.Count}";
+                // Mettre à jour l'URL pour paginer
+                index += limit; // Incrémenter l'index par la limite
+                url = $"https://api.deezer.com/chart/0/tracks?limit={limit}&index={index}";
 
                 await Task.Delay(500); // Pause pour éviter d'être bloqué par l'API
             }
@@ -218,25 +238,80 @@ namespace Webzine.WebApplication.Seeders
             return allTracks.Take(total).ToList();
         }
 
-        // Modèles JSON pour la désérialisation
-        private class DeezerResponse { public List<DeezerTrack>? Data { get; set; } }
+        /// <summary>
+        /// Représente la réponse de l'API Deezer contenant une liste de titres.
+        /// </summary>
+        private class DeezerResponse
+        {
+            /// <summary>
+            /// Obtient ou définit la liste des titres retournés par l'API Deezer.
+            /// </summary>
+            public List<DeezerTrack>? Data { get; set; }
+        }
 
+        /// <summary>
+        /// Représente un titre musical retourné par l'API Deezer.
+        /// </summary>
         private class DeezerTrack
         {
-            public string Title { get; set; }
-            public DeezerArtist Artist { get; set; }
-            public DeezerAlbum Album { get; set; }
+            /// <summary>
+            /// Obtient ou définit le titre du morceau.
+            /// </summary>
+            public string Title { get; set; } = string.Empty;
+
+            /// <summary>
+            /// Obtient ou définit l'artiste associé au morceau.
+            /// </summary>
+            public DeezerArtist Artist { get; set; } = new();
+
+            /// <summary>
+            /// Obtient ou définit l'album auquel appartient le morceau.
+            /// </summary>
+            public DeezerAlbum Album { get; set; } = new();
+
+            /// <summary>
+            /// Obtient ou définit la liste des genres associés au morceau.
+            /// Peut être null si aucun genre n'est associé.
+            /// </summary>
             public List<DeezerGenre>? Genres { get; set; }
         }
 
-        private class DeezerArtist { public string Name { get; set; } }
-
-        private class DeezerAlbum
+        /// <summary>
+        /// Représente un artiste musical retourné par l'API Deezer.
+        /// </summary>
+        private class DeezerArtist
         {
-            public string Title { get; set; }
-            public string Cover { get; set; }
+            /// <summary>
+            /// Obtient ou définit le nom de l'artiste.
+            /// </summary>
+            public string Name { get; set; } = string.Empty;
         }
 
-        private class DeezerGenre { public string Name { get; set; } }
+        /// <summary>
+        /// Représente un album musical retourné par l'API Deezer.
+        /// </summary>
+        private class DeezerAlbum
+        {
+            /// <summary>
+            /// Obtient ou définit le titre de l'album.
+            /// </summary>
+            public string Title { get; set; } = string.Empty;
+
+            /// <summary>
+            /// Obtient ou définit l'URL de la jaquette de l'album.
+            /// </summary>
+            public string Cover { get; set; } = string.Empty;
+        }
+
+        /// <summary>
+        /// Représente un genre musical retourné par l'API Deezer.
+        /// </summary>
+        private class DeezerGenre
+        {
+            /// <summary>
+            /// Obtient ou définit le nom du genre musical.
+            /// </summary>
+            public string Name { get; set; } = string.Empty;
+        }
     }
 }
