@@ -7,94 +7,15 @@
 <h1 class="mb-1">Tableau de bord</h1>
 <hr />
 <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-1">
-    <div class="col">
-        <div class="card card-cover h-100 overflow-hidden bg-light border-0 text-center">
-            <p>
-                <i class="fa-solid fa-users display-1 text-primary mb-3  mt-4"></i>
-                <h3 class="card-title text-primary mb-2">@Model.NbArtistes</h3>
-                <h6 class="text-primary">artistes</h6>
-            </p>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card card-cover h-100 overflow-hidden bg-light border-0 text-center">
-            <p>
-                <i class="fa-solid fa-user display-1 text-primary mb-3  mt-4"></i>
-                <h3 class="card-title text-primary mb-2">@Model.ArtisteLePlusChronique.Nom</h3>
-                <h6 class="text-primary">artiste le plus chroniqué</h6>
-            </p>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card card-cover h-100 overflow-hidden bg-light border-0 text-center">
-            <p>
-                <i class="fa-solid fa-trophy display-1 text-primary mb-3  mt-4"></i>
-                <h3 class="card-title text-primary mb-2">@Model.ArtisteComposeLePlusTitres.Nom</h3>
-                <h6 class="text-primary">artiste avec le plus de titres provenant d'albums distincts</h6>
-            </p>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card card-cover h-100 overflow-hidden bg-light border-0 text-center">
-            <p>
-                <i class="fa-solid fa-book display-1 text-primary mb-3 mt-4"></i>
-                <h3 class="card-title text-primary mb-2">@Model.NbBiographies</h3>
-                <h6 class="text-primary">biographies d'artistes</h6>
-            </p>
-        </div>
-    </div>
+    <card-info class="fa-solid fa-users" f-color="text-primary" for="@Model.NbArtistes" sub-for="artistes"></card-info>
+    <card-info class="fa-solid fa-user" f-color="text-primary" for="@Model.ArtisteLePlusChronique.Nom" sub-for="artiste le plus chronique"></card-info>
+    <card-info class="fa-solid fa-trophy" f-color="text-primary" for="@Model.ArtisteComposeLePlusTitres.Nom" sub-for="artiste avec le plus de titres provenant d'albums distincts"></card-info>
 
-    <div class="col">
-        <div class="card card-cover h-100 overflow-hidden bg-light border-0 text-center">
-            <p>
-                <i class="fa-solid fa-compact-disc display-1 text-primary mb-3 mt-4"></i>
-                <h3 class="card-title text-primary mb-2">@Model.TitreLePlusLu.Artiste.Nom - @Model.TitreLePlusLu.Libelle</h3>
-                <h6 class="text-primary">titre le plus lu</h6>
-            </p>
-        </div>
-    </div>
-
-    <div class="col">
-        <div class="card card-cover h-100 overflow-hidden bg-light border-0 text-center">
-            <p>
-                <br />
-                <i class="fa-solid fa-music display-1 text-primary mb-3"></i>
-                <h3 class="card-title text-primary mb-2">@Model.NbTitres</h3>
-                <h6 class="text-primary">titres</h6>
-            </p>
-        </div>
-    </div>
-
-    <div class="col">
-        <div class="card card-cover h-100 overflow-hidden bg-light border-0 text-center">
-            <p>
-                <br />
-                <i class="fa-solid fa-tags display-1 text-primary mb-3"></i>
-                <h3 class="card-title text-primary mb-2">@Model.NbStyles</h3>
-                <h6 class="text-primary">styles de musique</h6>
-            </p>
-        </div>
-    </div>
-
-    <div class="col">
-        <div class="card card-cover h-100 overflow-hidden bg-light border-0 text-center">
-            <p>
-                <br />
-                <i class="fa-solid fa-eye display-1 mb-3"></i>
-                <h3 class="card-title mb-2">@Model.NbLectures</h3>
-                <h6>lectures</h6>
-            </p>
-        </div>
-    </div>
-
-    <div class="col">
-        <div class="card card-cover h-100 overflow-hidden bg-light border-0 text-center">
-            <p>
-                <br />
-                <i class="fa-solid fa-thumbs-up display-1 mb-3"></i>
-                <h3 class="card-title mb-2">@Model.NbLikes</h3>
-                <h6>likes</h6>
-            </p>
-        </div>
-    </div>
+    <card-info class="fa-solid fa-book" f-color="text-primary" for="@Model.NbBiographies" sub-for="biographies d'artistes"></card-info>
+    <card-info class="fa-solid fa-compact-disc" f-color="text-primary" for="@Model.TitreLePlusLu.Artiste.Nom - @Model.TitreLePlusLu.Libelle" sub-for="titre le plus lu"></card-info>
+    <card-info class="fa-solid fa-music" f-color="text-primary" for="@Model.NbTitres" sub-for="titres"></card-info>
+    
+    <card-info class="fa-solid fa-tags" f-color="text-primary" for="@Model.NbStyles" sub-for="styles de musique"></card-info>
+    <card-info class="fa-solid fa-eye" f-color="" for="@Model.NbLectures" sub-for="lectures"></card-info>
+    <card-info class="fa-solid fa-thumbs-up" f-color="" for="@Model.NbLikes" sub-for="likes"></card-info>
 </div>
