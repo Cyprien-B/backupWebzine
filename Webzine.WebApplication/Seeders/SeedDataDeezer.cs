@@ -131,10 +131,41 @@ namespace Webzine.WebApplication.Seeders
                 .Select(g => g.First())
                 .ToList();
 
-            Styles = Styles
-                .GroupBy(s => s.Libelle.Trim(), StringComparer.OrdinalIgnoreCase) // Insensible à la casse et aux espaces
-                .Select(g => g.First())
-                .ToList();
+            Styles = new List<Style>
+            {
+                new Style { IdStyle = 1, Libelle = "Pop" },
+                new Style { IdStyle = 2, Libelle = "Rock" },
+                new Style { IdStyle = 3, Libelle = "Jazz" },
+                new Style { IdStyle = 4, Libelle = "Blues" },
+                new Style { IdStyle = 5, Libelle = "Classique" },
+                new Style { IdStyle = 6, Libelle = "Hip-Hop" },
+                new Style { IdStyle = 7, Libelle = "Rap" },
+                new Style { IdStyle = 8, Libelle = "R&B" },
+                new Style { IdStyle = 9, Libelle = "Soul" },
+                new Style { IdStyle = 10, Libelle = "Reggae" },
+                new Style { IdStyle = 11, Libelle = "Ska" },
+                new Style { IdStyle = 12, Libelle = "Funk" },
+                new Style { IdStyle = 13, Libelle = "Country" },
+                new Style { IdStyle = 14, Libelle = "Electro" },
+                new Style { IdStyle = 15, Libelle = "House" },
+                new Style { IdStyle = 16, Libelle = "Techno" },
+                new Style { IdStyle = 17, Libelle = "Trance" },
+                new Style { IdStyle = 18, Libelle = "Ambient" },
+                new Style { IdStyle = 19, Libelle = "Chillout" },
+                new Style { IdStyle = 20, Libelle = "Hard Rock" },
+                new Style { IdStyle = 21, Libelle = "Metal" },
+                new Style { IdStyle = 22, Libelle = "Punk" },
+                new Style { IdStyle = 23, Libelle = "Grunge" },
+                new Style { IdStyle = 24, Libelle = "K-Pop" },
+                new Style { IdStyle = 25, Libelle = "J-Pop" },
+                new Style { IdStyle = 26, Libelle = "World Music" },
+                new Style { IdStyle = 27, Libelle = "Latin Music" },
+                new Style { IdStyle = 28, Libelle = "Afrobeat" },
+                new Style { IdStyle = 29, Libelle = "Trap" },
+                new Style { IdStyle = 30, Libelle = "Dubstep" },
+                new Style { IdStyle = 31, Libelle = "Indie Rock" },
+                new Style { IdStyle = 32, Libelle = "Lo-fi Hip-Hop" },
+            };
 
             var validTitres = new List<Titre>();
 
