@@ -9,7 +9,6 @@ using Webzine.EntityContext;
 using Webzine.Repository.Contracts;
 using Webzine.Repository.Db;
 using Webzine.Repository.Local;
-using Webzine.Seeders;
 using Webzine.WebApplication.Seeders;
 
 /// <summary>
@@ -36,7 +35,8 @@ public static class Program
     /// Point d'entrée principal de l'application.
     /// </summary>
     /// <param name="args">Les arguments de ligne de commande passés au programme.</param>
-    public static void Main(string[] args)
+    /// <return></return></returns>
+    public static async Task Main(string[] args)
     {
         Logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 
@@ -60,7 +60,7 @@ public static class Program
 
         App = Builder.Build();
 
-        SeedDataBase();
+        await SeedDataBase();
 
         ConfigureMiddleware();
 
@@ -270,7 +270,7 @@ public static class Program
         Builder!.Host.UseNLog();
     }
 
-    private static async void SeedDataBase()
+    private static async Task SeedDataBase()
     {
         // Vider et recréer la base de données
         using (var scope = App!.Services.CreateScope())
