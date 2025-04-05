@@ -4,10 +4,11 @@
     this.ViewBag.Title = "Erreur";
 }
 
-<section class="text-center">
-
-    <h1>Une erreur s'est produite</h1>
-    <p class="text-danger">@Model.Message</p>
+<section class="text-center mt-20">
+   <h1>Une erreur s'est produite</h1>
+    <h4 class="text-warning mb-3">@(Model?.GetType().Name ?? ViewData["ExceptionType"]?.ToString() ?? "Erreur inconnue")
+    </h4>
+    <p class="text-danger">@(Model?.Message ?? ViewData["ErrorMessage"]?.ToString() ?? "Une erreur s'est produite.")</p>
 
     <a asp-area="" asp-controller="Home" asp-action="Index" class="btn btn-primary">Retour à la page d'accueil</a>
 </section>
