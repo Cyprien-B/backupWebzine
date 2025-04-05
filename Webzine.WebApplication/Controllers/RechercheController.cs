@@ -21,9 +21,12 @@ namespace Webzine.WebApplication.Controllers
         [HttpPost]
         public IActionResult Index([FromForm] string recherche)
         {
-            if (string.IsNullOrWhiteSpace(recherche))
+            if (string.IsNullOrWhiteSpace(recherche) || recherche.Trim().Length == 0)
             {
-                return this.RedirectToAction("Index", "Home");
+                var refererUrl = this.Request.Headers["Referer"].ToString();
+
+                // Charger la vue active
+                return this.Redirect(refererUrl); // Retourne la vue active avec les erreurs
             }
 
             RechercheModel model = new()
