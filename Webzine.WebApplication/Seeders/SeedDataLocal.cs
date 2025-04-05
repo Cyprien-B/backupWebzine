@@ -2,7 +2,7 @@
 // Copyright (c) Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ. All rights reserved.
 // </copyright>
 
-namespace Webzine.WebApplication.Seeder
+namespace Webzine.WebApplication.Seeders
 {
     using Webzine.Entity.Fixtures;
     using Webzine.EntityContext;
@@ -15,7 +15,7 @@ namespace Webzine.WebApplication.Seeder
         /// <summary>
         /// Classe statique pour seeder une base de données.
         /// </summary>
-        /// <param name="services">Provider de service de type <see cref="IServiceProvider"/>.</param>
+        /// <param name="services">Provider de service de type<see cref="IServiceProvider"/>.</param>
         public static void Initialize(IServiceProvider services)
         {
             using (var scope = services.CreateScope())

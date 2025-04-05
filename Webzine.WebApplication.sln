@@ -3,26 +3,26 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webzine.WebApplication", "Webzine.WebApplication\Webzine.WebApplication.csproj", "{A6A329CB-E207-4584-8209-F37317A5CE0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Webzine.WebApplication", "Webzine.WebApplication\Webzine.WebApplication.csproj", "{A6A329CB-E207-4584-8209-F37317A5CE0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webzine.Entity", "Webzine.Entity\Webzine.Entity.csproj", "{A389DB16-0C1F-4F77-9968-63805AB5DB25}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Webzine.Entity", "Webzine.Entity\Webzine.Entity.csproj", "{A389DB16-0C1F-4F77-9968-63805AB5DB25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webzine.EntityContext", "Webzine.EntityContext\Webzine.EntityContext.csproj", "{D07303BD-0643-4347-9E20-0D710B079A61}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Webzine.EntityContext", "Webzine.EntityContext\Webzine.EntityContext.csproj", "{D07303BD-0643-4347-9E20-0D710B079A61}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webzine.Business", "Webzine.Business\Webzine.Business.csproj", "{091C15B6-6B3E-4405-BE7A-57B309064F62}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Webzine.Business", "Webzine.Business\Webzine.Business.csproj", "{091C15B6-6B3E-4405-BE7A-57B309064F62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webzine.Business.Contracts", "Webzine.Business.Contracts\Webzine.Business.Contracts.csproj", "{A5B03550-994D-44C3-997E-C46CF4B79663}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Webzine.Business.Contracts", "Webzine.Business.Contracts\Webzine.Business.Contracts.csproj", "{A5B03550-994D-44C3-997E-C46CF4B79663}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webzine.Repository", "Webzine.Repository\Webzine.Repository.csproj", "{7B4CDBB6-7A4A-4FE4-B0DC-C43A54AB6094}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Webzine.Repository", "Webzine.Repository\Webzine.Repository.csproj", "{7B4CDBB6-7A4A-4FE4-B0DC-C43A54AB6094}"
 	ProjectSection(ProjectDependencies) = postProject
 		{D07303BD-0643-4347-9E20-0D710B079A61} = {D07303BD-0643-4347-9E20-0D710B079A61}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webzine.Repository.Contracts", "Webzine.Repository.Contracts\Webzine.Repository.Contracts.csproj", "{6EC26D99-1F39-4AAB-9E33-3CD234E01847}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Webzine.Repository.Contracts", "Webzine.Repository.Contracts\Webzine.Repository.Contracts.csproj", "{6EC26D99-1F39-4AAB-9E33-3CD234E01847}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webzine.Documentation", "Webzine.Documentation\Webzine.Documentation.csproj", "{12793C9C-B6B0-459D-9BAE-74C32BED5D58}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Webzine.Documentation", "Webzine.Documentation\Webzine.Documentation.csproj", "{12793C9C-B6B0-459D-9BAE-74C32BED5D58}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webzine.Entity.Tests", "Webzine.Entity.Tests\Webzine.Entity.Tests.csproj", "{F0FB93DB-FB64-4204-9B65-13AD7E879348}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Webzine.Entity.Tests", "Webzine.Entity.Tests\Webzine.Entity.Tests.csproj", "{F0FB93DB-FB64-4204-9B65-13AD7E879348}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

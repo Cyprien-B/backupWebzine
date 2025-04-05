@@ -12,7 +12,7 @@ using Webzine.Repository.Contracts;
 using Webzine.Repository.Db;
 using Webzine.Repository.Local;
 using Webzine.WebApplication.Middlewares;
-using Webzine.WebApplication.Seeder;
+using Webzine.WebApplication.Seeders;
 
 /// <summary>
 /// Contient le point d'entrée principal de l'application.
