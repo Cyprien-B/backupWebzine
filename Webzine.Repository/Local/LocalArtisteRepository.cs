@@ -75,6 +75,18 @@ namespace Webzine.Repository.Local
             return Factory.Artistes.Single(a => a.Nom == nom);
         }
 
+        public bool NomAny(Artiste artiste)
+        {
+            return Factory.Artistes.Any(a => a.Nom == artiste.Nom);
+        }
+
+        public IEnumerable<Artiste> Search(string mot)
+        {
+            return Factory.Artistes
+                .Where(a => a.Nom.ToLower().Contains(mot.ToLower()))
+                .ToList();
+        }
+
         /// <inheritdoc/>
         public void Update(Artiste artiste)
         {

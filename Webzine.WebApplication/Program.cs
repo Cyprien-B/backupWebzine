@@ -117,7 +117,7 @@ public static class Program
 
         // Vérification et configuration de Seeder
         string seeder = Builder.Configuration["App:Seeder"] ?? string.Empty;
-        if (string.IsNullOrEmpty(seeder) || (!seeder.Equals("Local", StringComparison.OrdinalIgnoreCase) && !seeder.Equals("Ignore", StringComparison.OrdinalIgnoreCase)))
+        if (string.IsNullOrEmpty(seeder) || (!seeder.Equals("Local", StringComparison.OrdinalIgnoreCase) && !seeder.Equals("Ignore", StringComparison.OrdinalIgnoreCase) && !seeder.Equals("Deezer", StringComparison.OrdinalIgnoreCase)))
         {
             Builder.Configuration["App:Seeder"] = "Local";
         }
