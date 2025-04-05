@@ -30,3 +30,23 @@ données. De plus, nous avions créé par erreur une seconde liste de titres li�
 l'artiste, et donc leur administration était impossible. Nous avons résolu le
 problème en simplifiant la factory et en modifiant le code déjà créé pour que
 tous les titres soient liés à une seule source de données.
+
+### Sprint 3
+
+Nous avons eu un débat entre Cyprien et Diego sur la mise en place d'un service
+pour le dashboard, car Diego argumentait que cela est moins efficace que
+d'utiliser directement les dépôts (repositories), ce à quoi Cyprien était
+d'accord. Cependant, étant donné que l'objectif était de mettre en place un
+service pour répondre à une demande client, cette solution a été retenue.
+
+Mathéo a eu beaucoup de problèmes avec Deeze, qui ne correspondait pas à ce dont
+on avait besoin. On n'a jamais réussi à aller chercher plus de 300 titres. Il
+était impossible d'accéder au style d'un titre autrement qu'en faisant un appel
+à l'album lié au titre.
+
+Gitea a été un vrai calvaire. Le fait de devoir le mettre en place par les ops
+nous a fait perdre du temps sur le sprint 1. Pour le sprint 2, nous avons eu des
+problèmes avec la connexion à Gitea, suite à une manipulation des ops. Ce
+problème a perduré pour Esteban pendant une semaine. De plus, un des commits de
+Diego a été attribué à Esteban sans aucune raison. Le stockage du code sur
+GitHub ou Azure nous aurait évité au moins une journée de travail.

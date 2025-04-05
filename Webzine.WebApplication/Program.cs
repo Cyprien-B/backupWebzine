@@ -2,6 +2,7 @@
 // Copyright (c) Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ. All rights reserved.
 // </copyright>
 
+using System.Net;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using NLog.Web;
@@ -11,8 +12,9 @@ using Webzine.EntityContext;
 using Webzine.Repository.Contracts;
 using Webzine.Repository.Db;
 using Webzine.Repository.Local;
+using Webzine.WebApplication.Filters;
 using Webzine.WebApplication.Middlewares;
-using Webzine.WebApplication.Seeder;
+using Webzine.WebApplication.Seeders;
 
 /// <summary>
 /// Contient le point d'entrée principal de l'application.
@@ -43,7 +45,8 @@ public static class Program
     /// Point d'entrée principal de l'application.
     /// </summary>
     /// <param name="args">Les arguments de ligne de commande passés au programme.</param>
-    public static void Main(string[] args)
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    public static async Task Main(string[] args)
     {
         Logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 
@@ -58,6 +61,7 @@ public static class Program
         Builder.Services.AddControllersWithViews(options =>
         {
             options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+            options.Filters.Add<LoggerActionFilter>();
         });
 
         ConfigureConnexionSGBD();
@@ -72,7 +76,7 @@ public static class Program
             App.Urls.Add(Url);
         }
 
-        SeedDataBase();
+        await SeedDataBase();
 
         ConfigureMiddleware();
 
@@ -113,7 +117,7 @@ public static class Program
 
         // Vérification et configuration de Seeder
         string seeder = Builder.Configuration["App:Seeder"] ?? string.Empty;
-        if (string.IsNullOrEmpty(seeder) || (!seeder.Equals("Local", StringComparison.OrdinalIgnoreCase) && !seeder.Equals("Ignore", StringComparison.OrdinalIgnoreCase)))
+        if (string.IsNullOrEmpty(seeder) || (!seeder.Equals("Local", StringComparison.OrdinalIgnoreCase) && !seeder.Equals("Ignore", StringComparison.OrdinalIgnoreCase) && !seeder.Equals("Deezer", StringComparison.OrdinalIgnoreCase)))
         {
             Builder.Configuration["App:Seeder"] = "Local";
         }
@@ -290,24 +294,18 @@ public static class Program
         App!.UseStaticFiles();
         App!.UseRouting();
 
+        // Configuration pour que toutes les erreurs passent par ExceptionFilter
         App!.UseExceptionHandler(usepathbase + "/Home/Error");
 
-        // Gestion des erreurs 404 et 429
-        App!.UseStatusCodePages(context =>
+        // Convertir les erreurs HTTP en exceptions pour qu'elles passent par ExceptionFilter
+        App!.Use(async (context, next) =>
         {
-            // Gestion de l'erreur 404
-            if (context.HttpContext.Response.StatusCode == 404)
-            {
-                context.HttpContext.Response.Redirect(usepathbase + "/Home/NotFound404");
-            }
+            await next();
 
-            // Gestion de l'erreur 429
-            if (context.HttpContext.Response.StatusCode == StatusCodes.Status429TooManyRequests)
+            if (context.Response.StatusCode == 404)
             {
-                context.HttpContext.Response.Redirect(usepathbase + "/Home/NotFound404");
+                throw new HttpRequestException("Page non trouvée", null, HttpStatusCode.NotFound);
             }
-
-            return Task.CompletedTask;
         });
 
         App!.UseMiddleware<RateLimiterMiddleware>(10, TimeSpan.FromSeconds(1));
@@ -319,7 +317,7 @@ public static class Program
         Builder!.Host.UseNLog();
     }
 
-    private static void SeedDataBase()
+    private static async Task SeedDataBase()
     {
         // Vider et recréer la base de données
         using (var scope = App!.Services.CreateScope())
@@ -327,10 +325,19 @@ public static class Program
             var context = scope.ServiceProvider.GetRequiredService<WebzineDbContext>();
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
-            if (Builder!.Configuration.GetValue<string>("App:Seeder") != "Ignore")
+
+            var seederType = Builder!.Configuration.GetValue<string>("App:Seeder");
+
+            if (seederType == "Local")
             {
                 SeedDataLocal.Initialize(scope.ServiceProvider);
             }
+            else if (seederType == "Deezer")
+            {
+                await SeedDataDeezer.Initialize(scope.ServiceProvider);
+            }
+
+            // Si "App:Seeder" n'est ni "Local" ni "Deezer", aucun seeder n'est exécuté
         }
     }
 }

@@ -58,3 +58,44 @@ SQLite, la seed et le StyleRepositorie, en plus de la documentation.
 
 **Esteban**a mis en place le CommentaireRepositorie et a aidé Matteo sur les
 tâches d'affinage des vues.
+
+### Pour le sprint 3
+
+**Diego** a encore énormément travaillé pour ce sprint. Il a fait le middleware,
+le tag helper ajouté à la dernière minute par le client... En coopération avec
+Matteo, il a mis en place la seed Deezer. Il a aussi travaillé sur plusieurs
+retours client du jalon 2. Il a aussi ajouté le NLog et travaillé avec les ops
+pour le connecter. Diego a passé beaucoup de temps à expliquer à ses collègues
+pendant les code reviews.
+
+**Matteo** a passé la semaine à mettre en place la seed Deezer et il a eu
+beaucoup de mal à la mettre en place. Il a également travaillé sur mes US et les
+tasks.
+
+**Cyprien** a mis en place le service, a travaillé sur les fix du jalon 2 et sur
+la documentation
+
+**Esteban** a mis en place le filter et a travaillé sur les US et les tasks
+
+Pour ce qui est de la répartition des tâches, le projet a été énormément porté
+par Diego, qui était très investi sur le projet et maîtrisait le mieux les
+concepts et la technologie. Nous avons cependant veillé à respecter l'objectif
+pédagogique du projet en essayant de répartir les tâches pour que tout le monde
+mette en pratique le plus de choses possible. Nous avons aussi fait beaucoup de
+code review, sauf sur la dernière semaine où, à cause de l'organisation du
+diiage et du fait que les concepts étaient plus complexes, nous avons eu plus de
+mal à comprendre certaines choses. Pour pallier à ce problème, nous avons fait
+notre TOS avec comme sujet le code du projet, son organisation et les design
+patterns qu'il respectait. Cela nous a tous beaucoup aidés à comprendre en
+profondeur l'architecture du projet, les design patterns impliqués et à
+simplifier nos explications pour que même des ops puissent comprendre ce que les
+devs ont fait et pourquoi nous nous sommes organisés comme cela.
+
+Je pense que nous avons tous énormément appris et que nous maîtrisons aussi
+mieux la technologie impliquée, mais que sans Diego, nous n'aurions pas réussi à
+terminer le projet.
+
+Pour ce qui est de l'organisation en dehors de l'equipe, nous avons aussi
+beaucoup fait appel aux membres des autres équipes qui maîtrisaient bien la
+technologie et qui connaissaient bien le client (Tristan), qui nous a énormément
+aidés sur des concepts et de la logique que nous n'avions pas.

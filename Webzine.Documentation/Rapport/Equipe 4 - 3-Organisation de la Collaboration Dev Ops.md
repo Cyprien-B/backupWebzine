@@ -15,3 +15,13 @@ permet de toujours être au courant de ce qui se passe du côté ops ou dev de
 l'équipe, car même si certains détails techniques ne sont pas compréhensibles,
 tous les membres de l'équipe suivent les échanges et le travail des autres
 membres de l'équipe
+
+Nous avons aussi fait des échanges avant la présentation client pour pouvoir
+avoir un point de vue commun sur ce qui avait été fait.
+
+Nous avons aussi profité du TOS pour expliquer aux ops ce que nous avions fait
+dans notre code, comment il était organisé et pourquoi. Je vous joins d'ailleurs
+un schéma que nous avons fait pour leur expliquer, en prenant comme métaphore
+l'organisation d'un restaurant.
+
+![alt text](image.png)
