@@ -43,7 +43,8 @@ public static class Program
     /// Point d'entrée principal de l'application.
     /// </summary>
     /// <param name="args">Les arguments de ligne de commande passés au programme.</param>
-    public static void Main(string[] args)
+    /// <return></return></returns>
+    public static async Task Main(string[] args)
     {
         Logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 
@@ -72,7 +73,7 @@ public static class Program
             App.Urls.Add(Url);
         }
 
-        SeedDataBase();
+        await SeedDataBase();
 
         ConfigureMiddleware();
 
@@ -319,7 +320,7 @@ public static class Program
         Builder!.Host.UseNLog();
     }
 
-    private static void SeedDataBase()
+    private static async Task SeedDataBase()
     {
         // Vider et recréer la base de données
         using (var scope = App!.Services.CreateScope())
@@ -327,10 +328,19 @@ public static class Program
             var context = scope.ServiceProvider.GetRequiredService<WebzineDbContext>();
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
-            if (Builder!.Configuration.GetValue<string>("App:Seeder") != "Ignore")
+
+            var seederType = Builder!.Configuration.GetValue<string>("App:Seeder");
+
+            if (seederType == "Local")
             {
                 SeedDataLocal.Initialize(scope.ServiceProvider);
             }
+            else if (seederType == "Deezer")
+            {
+                await SeedDataDeezer.Initialize(scope.ServiceProvider);
+            }
+
+            // Si "App:Seeder" n'est ni "Local" ni "Deezer", aucun seeder n'est exécuté
         }
     }
 }
