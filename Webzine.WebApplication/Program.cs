@@ -5,11 +5,11 @@
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using NLog.Web;
+using System;
 using Webzine.EntityContext;
 using Webzine.Repository.Contracts;
 using Webzine.Repository.Db;
 using Webzine.Repository.Local;
-using Webzine.WebApplication.Seeders;
 
 /// <summary>
 /// Contient le point d'entrée principal de l'application.
@@ -30,6 +30,11 @@ public static class Program
     /// Obtient ou définit les log NLog.
     /// </summary>
     public static Logger? Logger { get; set; } = null;
+
+    /// <summary>
+    /// Obtient ou définit l'URL de lancement de l'application.
+    /// </summary>
+    public static string Url { get; set; } = string.Empty;
 
     /// <summary>
     /// Point d'entrée principal de l'application.
@@ -59,6 +64,11 @@ public static class Program
         Builder.Services.AddControllersWithViews();
 
         App = Builder.Build();
+
+        if (Url != string.Empty)
+        {
+            App.Urls.Add(Url);
+        }
 
         await SeedDataBase();
 
@@ -100,7 +110,7 @@ public static class Program
 
         // Vérification et configuration de Seeder
         string seeder = Builder.Configuration["App:Seeder"] ?? string.Empty;
-        if (string.IsNullOrEmpty(seeder) || (!seeder.Equals("Local", StringComparison.OrdinalIgnoreCase) && !seeder.Equals("Ignore", StringComparison.OrdinalIgnoreCase) && !seeder.Equals("Deezer", StringComparison.OrdinalIgnoreCase)))
+        if (string.IsNullOrEmpty(seeder) || (!seeder.Equals("Local", StringComparison.OrdinalIgnoreCase) && !seeder.Equals("Ignore", StringComparison.OrdinalIgnoreCase)))
         {
             Builder.Configuration["App:Seeder"] = "Local";
         }
@@ -138,6 +148,33 @@ public static class Program
         {
             Logger!.Info($"Connexion à {Builder!.Configuration.GetValue<string>("App:DbConnexion") ?? string.Empty}");
         }
+
+        // Vérification et configuration de la chaîne de connexion
+        string useurlenv = Builder.Configuration["App:Urls:UseEnvironment"] ?? string.Empty;
+        if (string.IsNullOrEmpty(useurlenv))
+        {
+            Builder.Configuration["App:Urls:UseEnvironment"] = "Test";
+            Logger!.Info("UseUrlEnvironment par defaut -> Test");
+        }
+        else
+        {
+            Logger!.Info($"UseUrlEnvironment à {Builder!.Configuration.GetValue<string>("App:Urls:UseEnvironment") ?? string.Empty}");
+        }
+
+        useurlenv = Builder.Configuration["App:Urls:UseEnvironment"] ?? string.Empty;
+
+        // Vérification et configuration de la chaîne de connexion
+        string urltoset = Builder.Configuration[$"App:Urls:Environments:{useurlenv}"] ?? string.Empty;
+        if (string.IsNullOrEmpty(urltoset))
+        {
+            Logger!.Info("Environment par defaut -> Test");
+        }
+        else
+        {
+            Logger!.Info($"Environment à {urltoset}");
+        }
+
+        Url = urltoset;
 
         // Vérification et configuration de Repository
         if (!int.TryParse(Builder.Configuration["App:Pages:Home:NbTitresChroniquesParPaginations"], out int homeTitresChroniquesParPagination) || homeTitresChroniquesParPagination < 1)
