@@ -38,6 +38,12 @@ namespace Webzine.Repository.Local
         }
 
         /// <inheritdoc/>
+        public int Count()
+        {
+            return Factory.Commentaires.Count;
+        }
+
+        /// <inheritdoc/>
         public void Delete(Commentaire commentaire)
         {
             // Trouver le vrai commentaire à partir de l'ID fourni

@@ -25,13 +25,14 @@ namespace Webzine.WebApplication.Controllers
         {
             int nbTitresChroniques = configuration.GetValue<int>("App:Pages:Home:NbTitresChroniquesParPaginations");
             int nbTitresPopulaires = configuration.GetValue<int>("App:Pages:Home:NbTitresPopulaires");
+            int descriptionMax = configuration.GetValue<int>("App:Pages:Home:DescriptionMax");
 
             HomeModel model = new()
             {
                 PaginationMax = (uint)Math.Ceiling((double)titreRepository.Count() / nbTitresChroniques),
                 TitresRecemmentsChroniques = titreRepository.FindTitres((int)page, nbTitresChroniques).ToList(),
                 TitresPopulaires = titreRepository.FindTitresPopulaires(nbTitresPopulaires),
-                CaracteresChroniqueMax = 200,
+                CaracteresChroniqueMax = (uint)descriptionMax,
                 PaginationActuelle = page,
             };
 

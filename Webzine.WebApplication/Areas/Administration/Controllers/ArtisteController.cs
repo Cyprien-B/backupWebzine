@@ -7,6 +7,8 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Webzine.Entity;
     using Webzine.Repository.Contracts;
+    using Webzine.Repository.Db;
+    using Webzine.WebApplication.Areas.Administration.ViewModels;
 
     /// <summary>
     /// Contrôleur des artistes.
@@ -24,7 +26,14 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         {
             var paginationLimitArtiste = configuration.GetValue<int>("App:Pages:Administration:NbArtistesParPagination");
 
-            return this.View(artisteRepository.AdministrationFindArtistes(page, paginationLimitArtiste));
+            AdministrationArtisteModel administrationArtisteModel = new AdministrationArtisteModel()
+            {
+                PaginationActuelle = (uint)page,
+                PaginationMax = (uint)Math.Ceiling((double)artisteRepository.Count() / paginationLimitArtiste),
+                Artistes = artisteRepository.AdministrationFindArtistes(page, paginationLimitArtiste),
+            };
+
+            return this.View(administrationArtisteModel);
         }
 
         /// <summary>

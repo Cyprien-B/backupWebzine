@@ -1,5 +1,5 @@
 ﻿@using Webzine.Entity;
-@model ICollection<Artiste>
+@model Webzine.WebApplication.Areas.Administration.ViewModels.AdministrationArtisteModel;
 
 @{
     Artiste displayArtiste = new();
@@ -20,7 +20,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var artiste in Model)
+            @foreach (var artiste in Model.Artistes)
             {
                 <tr>
                     <td>@artiste.Nom</td>
@@ -36,4 +36,24 @@
             }
         </tbody>
     </table>
+    <div class="container">
+        <div class="row">
+            @{
+                uint pageSuivante = Model.PaginationActuelle + 1;
+                uint pagePrecedente = Model.PaginationActuelle - 1;
+            }
+            <div class="col-md-6 col-sm-6">
+                @if (Model.PaginationActuelle > 1)
+                {
+                    <a asp-action="Index" asp-route-page="@pagePrecedente" class="btn btn-secondary">&laquo; Page précédente</a>
+                }
+            </div>
+            <div class="col-md-6 col-sm-6 text-end">
+                @if (Model.PaginationActuelle < Model.PaginationMax)
+                {
+                    <a asp-action="Index" asp-route-page="@pageSuivante" class="btn btn-secondary">Page suivante &raquo;</a>
+                }
+            </div>
+        </div>
+    </div>
 </div>

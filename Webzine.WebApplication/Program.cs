@@ -198,6 +198,13 @@ public static class Program
         }
 
         // Vérification et configuration de Repository
+        if (!int.TryParse(Builder.Configuration["App:Pages:Home:DescriptionMax"], out int descriptionMax) || descriptionMax < 1)
+        {
+            descriptionMax = 200;
+            Builder.Configuration["App:Pages:Home:DescriptionMax"] = descriptionMax.ToString();
+        }
+
+        // Vérification et configuration de Repository
         if (!int.TryParse(Builder.Configuration["App:Pages:Administration:NbTitresParPagination"], out int adminitrationTitresParPagination) || adminitrationTitresParPagination < 1)
         {
             homeTitresPopulairesParPagination = 10;

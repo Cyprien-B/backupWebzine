@@ -8,6 +8,7 @@ namespace Webzine.Repository.Db
     using System.Linq;
     using Microsoft.EntityFrameworkCore;
     using Webzine.Entity;
+    using Webzine.Entity.Fixtures;
     using Webzine.EntityContext;
     using Webzine.Repository.Contracts;
 
@@ -48,6 +49,12 @@ namespace Webzine.Repository.Db
                 .Skip(limit * (int)(offset - 1))
                 .Take(limit)
                 .AsNoTracking().ToList();
+        }
+
+        /// <inheritdoc/>
+        public int Count()
+        {
+            return context.Commentaires.AsNoTracking().Count();
         }
 
         /// <inheritdoc/>

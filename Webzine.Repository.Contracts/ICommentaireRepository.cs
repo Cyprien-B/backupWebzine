@@ -18,6 +18,12 @@ namespace Webzine.Repository.Contracts
         void Add(Commentaire commentaire);
 
         /// <summary>
+        /// Compte le nombre de commentaires totaux.
+        /// </summary>
+        /// <returns>Retourne un entier sur le nombre de commentaire.</returns>
+        int Count();
+
+        /// <summary>
         /// Supprime un commentaire de la base de données.
         /// </summary>
         /// <param name="commentaire">L'objet commentaire à supprimer.</param>

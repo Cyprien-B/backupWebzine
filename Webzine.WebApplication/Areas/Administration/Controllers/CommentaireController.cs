@@ -7,6 +7,8 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Webzine.Entity;
     using Webzine.Repository.Contracts;
+    using Webzine.Repository.Local;
+    using Webzine.WebApplication.Areas.Administration.ViewModels;
 
     /// <summary>
     /// Contrôleur de commentaire.
@@ -24,7 +26,14 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         {
             var paginationLimitCommentaire = configuration.GetValue<int>("App:Pages:Administration:NbCommentairesParPagination");
 
-            return this.View(commentaireRepository.AdministrationFindCommentaires(page, paginationLimitCommentaire));
+            AdministrationCommentaireModel administrationCommentaireModel = new AdministrationCommentaireModel()
+            {
+                PaginationActuelle = (uint)page,
+                PaginationMax = (uint)Math.Ceiling((double)commentaireRepository.Count() / paginationLimitCommentaire),
+                Commentaires = commentaireRepository.AdministrationFindCommentaires(page, paginationLimitCommentaire),
+            };
+
+            return this.View(administrationCommentaireModel);
         }
 
         /// <summary>
