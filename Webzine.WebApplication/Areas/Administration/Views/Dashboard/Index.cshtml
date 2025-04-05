@@ -20,7 +20,7 @@
         <div class="card card-cover h-100 overflow-hidden bg-light border-0 text-center">
             <p>
                 <i class="fa-solid fa-user display-1 text-primary mb-3  mt-4"></i>
-                <h3 class="card-title text-primary mb-2">@Model.ArtisteLePlusChronique.Nom</h3>
+                <h3 class="card-title text-primary mb-2">@((Model.ArtisteLePlusChronique?.Nom ?? "Aucun artiste"))</h3>
                 <h6 class="text-primary">artiste le plus chroniqué</h6>
             </p>
         </div>
@@ -29,7 +29,7 @@
         <div class="card card-cover h-100 overflow-hidden bg-light border-0 text-center">
             <p>
                 <i class="fa-solid fa-trophy display-1 text-primary mb-3  mt-4"></i>
-                <h3 class="card-title text-primary mb-2">@Model.ArtisteComposeLePlusTitres.Nom</h3>
+                <h3 class="card-title text-primary mb-2">@((Model.ArtisteComposeLePlusTitres?.Nom ?? "Aucun artiste"))</h3>
                 <h6 class="text-primary">artiste avec le plus de titres provenant d'albums distincts</h6>
             </p>
         </div>
@@ -48,7 +48,7 @@
         <div class="card card-cover h-100 overflow-hidden bg-light border-0 text-center">
             <p>
                 <i class="fa-solid fa-compact-disc display-1 text-primary mb-3 mt-4"></i>
-                <h3 class="card-title text-primary mb-2">@Model.TitreLePlusLu.Artiste.Nom - @Model.TitreLePlusLu.Libelle</h3>
+                <h3 class="card-title text-primary mb-2">@Model.TitreLePlusLu?.Artiste.Nom ?? "Aucun Titre" - @Model.TitreLePlusLu?.Libelle ?? "Aucun Titre"</h3>
                 <h6 class="text-primary">titre le plus lu</h6>
             </p>
         </div>
