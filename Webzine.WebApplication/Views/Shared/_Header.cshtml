@@ -29,7 +29,7 @@
                 </ul>
                 <form class="d-flex" role="search" method="post" asp-area="" asp-controller="Recherche" asp-action="Index">
                     <div class="input-group">
-                        <input class="form-control border-end-0" type="search" placeholder="Trouver un artiste / titre" aria-label="Search" name="recherche" required pattern="^[^\s].*" title="Le champ ne peut pas commencer par un espace.">
+                        <input class="form-control border-end-0" type="search" placeholder="Trouver un artiste / titre" aria-label="Search" name="recherche" required pattern=".*\S+.*" title="Veuillez saisir un terme de recherche valide (pas uniquement des espaces)">
                         <button class="btn btn-primary px-2" type="submit">
                             <i class="fa-solid fa-magnifying-glass text-white"></i>
                         </button>

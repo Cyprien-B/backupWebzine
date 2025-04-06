@@ -21,7 +21,7 @@ namespace Webzine.WebApplication.Controllers
         [HttpPost]
         public IActionResult Index([FromForm] string recherche)
         {
-            if (string.IsNullOrWhiteSpace(recherche) || recherche.Trim().Length == 0)
+            if (string.IsNullOrEmpty(recherche))
             {
                 var refererUrl = this.Request.Headers["Referer"].ToString();
 
