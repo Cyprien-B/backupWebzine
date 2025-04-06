@@ -5,6 +5,9 @@
 namespace Webzine.WebApplication.TagHelpers
 {
     using System;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.AspNetCore.Mvc.Routing;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Microsoft.AspNetCore.Razor.TagHelpers;
 
@@ -14,6 +17,17 @@ namespace Webzine.WebApplication.TagHelpers
     [HtmlTargetElement("titre-populaire", Attributes = "asp-for")]
     public class TitrePopulaireTagHelper : TagHelper
     {
+        private readonly IUrlHelperFactory urlHelperFactory;
+
+        /// <summary>
+        /// Initialise une nouvelle instance de la classe <see cref="TitrePopulaireTagHelper"/>.
+        /// </summary>
+        /// <param name="urlHelperFactory">Factory pour la création d'IUrlHelper.</param>
+        public TitrePopulaireTagHelper(IUrlHelperFactory urlHelperFactory)
+        {
+            this.urlHelperFactory = urlHelperFactory;
+        }
+
         /// <summary>
         /// Obtient ou définit la liaison des propriétés du modèle via l'attribut asp-for.
         /// </summary>
@@ -21,61 +35,99 @@ namespace Webzine.WebApplication.TagHelpers
         public ModelExpression? For { get; set; }
 
         /// <summary>
+        /// Obtient ou définit le contexte de la vue.
+        /// </summary>
+        [ViewContext]
+        [HtmlAttributeNotBound]
+        public ViewContext ViewContext { get; set; } = null!;
+
+        /// <summary>
         /// Méthode principale appelée pour transformer l'élément HTML ciblé par le TagHelper.
         /// </summary>
-        /// <param name="context">
-        /// Instance de <see cref="TagHelperContext"/> contenant les informations sur l'élément HTML transformé,
-        /// notamment ses attributs et son contexte unique.
-        /// </param>
-        /// <param name="output">
-        /// Instance de <see cref="TagHelperOutput"/> représentant le contenu HTML généré par le TagHelper.
-        /// Permet de modifier le tag HTML final en ajoutant des attributs ou du contenu.
-        /// </param>
-        /// <exception cref="InvalidOperationException">
-        /// Levée si le modèle lié via asp-for est null ou n'a pas pu être récupéré.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// Levée si le modèle lié à asp-for n'est pas valide ou ne correspond pas au type attendu.
-        /// </exception>
+        /// <param name="context">Contexte du TagHelper.</param>
+        /// <param name="output">Sortie du TagHelper.</param>
+        /// <exception cref="InvalidOperationException">Levée si le modèle lié via asp-for est null.</exception>
+        /// <exception cref="ArgumentException">Levée si le modèle lié à asp-for est invalide.</exception>
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            // Vérification que le modèle est correctement lié via asp-for
+            this.ValidateModel();
+            var titre = (dynamic)this.For!.Model;
+            var urlHelper = this.urlHelperFactory.GetUrlHelper(this.ViewContext);
+
+            output.TagName = "div";
+            output.Attributes.SetAttribute("class", "col");
+
+            var card = new TagBuilder("div");
+            card.AddCssClass("card");
+
+            card.InnerHtml.AppendHtml(this.BuildImageContainer(titre, urlHelper));
+            card.InnerHtml.AppendHtml(this.BuildCardBody(titre, urlHelper));
+
+            output.Content.SetHtmlContent(card);
+        }
+
+        private void ValidateModel()
+        {
             if (this.For == null)
             {
                 throw new InvalidOperationException("Le modèle n'a pas pu être récupéré.");
             }
 
-            // Récupération du modèle lié
-            var titre = this.For.Model as dynamic;
-
-            // Vérification que le modèle est valide
-            if (titre == null)
+            if (this.For.Model == null)
             {
                 throw new ArgumentException("Le modèle lié à 'asp-for' est null ou invalide.");
             }
+        }
 
-            // Transformation de l'élément HTML en une card Bootstrap
-            output.TagName = "div"; // Remplace le tag original par un div
-            output.Attributes.SetAttribute("class", "col"); // Ajoute une classe Bootstrap pour la mise en page
+        private TagBuilder BuildImageContainer(dynamic titre, IUrlHelper urlHelper)
+        {
+            var container = new TagBuilder("div");
+            container.AddCssClass("ratio ratio-1x1");
 
-            // Génération du contenu HTML de la card
-            output.Content.SetHtmlContent($@"
-            <div class='card'>
-                <div class='ratio ratio-1x1'>
-                    <a asp-controller='Titre' asp-action='Index' asp-route-id='{titre.IdTitre}' class='h-100'>
-                        <img src='{titre.UrlJaquette}' alt='jaquette' class='card-img-top object-fit-cover h-100 w-100'>
-                    </a>
-                </div>
-                <div class='card-body'>
-                    <h5 class='card-title mb-2'>
-                        <a asp-controller='Titre' asp-action='Index' asp-route-id='{titre.IdTitre}' class='text-decoration-none'>{titre.Libelle}</a>
-                    </h5>
-                    <p class='card-text mb-0 text-muted'>
-                        par
-                        <a asp-controller='Artiste' asp-action='Index' asp-route-artiste='{titre.Artiste.Nom}' class='text-decoration-none'>{titre.Artiste.Nom}</a>
-                    </p>
-                </div>
-            </div>");
+            var link = new TagBuilder("a");
+            link.Attributes["href"] = urlHelper.Action("Index", "Titre", new { id = titre.IdTitre });
+
+            var img = new TagBuilder("img");
+            img.Attributes["src"] = titre.UrlJaquette;
+            img.Attributes["onerror"] = "this.src='/images/JaquetteDefault.png'";
+            img.AddCssClass("card-img-top object-fit-cover h-100 w-100");
+
+            link.InnerHtml.AppendHtml(img);
+            container.InnerHtml.AppendHtml(link);
+
+            return container;
+        }
+
+        private TagBuilder BuildCardBody(dynamic titre, IUrlHelper urlHelper)
+        {
+            var body = new TagBuilder("div");
+            body.AddCssClass("card-body");
+
+            // Titre
+            var titleLink = new TagBuilder("a");
+            titleLink.Attributes["href"] = urlHelper.Action("Index", "Titre", new { id = titre.IdTitre });
+            titleLink.AddCssClass("text-decoration-none");
+            titleLink.InnerHtml.Append(titre.Libelle);
+
+            var title = new TagBuilder("h5");
+            title.AddCssClass("card-title mb-2");
+            title.InnerHtml.AppendHtml(titleLink);
+
+            // Artiste
+            var artistLink = new TagBuilder("a");
+            artistLink.Attributes["href"] = urlHelper.Action("Index", "Artiste", new { artiste = titre.Artiste.Nom });
+            artistLink.AddCssClass("text-decoration-none");
+            artistLink.InnerHtml.Append(titre.Artiste.Nom);
+
+            var artistText = new TagBuilder("p");
+            artistText.AddCssClass("card-text mb-0 text-muted");
+            artistText.InnerHtml.Append("par ");
+            artistText.InnerHtml.AppendHtml(artistLink);
+
+            body.InnerHtml.AppendHtml(title);
+            body.InnerHtml.AppendHtml(artistText);
+
+            return body;
         }
     }
 }
