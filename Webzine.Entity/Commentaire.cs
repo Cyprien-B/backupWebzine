@@ -18,7 +18,6 @@ namespace Webzine.Entity
         /// Obtient ou définit un Identifiant unique au commentaire.
         /// </summary>
         [Key]
-        [BindNever]
         public int IdCommentaire { get; set; }
 
         /// <summary>

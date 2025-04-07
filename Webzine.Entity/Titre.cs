@@ -19,7 +19,6 @@ namespace Webzine.Entity
         /// Obtient ou définit un identifiant unique au titre.
         /// </summary>
         [Key]
-        [BindNever]
         public int IdTitre { get; set; } = 0;
 
         /// <summary>

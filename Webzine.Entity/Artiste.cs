@@ -18,7 +18,6 @@ namespace Webzine.Entity
         /// Cet identifiant sert de clé primaire dans la base de données.
         /// </summary>
         [Key]
-        [BindNever]
         public int IdArtiste { get; set; } = 0;
 
         /// <summary>

@@ -129,6 +129,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
                 Styles = styleRepository.FindAll(),
                 Titre = titreRepository.Find(id)!,
             };
+
             return this.View(model);
         }
 
