@@ -6,7 +6,6 @@ namespace Webzine.Entity
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using Microsoft.AspNetCore.Mvc.ModelBinding;
 
     /// <summary>
     /// Entite artiste.

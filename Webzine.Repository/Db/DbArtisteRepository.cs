@@ -71,7 +71,7 @@ namespace Webzine.Repository.Db
         /// <inheritdoc/>
         public Artiste FindArtisteByName(string nom)
         {
-            return context.Artistes.AsNoTracking().Single(a => a.Nom == nom);
+            return context.Artistes.Include(a => a.Titres).AsNoTracking().Single(a => a.Nom == nom);
         }
 
         /// <inheritdoc/>

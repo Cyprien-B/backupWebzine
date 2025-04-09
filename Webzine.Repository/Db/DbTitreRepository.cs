@@ -18,45 +18,41 @@ namespace Webzine.Repository.Db
         /// <inheritdoc/>
         public void Add(Titre titre)
         {
-            // Vérifier si l'artiste existe déjà
-            Artiste? artisteExistant = context.Artistes.Find(titre.IdArtiste);
+            // Vérification de l'artiste
+            var artisteExistant = context.Artistes
+                .Include(a => a.Titres) // Charger les titres existants
+                .FirstOrDefault(a => a.IdArtiste == titre.IdArtiste);
+
             if (artisteExistant == null)
             {
                 throw new InvalidDataException("L'artiste spécifié n'existe pas");
             }
 
-            // Vérifier si un titre avec le même libellé existe déjà pour cet artiste
-            bool titreExiste = context.Titres.Any(t => t.Libelle == titre.Libelle && t.IdArtiste == titre.IdArtiste);
-            if (titreExiste)
+            // Vérification des doublons
+            if (context.Titres.Any(t => t.Libelle == titre.Libelle && t.IdArtiste == titre.IdArtiste))
             {
-                // Le titre existe déjà, on ne fait rien
                 return;
             }
 
-            // Charger les styles existants
-            IList<Style> stylesExistants = context.Styles
-                .Where(s => titre.Styles.Select(ts => ts.IdStyle).Contains(s.IdStyle))
+            // Gestion des styles
+            var idsStyles = titre.Styles.Select(s => s.IdStyle).ToList();
+            var stylesExistants = context.Styles
+                .Where(s => idsStyles.Contains(s.IdStyle))
                 .ToList();
 
-            if (stylesExistants.Count != titre.Styles.Count())
+            if (stylesExistants.Count != idsStyles.Count)
             {
                 throw new InvalidDataException("Un ou plusieurs styles spécifiés n'existent pas");
             }
 
-            // Associer l'artiste existant au titre
+            // Configuration des relations
             titre.Artiste = artisteExistant;
+            titre.IdArtiste = artisteExistant.IdArtiste; // Assurer la cohérence de la FK
+            titre.Styles = stylesExistants; // Remplacement direct de la collection
 
-            // Remplacer les styles du titre par les styles existants
-            titre.Styles = [];
-            foreach (Style style in stylesExistants)
-            {
-                titre.Styles.Append(style);
-            }
-
-            // Ajouter le titre
+            // Ajout et sauvegarde
             context.Titres.Add(titre);
-
-            // Sauvegarder les changements
+            artisteExistant.Titres.Add(titre); // Mise à jour bidirectionnelle
             context.SaveChanges();
         }
 

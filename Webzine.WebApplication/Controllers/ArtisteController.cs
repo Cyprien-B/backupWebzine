@@ -21,7 +21,7 @@ namespace Webzine.WebApplication.Controllers
         [HttpGet]
         public IActionResult Index(string nomArtiste)
         {
-            Artiste? artiste = artisteRepository.FindAll().FirstOrDefault(a => a.Nom == nomArtiste);
+            Artiste? artiste = artisteRepository.FindArtisteByName(nomArtiste);
 
             return this.View(artiste);
         }

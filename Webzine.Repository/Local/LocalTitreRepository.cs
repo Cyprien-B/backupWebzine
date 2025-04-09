@@ -15,26 +15,28 @@ namespace Webzine.Repository.Local
         /// <inheritdoc/>
         public void Add(Titre titre)
         {
-            // Vérifier si un titre avec le même libellé existe déjà pour cet artiste
-            bool titreExiste = Factory.Titres.Any(t => t.Libelle == titre.Libelle && t.IdArtiste == titre.IdArtiste);
-            if (titreExiste)
+            // Vérification d'existence
+            if (Factory.Titres.Any(t => t.Libelle == titre.Libelle && t.IdArtiste == titre.IdArtiste))
             {
-                // Le titre existe déjà, on ne fait rien
                 return;
             }
 
-            // Trouver le premier ID disponible
-            int newId = 1;
-            while (Factory.Titres.Any(t => t.IdTitre == newId))
+            // Génération ID
+            titre.IdTitre = Factory.Titres.Any() ? Factory.Titres.Max(t => t.IdTitre) + 1 : 1;
+
+            // Lier l'artiste EXISTANT (sans en créer de nouveau)
+            var artiste = Factory.Artistes.FirstOrDefault(a => a.IdArtiste == titre.IdArtiste);
+            if (artiste == null)
             {
-                newId++;
+                throw new InvalidOperationException($"Artiste ID {titre.IdArtiste} introuvable");
             }
 
-            // Assigner le nouvel ID au style
-            titre.IdTitre = newId;
-            titre.Artiste = Factory.Artistes.FirstOrDefault(a => a.IdArtiste == titre.IdArtiste) ?? new();
+            titre.Artiste = artiste;
 
-            // Ajouter le style à la collection
+            // Mettre à jour la relation inverse
+            artiste.Titres = artiste.Titres ?? new List<Titre>();
+            artiste.Titres.Add(titre);
+
             Factory.Titres.Add(titre);
         }
 
