@@ -5,7 +5,7 @@
 namespace Webzine.WebApplication.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.ModelBinding;
+    using Webzine.Business.Contracts;
     using Webzine.Entity;
     using Webzine.Repository.Contracts;
     using Webzine.WebApplication.ViewModels;
@@ -13,7 +13,7 @@ namespace Webzine.WebApplication.Controllers
     /// <summary>
     /// Contrôleur des titres.
     /// </summary>
-    public class TitreController(ITitreRepository titreRepository, IStyleRepository styleRepository, ICommentaireRepository commentaireRepository) : Controller
+    public class TitreController(ITitreService titreService, ITitreRepository titreRepository, IStyleRepository styleRepository, ICommentaireRepository commentaireRepository) : Controller
     {
         /// <summary>
         /// Titre en fonction de l'id.
@@ -24,7 +24,7 @@ namespace Webzine.WebApplication.Controllers
         public IActionResult Index(int id)
         {
             Titre? titreForIncrement = titreRepository.Find(id);
-            titreRepository.IncrementNbLectures(titreForIncrement!);
+            titreService.IncrementNbLectures(titreForIncrement!);
 
             // ViewModel necessaire pour la soumission d'un commmentaire non valide
             TitreModel model = new() { Titre = titreForIncrement! };
@@ -65,7 +65,7 @@ namespace Webzine.WebApplication.Controllers
         [HttpPost]
         public IActionResult Liker([FromForm] int idTitre)
         {
-            titreRepository.IncrementNbLikes(new() { IdTitre = idTitre });
+            titreService.IncrementNbLikes(new() { IdTitre = idTitre });
             return this.RedirectToAction(nameof(this.Index), new { id = idTitre });
         }
 

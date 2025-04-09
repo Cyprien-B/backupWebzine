@@ -100,8 +100,10 @@ public static class Program
             Builder!.Services.AddScoped<ITitreRepository, DbTitreRepository>();
             Builder!.Services.AddScoped<IArtisteRepository, DbArtisteRepository>();
             Builder!.Services.AddScoped<ICommentaireRepository, DbCommentaireRepository>();
-            Builder!.Services.AddTransient<IDashboardService, DashboardService>();
         }
+
+        Builder!.Services.AddScoped<IDashboardService, DashboardService>();
+        Builder!.Services.AddScoped<ITitreService, TitreService>();
     }
 
     private static void CheckConfigurations()

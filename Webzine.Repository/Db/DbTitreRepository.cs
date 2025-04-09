@@ -141,28 +141,6 @@ namespace Webzine.Repository.Db
         }
 
         /// <inheritdoc/>
-        public void IncrementNbLectures(Titre titre)
-        {
-            var titreToUpdate = context.Titres.Find(titre.IdTitre);
-            if (titreToUpdate != null)
-            {
-                titreToUpdate.NbLectures++;
-                context.SaveChanges();
-            }
-        }
-
-        /// <inheritdoc/>
-        public void IncrementNbLikes(Titre titre)
-        {
-            var titreToUpdate = context.Titres.Find(titre.IdTitre);
-            if (titreToUpdate != null)
-            {
-                titreToUpdate.NbLikes++;
-                context.SaveChanges();
-            }
-        }
-
-        /// <inheritdoc/>
         public bool LibelleToArtisteAny(Titre titre)
         {
             return context.Titres.Any(t => t.Libelle == titre.Libelle && t.IdArtiste == titre.IdArtiste);

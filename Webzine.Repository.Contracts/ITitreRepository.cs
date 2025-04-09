@@ -73,18 +73,6 @@ namespace Webzine.Repository.Contracts
         IEnumerable<Titre> FindAll();
 
         /// <summary>
-        /// Incrémente le nombre de lectures d’un titre.
-        /// </summary>
-        /// <param name="titre">L'objet titre dont le compteur de lectures doit être incrémenté.</param>
-        void IncrementNbLectures(Titre titre);
-
-        /// <summary>
-        /// Incrémente le nombre de likes d’un titre.
-        /// </summary>
-        /// <param name="titre">L'objet titre dont le compteur de likes doit être incrémenté.</param>
-        void IncrementNbLikes(Titre titre);
-
-        /// <summary>
         /// Cherche si un artiste possède le titre.
         /// </summary>
         /// <param name="titre">Est le titre qu'on veut comparer.</param>

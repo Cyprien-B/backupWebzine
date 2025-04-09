@@ -89,22 +89,6 @@ namespace Webzine.Repository.Local
         }
 
         /// <inheritdoc/>
-        public void IncrementNbLectures(Titre titre)
-        {
-            Factory.Titres.Where(t => t.IdTitre == titre.IdTitre)
-                       .ToList()
-                       .ForEach(t => t.NbLectures++);
-        }
-
-        /// <inheritdoc/>
-        public void IncrementNbLikes(Titre titre)
-        {
-            Factory.Titres.Where(t => t.IdTitre == titre.IdTitre)
-                       .ToList()
-                       .ForEach(t => t.NbLikes++);
-        }
-
-        /// <inheritdoc/>
         public bool LibelleToArtisteAny(Titre titre)
         {
             return Factory.Titres.Any(t => t.Libelle == titre.Libelle && t.IdArtiste == titre.IdArtiste);
