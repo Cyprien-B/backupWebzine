@@ -18,6 +18,6 @@ bien pensé dans sa globalité.
 
 Je pense que pour avoir un projet plus propre, il aurait fallu prendre une
 journée pour revoir le code tous ensemble et se mettre d'accord sur la structure
-et la manière dont le code doit être organisé. Notre principal objectif étant de
-réussir à faire fonctionner notre projet, plutôt que d'avoir un code uniforme et
-maintenable.
+et la manière dont le code doit être organisé.Notre principal objectif ayant été
+de réussir à faire fonctionner notre projet, plutôt que d'avoir un code uniforme
+et maintenable.

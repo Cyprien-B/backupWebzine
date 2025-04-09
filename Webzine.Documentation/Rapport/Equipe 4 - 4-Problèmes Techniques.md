@@ -35,14 +35,15 @@ tous les titres soient liés à une seule source de données.
 
 Nous avons eu un débat entre Cyprien et Diego sur la mise en place d'un service
 pour le dashboard, car Diego argumentait que cela est moins efficace que
-d'utiliser directement les dépôts (repositories), ce à quoi Cyprien était
-d'accord. Cependant, étant donné que l'objectif était de mettre en place un
-service pour répondre à une demande client, cette solution a été retenue.
+d'utiliser directement les repositories. Cependant, étant donné que l'objectif
+était de mettre en place un service pour répondre à une demande client, cette
+solution a été retenue.
 
-Mathéo a eu beaucoup de problèmes avec Deeze, qui ne correspondait pas à ce dont
-on avait besoin. On n'a jamais réussi à aller chercher plus de 300 titres. Il
-était impossible d'accéder au style d'un titre autrement qu'en faisant un appel
-à l'album lié au titre.
+Mathéo a eu beaucoup de problèmes avec Deezer, qui ne correspondait pas à ce
+dont nous avions besoin. Nous n'avons jamais réussi à aller chercher plus de 300
+titres. Il était impossible d'accéder au style d'un titre autrement qu'en
+faisant un appel à l'album lié au titre, et pour 10 000 titres, cela aurait fait
+trop d'appels.
 
 Gitea a été un vrai calvaire. Le fait de devoir le mettre en place par les ops
 nous a fait perdre du temps sur le sprint 1. Pour le sprint 2, nous avons eu des
