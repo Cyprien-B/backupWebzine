@@ -23,7 +23,7 @@ namespace Webzine.WebApplication.Controllers
         {
             if (string.IsNullOrEmpty(recherche))
             {
-                var refererUrl = this.Request.Headers["Referer"].ToString();
+                var refererUrl = this.Request.Headers.Referer.ToString();
 
                 // Charger la vue active
                 return this.Redirect(refererUrl); // Retourne la vue active avec les erreurs

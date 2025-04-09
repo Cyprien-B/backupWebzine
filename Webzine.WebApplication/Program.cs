@@ -356,24 +356,22 @@ public static class Program
     private static async Task SeedDataBase()
     {
         // Vider et recréer la base de données
-        using (var scope = App!.Services.CreateScope())
+        using var scope = App!.Services.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<WebzineDbContext>();
+        context.Database.EnsureDeleted();
+        context.Database.EnsureCreated();
+
+        var seederType = Builder!.Configuration.GetValue<string>("App:Seeder");
+
+        if (seederType == "Local")
         {
-            var context = scope.ServiceProvider.GetRequiredService<WebzineDbContext>();
-            context.Database.EnsureDeleted();
-            context.Database.EnsureCreated();
-
-            var seederType = Builder!.Configuration.GetValue<string>("App:Seeder");
-
-            if (seederType == "Local")
-            {
-                SeedDataLocal.Initialize(scope.ServiceProvider);
-            }
-            else if (seederType == "Deezer")
-            {
-                await SeedDataDeezer.Initialize(scope.ServiceProvider);
-            }
-
-            // Si "App:Seeder" n'est ni "Local" ni "Deezer", aucun seeder n'est exécuté
+            SeedDataLocal.Initialize(scope.ServiceProvider);
         }
+        else if (seederType == "Deezer")
+        {
+            await SeedDataDeezer.Initialize(scope.ServiceProvider);
+        }
+
+        // Si "App:Seeder" n'est ni "Local" ni "Deezer", aucun seeder n'est exécuté
     }
 }

@@ -14,12 +14,12 @@ namespace Webzine.WebApplication.ViewModels
         /// <summary>
         /// Obtient ou définit la liste de titre classé par popularité.
         /// </summary>
-        public IEnumerable<Titre> TitresPopulaires { get; set; } = new List<Titre>();
+        public IEnumerable<Titre> TitresPopulaires { get; set; } = [];
 
         /// <summary>
         /// Obtient ou définit la liste de titre classé par chronique récente.
         /// </summary>
-        public IEnumerable<Titre> TitresRecemmentsChroniques { get; set; } = new List<Titre>();
+        public IEnumerable<Titre> TitresRecemmentsChroniques { get; set; } = [];
 
         /// <summary>
         /// Obtient ou définit le nombre de caractères maximum de début de chronique à afficher sur la page d'accueil.

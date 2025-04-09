@@ -26,7 +26,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         {
             var paginationLimitTitre = configuration.GetValue<int>("App:Pages:Administration:NbTitresParPagination");
 
-            AdministrationTitreModel administrationTitreModel = new AdministrationTitreModel()
+            AdministrationTitreModel administrationTitreModel = new()
             {
                 PaginationActuelle = (uint)page,
                 PaginationMax = (uint)Math.Ceiling((double)titreRepository.Count() / paginationLimitTitre),

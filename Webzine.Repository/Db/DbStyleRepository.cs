@@ -2,7 +2,7 @@
 // Copyright (c) Equipe 4 - BARRAND, BORDET, COPPIN, DANNEAU, ERNST, FICHET, GRANDVEAU, SADIKAJ. All rights reserved.
 // </copyright>
 
-namespace Webzine.Repository.Local
+namespace Webzine.Repository.Db
 {
     using System.Collections.Generic;
     using Microsoft.EntityFrameworkCore;
@@ -35,7 +35,7 @@ namespace Webzine.Repository.Local
         /// <inheritdoc/>
         public IEnumerable<Style> AdministrationFindStyles(int offset, int limit)
         {
-            return context.Styles.OrderBy(s => s.Libelle).Skip(limit * (int)(offset - 1)).Take(limit).AsNoTracking().ToList();
+            return [.. context.Styles.OrderBy(s => s.Libelle).Skip(limit * (offset - 1)).Take(limit).AsNoTracking()];
         }
 
         /// <inheritdoc/>
@@ -60,7 +60,7 @@ namespace Webzine.Repository.Local
         /// <inheritdoc/>
         public IEnumerable<Style> FindAll()
         {
-            return context.Styles.OrderBy(s => s.Libelle).AsNoTracking().ToList();
+            return [.. context.Styles.OrderBy(s => s.Libelle).AsNoTracking()];
         }
 
         /// <inheritdoc/>
@@ -90,10 +90,9 @@ namespace Webzine.Repository.Local
         /// <inheritdoc/>
         public IEnumerable<Style> FindStylesByIds(IEnumerable<int> styleIds)
         {
-            return context.Styles
+            return [.. context.Styles
                     .Where(s => styleIds.Contains(s.IdStyle))
-                    .AsNoTracking()
-                    .ToList();
+                    .AsNoTracking()];
         }
 
         /// <inheritdoc/>

@@ -14,19 +14,14 @@ namespace Webzine.WebApplication.TagHelpers
     /// <summary>
     /// TagHelper permettant d'afficher la card d'un titre populaire à partir du modèle lié via l'attribut asp-for.
     /// </summary>
+    /// <remarks>
+    /// Initialise une nouvelle instance de la classe <see cref="TitrePopulaireTagHelper"/>.
+    /// </remarks>
+    /// <param name="urlHelperFactory">Factory pour la création d'IUrlHelper.</param>
     [HtmlTargetElement("titre-populaire", Attributes = "asp-for")]
-    public class TitrePopulaireTagHelper : TagHelper
+    public class TitrePopulaireTagHelper(IUrlHelperFactory urlHelperFactory) : TagHelper
     {
-        private readonly IUrlHelperFactory urlHelperFactory;
-
-        /// <summary>
-        /// Initialise une nouvelle instance de la classe <see cref="TitrePopulaireTagHelper"/>.
-        /// </summary>
-        /// <param name="urlHelperFactory">Factory pour la création d'IUrlHelper.</param>
-        public TitrePopulaireTagHelper(IUrlHelperFactory urlHelperFactory)
-        {
-            this.urlHelperFactory = urlHelperFactory;
-        }
+        private readonly IUrlHelperFactory urlHelperFactory = urlHelperFactory;
 
         /// <summary>
         /// Obtient ou définit la liaison des propriétés du modèle via l'attribut asp-for.
@@ -60,26 +55,13 @@ namespace Webzine.WebApplication.TagHelpers
             var card = new TagBuilder("div");
             card.AddCssClass("card");
 
-            card.InnerHtml.AppendHtml(this.BuildImageContainer(titre, urlHelper));
-            card.InnerHtml.AppendHtml(this.BuildCardBody(titre, urlHelper));
+            card.InnerHtml.AppendHtml(BuildImageContainer(titre, urlHelper));
+            card.InnerHtml.AppendHtml(BuildCardBody(titre, urlHelper));
 
             output.Content.SetHtmlContent(card);
         }
 
-        private void ValidateModel()
-        {
-            if (this.For == null)
-            {
-                throw new InvalidOperationException("Le modèle n'a pas pu être récupéré.");
-            }
-
-            if (this.For.Model == null)
-            {
-                throw new ArgumentException("Le modèle lié à 'asp-for' est null ou invalide.");
-            }
-        }
-
-        private TagBuilder BuildImageContainer(dynamic titre, IUrlHelper urlHelper)
+        private static TagBuilder BuildImageContainer(dynamic titre, IUrlHelper urlHelper)
         {
             var container = new TagBuilder("div");
             container.AddCssClass("ratio ratio-1x1");
@@ -98,7 +80,7 @@ namespace Webzine.WebApplication.TagHelpers
             return container;
         }
 
-        private TagBuilder BuildCardBody(dynamic titre, IUrlHelper urlHelper)
+        private static TagBuilder BuildCardBody(dynamic titre, IUrlHelper urlHelper)
         {
             var body = new TagBuilder("div");
             body.AddCssClass("card-body");
@@ -128,6 +110,19 @@ namespace Webzine.WebApplication.TagHelpers
             body.InnerHtml.AppendHtml(artistText);
 
             return body;
+        }
+
+        private void ValidateModel()
+        {
+            if (this.For == null)
+            {
+                throw new InvalidOperationException("Le modèle n'a pas pu être récupéré.");
+            }
+
+            if (this.For.Model == null)
+            {
+                throw new ArgumentException("Le modèle lié à 'asp-for' est null ou invalide.");
+            }
         }
     }
 }

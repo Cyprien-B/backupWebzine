@@ -10,7 +10,13 @@ namespace Webzine.WebApplication.Middlewares
     /// Middleware permettant de limiter le nombre de requêtes effectuées par une même adresse IP
     /// dans une fenêtre temporelle donnée.
     /// </summary>
-    public class RateLimiterMiddleware
+    /// <remarks>
+    /// Initialise une nouvelle instance de la classe <see cref="RateLimiterMiddleware"/>.
+    /// </remarks>
+    /// <param name="next">Le middleware suivant dans le pipeline.</param>
+    /// <param name="requestLimit">Le nombre maximum de requêtes autorisées.</param>
+    /// <param name="timeWindow">La durée de la fenêtre temporelle.</param>
+    public class RateLimiterMiddleware(RequestDelegate next, int requestLimit, TimeSpan timeWindow)
     {
         /// <summary>
         /// Dictionnaire concurrent contenant les informations de requêtes par adresse IP.
@@ -20,30 +26,17 @@ namespace Webzine.WebApplication.Middlewares
         /// <summary>
         /// Délégué représentant le middleware suivant dans le pipeline.
         /// </summary>
-        private readonly RequestDelegate next;
+        private readonly RequestDelegate next = next;
 
         /// <summary>
         /// Nombre maximum de requêtes autorisées par fenêtre temporelle.
         /// </summary>
-        private readonly int requestLimit;
+        private readonly int requestLimit = requestLimit;
 
         /// <summary>
         /// Durée de la fenêtre temporelle pour limiter les requêtes.
         /// </summary>
-        private readonly TimeSpan timeWindow;
-
-        /// <summary>
-        /// Initialise une nouvelle instance de la classe <see cref="RateLimiterMiddleware"/>.
-        /// </summary>
-        /// <param name="next">Le middleware suivant dans le pipeline.</param>
-        /// <param name="requestLimit">Le nombre maximum de requêtes autorisées.</param>
-        /// <param name="timeWindow">La durée de la fenêtre temporelle.</param>
-        public RateLimiterMiddleware(RequestDelegate next, int requestLimit, TimeSpan timeWindow)
-        {
-            this.next = next;
-            this.requestLimit = requestLimit;
-            this.timeWindow = timeWindow;
-        }
+        private readonly TimeSpan timeWindow = timeWindow;
 
         /// <summary>
         /// Méthode principale du middleware qui est appelée pour chaque requête HTTP.

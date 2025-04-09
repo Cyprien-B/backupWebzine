@@ -19,31 +19,31 @@ namespace Webzine.WebApplication.Seeders
     /// </summary>
     public static class SeedDataDeezer
     {
-        private static readonly HttpClient HttpClient = new HttpClient();
+        private static readonly HttpClient HttpClient = new();
 
         /// <summary>
         /// Obtient la liste des artistes.
         /// Cette liste contient les artistes récupérés ou générés pour le peuplement de la base de données.
         /// </summary>
-        public static List<Artiste> Artistes { get; private set; } = new List<Artiste>();
+        public static List<Artiste> Artistes { get; private set; } = [];
 
         /// <summary>
         /// Obtient la liste des styles.
         /// Cette liste contient les styles musicaux associés aux titres.
         /// </summary>
-        public static List<Style> Styles { get; private set; } = new List<Style>();
+        public static List<Style> Styles { get; private set; } = [];
 
         /// <summary>
         /// Obtient la liste des titres.
         /// Cette liste contient les titres récupérés ou générés pour le peuplement de la base de données.
         /// </summary>
-        public static List<Titre> Titres { get; private set; } = new List<Titre>();
+        public static List<Titre> Titres { get; private set; } = [];
 
         /// <summary>
         /// Obtient la liste des commentaires.
         /// Cette liste est vide par défaut et peut être utilisée pour gérer les commentaires associés aux titres.
         /// </summary>
-        public static List<Commentaire> Commentaires { get; private set; } = new List<Commentaire>();
+        public static List<Commentaire> Commentaires { get; private set; } = [];
 
         /// <summary>
         /// Initialise la base de données avec les données validées.
@@ -59,20 +59,18 @@ namespace Webzine.WebApplication.Seeders
             ValidateData();
 
             // Étape 3 : Insérer les données validées dans la base de données
-            using (var scope = services.CreateScope())
-            {
-                var context = scope.ServiceProvider.GetRequiredService<WebzineDbContext>();
+            using var scope = services.CreateScope();
+            var context = scope.ServiceProvider.GetRequiredService<WebzineDbContext>();
 
-                if (!context.Titres.Any())
-                {
-                    Console.WriteLine("Insertion des données validées dans la base de données...");
-                    SeedDatabase(context);
-                    Console.WriteLine("Base de données peuplée avec succès !");
-                }
-                else
-                {
-                    Console.WriteLine("La base de données est déjà peuplée.");
-                }
+            if (!context.Titres.Any())
+            {
+                Console.WriteLine("Insertion des données validées dans la base de données...");
+                SeedDatabase(context);
+                Console.WriteLine("Base de données peuplée avec succès !");
+            }
+            else
+            {
+                Console.WriteLine("La base de données est déjà peuplée.");
             }
         }
 
@@ -96,7 +94,7 @@ namespace Webzine.WebApplication.Seeders
 
             // Extraction des styles uniques
             Styles = tracks
-                .SelectMany(t => t.Genres ?? new List<DeezerGenre>())
+                .SelectMany(t => t.Genres ?? [])
                 .Select(g => new Style { Libelle = g.Name })
                 .GroupBy(s => s.Libelle)
                 .Select(g => g.First())
@@ -111,7 +109,7 @@ namespace Webzine.WebApplication.Seeders
                     Album = t.Album.Title,
                     UrlJaquette = t.Album.Cover,
                     IdArtiste = 0, // Lien avec l'artiste sera vérifié plus tard
-                    Styles = t.Genres?.Select(g => new Style { Libelle = g.Name }).ToList() ?? new List<Style>(),
+                    Styles = t.Genres?.Select(g => new Style { Libelle = g.Name }).ToList() ?? [],
                     DateCreation = DateTime.UtcNow,
                     DateSortie = DateTime.UtcNow, // Pas disponible dans l'API Deezer
                 };
@@ -131,8 +129,8 @@ namespace Webzine.WebApplication.Seeders
                 .Select(g => g.First())
                 .ToList();
 
-            Styles = new List<Style>
-            {
+            Styles =
+            [
                 new Style { IdStyle = 1, Libelle = "Pop" },
                 new Style { IdStyle = 2, Libelle = "Rock" },
                 new Style { IdStyle = 3, Libelle = "Jazz" },
@@ -165,7 +163,7 @@ namespace Webzine.WebApplication.Seeders
                 new Style { IdStyle = 30, Libelle = "Dubstep" },
                 new Style { IdStyle = 31, Libelle = "Indie Rock" },
                 new Style { IdStyle = 32, Libelle = "Lo-fi Hip-Hop" },
-            };
+            ];
 
             var validTitres = new List<Titre>();
 

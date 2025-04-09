@@ -6,7 +6,6 @@ namespace Webzine.WebApplication.Controllers
 {
     using Microsoft.AspNetCore.Diagnostics;
     using Microsoft.AspNetCore.Mvc;
-    using Webzine.Entity.Fixtures;
     using Webzine.Repository.Contracts;
     using Webzine.WebApplication.ViewModels;
 

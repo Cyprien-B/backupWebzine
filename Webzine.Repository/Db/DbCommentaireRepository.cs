@@ -43,12 +43,12 @@ namespace Webzine.Repository.Db
         /// <inheritdoc/>
         public IEnumerable<Commentaire> AdministrationFindCommentaires(int offset, int limit)
         {
-            return context.Commentaires
+            return [.. context.Commentaires
                 .Include(c => c.Titre)
                 .OrderByDescending(c => c.DateCreation)
                 .Skip(limit * (int)(offset - 1))
                 .Take(limit)
-                .AsNoTracking().ToList();
+                .AsNoTracking()];
         }
 
         /// <inheritdoc/>
@@ -72,10 +72,7 @@ namespace Webzine.Repository.Db
             if (commentaireExistant != null)
             {
                 // Vérifier si le titre associé existe et retirer le commentaire de sa collection
-                if (commentaireExistant.Titre != null)
-                {
-                    commentaireExistant.Titre.Commentaires.Remove(commentaireExistant);
-                }
+                commentaireExistant.Titre?.Commentaires.Remove(commentaireExistant);
 
                 // Supprimer le commentaire
                 context.Commentaires.Remove(commentaireExistant);
@@ -97,10 +94,9 @@ namespace Webzine.Repository.Db
         /// <inheritdoc/>
         public IEnumerable<Commentaire> FindAll()
         {
-            return context.Commentaires
+            return [.. context.Commentaires
                 .Include(c => c.Titre)
-                .AsNoTracking()
-                .ToList();
+                .AsNoTracking()];
         }
     }
 }

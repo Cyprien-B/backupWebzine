@@ -66,7 +66,7 @@ namespace Webzine.Repository.Local
         /// <inheritdoc/>
         public IEnumerable<Artiste> FindAll()
         {
-            return Factory.Artistes.OrderBy(a => a.Nom).ToList();
+            return [.. Factory.Artistes.OrderBy(a => a.Nom)];
         }
 
         /// <inheritdoc/>
@@ -85,7 +85,7 @@ namespace Webzine.Repository.Local
         public IEnumerable<Artiste> Search(string mot)
         {
             return Factory.Artistes
-                .Where(a => a.Nom.ToLower().Contains(mot.ToLower()))
+                .Where(a => a.Nom.Contains(mot, StringComparison.CurrentCultureIgnoreCase))
                 .ToList();
         }
 

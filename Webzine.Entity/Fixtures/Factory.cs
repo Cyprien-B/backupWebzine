@@ -33,13 +33,13 @@ namespace Webzine.Entity.Fixtures
                 .RuleFor(a => a.IdArtiste, f => f.IndexFaker + 1)
                 .RuleFor(a => a.Nom, f => f.Name.FullName())
                 .RuleFor(a => a.Biographie, f => f.Lorem.Sentences())
-                .RuleFor(a => a.Titres, f => new List<Titre>());
+                .RuleFor(a => a.Titres, f => []);
 
             // Configuration du générateur pour les styles
             StyleFake = new Faker<Style>()
                 .RuleFor(s => s.IdStyle, f => f.IndexFaker + 1)
                 .RuleFor(s => s.Libelle, f => f.Music.Genre())
-                .RuleFor(s => s.Titres, f => new List<Titre>());
+                .RuleFor(s => s.Titres, f => []);
 
             // Configuration du générateur pour les titres
             TitreFake = new Faker<Titre>()
@@ -54,8 +54,8 @@ namespace Webzine.Entity.Fixtures
                 .RuleFor(t => t.NbLectures, f => f.Random.UInt(0, 100))
                 .RuleFor(t => t.NbLikes, f => f.Random.UInt(0, 100))
                 .RuleFor(t => t.Album, f => f.Lorem.Word())
-                .RuleFor(t => t.Commentaires, _ => new List<Commentaire>())
-                .RuleFor(t => t.Styles, _ => new List<Style>());
+                .RuleFor(t => t.Commentaires, _ => [])
+                .RuleFor(t => t.Styles, _ => []);
 
             // Configuration du générateur pour les commentaires
             CommentaireFake = new Faker<Commentaire>()

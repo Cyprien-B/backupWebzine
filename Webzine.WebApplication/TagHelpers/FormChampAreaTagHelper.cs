@@ -14,20 +14,13 @@ namespace Webzine.WebApplication.TagHelpers
     /// <summary>
     /// Tag Helper permettant de générer un champ de formulaire avec son label et son message de validation pour un textarea.
     /// </summary>
+    /// <remarks>
+    /// Initialise une nouvelle instance de la classe <see cref="FormChampAreaTagHelper"/>.
+    /// </remarks>
+    /// <param name="htmlGenerator">Générateur HTML utilisé pour créer les balises.</param>
     [HtmlTargetElement("form-champ-area", Attributes = "asp-for")]
-    public class FormChampAreaTagHelper : TagHelper
+    public class FormChampAreaTagHelper(IHtmlGenerator htmlGenerator) : TagHelper
     {
-        private readonly IHtmlGenerator htmlGenerator;
-
-        /// <summary>
-        /// Initialise une nouvelle instance de la classe <see cref="FormChampAreaTagHelper"/>.
-        /// </summary>
-        /// <param name="htmlGenerator">Générateur HTML utilisé pour créer les balises.</param>
-        public FormChampAreaTagHelper(IHtmlGenerator htmlGenerator)
-        {
-            this.htmlGenerator = htmlGenerator;
-        }
-
         /// <summary>
         /// Obtient ou définit la liaison des propriétés du modèle via asp-for.
         /// </summary>
@@ -70,7 +63,7 @@ namespace Webzine.WebApplication.TagHelpers
             var defaultValue = this.For.ModelExplorer.Model?.ToString() ?? string.Empty;
 
             // Génération du label
-            var label = this.htmlGenerator.GenerateLabel(
+            var label = htmlGenerator.GenerateLabel(
                 this.ViewContext,
                 this.For.ModelExplorer,
                 this.For.Name,
@@ -78,7 +71,7 @@ namespace Webzine.WebApplication.TagHelpers
                 htmlAttributes: new { @class = "col-form-label" });
 
             // Génération du textarea avec la valeur par défaut
-            var textarea = this.htmlGenerator.GenerateTextArea(
+            var textarea = htmlGenerator.GenerateTextArea(
                 this.ViewContext,
                 this.For.ModelExplorer,
                 this.For.Name,
@@ -87,7 +80,7 @@ namespace Webzine.WebApplication.TagHelpers
                 htmlAttributes: new { @class = "form-control", value = defaultValue });
 
             // Génération du message de validation
-            var validationMessage = this.htmlGenerator.GenerateValidationMessage(
+            var validationMessage = htmlGenerator.GenerateValidationMessage(
                 this.ViewContext,
                 this.For.ModelExplorer,
                 this.For.Name, // Nom de la propriété

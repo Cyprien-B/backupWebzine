@@ -9,17 +9,12 @@ namespace Webzine.EntityContext
     /// <summary>
     /// Contexte de la base de données SQLite pour l'application Webzine.
     /// </summary>
-    public class WebzineDbContext : DbContext
+    /// <remarks>
+    /// Initialise une nouvelle instance de la classe <see cref="WebzineDbContext"/>.
+    /// </remarks>
+    /// <param name="options">Options de configuration pour le contexte.</param>
+    public class WebzineDbContext(DbContextOptions<WebzineDbContext> options) : DbContext(options)
     {
-        /// <summary>
-        /// Initialise une nouvelle instance de la classe <see cref="WebzineDbContext"/>.
-        /// </summary>
-        /// <param name="options">Options de configuration pour le contexte.</param>
-        public WebzineDbContext(DbContextOptions<WebzineDbContext> options)
-            : base(options)
-        {
-        }
-
         /// <summary>
         /// Obtient ou définit la collection d'artistes.
         /// </summary>

@@ -14,19 +14,14 @@ namespace Webzine.WebApplication.TagHelpers
     /// <summary>
     /// Tag Helper permettant de générer un champ de formulaire avec son label et son message de validation.
     /// </summary>
+    /// <remarks>
+    /// Initialise une nouvelle instance de la classe <see cref="FormChampTagHelper"/>.
+    /// </remarks>
+    /// <param name="htmlGenerator">Générateur HTML utilisé pour créer les balises.</param>
     [HtmlTargetElement("form-champ", Attributes = "asp-for")]
-    public class FormChampTagHelper : TagHelper
+    public class FormChampTagHelper(IHtmlGenerator htmlGenerator) : TagHelper
     {
-        private readonly IHtmlGenerator htmlGenerator;
-
-        /// <summary>
-        /// Initialise une nouvelle instance de la classe <see cref="FormChampTagHelper"/>.
-        /// </summary>
-        /// <param name="htmlGenerator">Générateur HTML utilisé pour créer les balises.</param>
-        public FormChampTagHelper(IHtmlGenerator htmlGenerator)
-        {
-            this.htmlGenerator = htmlGenerator;
-        }
+        private readonly IHtmlGenerator htmlGenerator = htmlGenerator;
 
         /// <summary>
         /// Obtient ou définit la liaison des propriétés du modèle via asp-for.

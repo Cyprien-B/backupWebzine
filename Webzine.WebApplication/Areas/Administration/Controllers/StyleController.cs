@@ -7,7 +7,6 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Webzine.Entity;
     using Webzine.Repository.Contracts;
-    using Webzine.Repository.Db;
     using Webzine.WebApplication.Areas.Administration.ViewModels;
 
     /// <summary>
@@ -25,7 +24,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         public IActionResult Index(int page = 1)
         {
             var paginationLimitStyle = configuration.GetValue<int>("App:Pages:Administration:NbStylesParPagination");
-            AdministrationStyleModel administrationStyleModel = new AdministrationStyleModel()
+            AdministrationStyleModel administrationStyleModel = new()
             {
                 PaginationActuelle = (uint)page,
                 PaginationMax = (uint)Math.Ceiling((double)styleRepository.Count() / paginationLimitStyle),

@@ -13,7 +13,7 @@ namespace Webzine.WebApplication.Filters
     /// </summary>
     public class LoggerActionFilter : IExceptionFilter
     {
-        private static readonly NLog.ILogger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly NLog.Logger Logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>
         /// Lance la page à une exception.

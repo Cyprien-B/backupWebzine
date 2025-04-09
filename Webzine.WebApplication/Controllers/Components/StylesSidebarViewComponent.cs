@@ -5,7 +5,6 @@
 namespace Webzine.WebApplication.Controllers.Components
 {
     using Microsoft.AspNetCore.Mvc;
-    using Webzine.Entity.Fixtures;
     using Webzine.Repository.Contracts;
 
     /// <summary>

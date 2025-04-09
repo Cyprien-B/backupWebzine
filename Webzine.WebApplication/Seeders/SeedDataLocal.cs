@@ -18,25 +18,23 @@ namespace Webzine.WebApplication.Seeders
         /// <param name="services">Provider de service de type<see cref="IServiceProvider"/>.</param>
         public static void Initialize(IServiceProvider services)
         {
-            using (var scope = services.CreateScope())
-            {
-                var context = scope.ServiceProvider.GetRequiredService<WebzineDbContext>();
+            using var scope = services.CreateScope();
+            var context = scope.ServiceProvider.GetRequiredService<WebzineDbContext>();
 
-                // Récupérer les données générées par les factories
-                var artistes = Factory.Artistes;
-                var styles = Factory.Styles;
-                var titres = Factory.Titres;
-                var commentaires = Factory.Commentaires;
+            // Récupérer les données générées par les factories
+            var artistes = Factory.Artistes;
+            var styles = Factory.Styles;
+            var titres = Factory.Titres;
+            var commentaires = Factory.Commentaires;
 
-                // Ajouter les données à la base de données
-                context.Artistes.AddRange(artistes);
-                context.Styles.AddRange(styles);
-                context.Titres.AddRange(titres);
-                context.Commentaires.AddRange(commentaires);
+            // Ajouter les données à la base de données
+            context.Artistes.AddRange(artistes);
+            context.Styles.AddRange(styles);
+            context.Titres.AddRange(titres);
+            context.Commentaires.AddRange(commentaires);
 
-                // Sauvegarder les modifications
-                context.SaveChanges();
-            }
+            // Sauvegarder les modifications
+            context.SaveChanges();
         }
     }
 }

@@ -67,13 +67,13 @@ namespace Webzine.Repository.Local
         /// <inheritdoc/>
         public int Count()
         {
-            return Factory.Styles.Count();
+            return Factory.Styles.Count;
         }
 
         /// <inheritdoc/>
         public IEnumerable<Style> FindAll()
         {
-            return Factory.Styles.OrderBy(s => s.Libelle).ToList();
+            return [.. Factory.Styles.OrderBy(s => s.Libelle)];
         }
 
         /// <inheritdoc/>

@@ -22,19 +22,14 @@ namespace Webzine.Repository.Local
             }
 
             // Génération ID
-            titre.IdTitre = Factory.Titres.Any() ? Factory.Titres.Max(t => t.IdTitre) + 1 : 1;
+            titre.IdTitre = Factory.Titres.Count != 0 ? Factory.Titres.Max(t => t.IdTitre) + 1 : 1;
 
             // Lier l'artiste EXISTANT (sans en créer de nouveau)
-            var artiste = Factory.Artistes.FirstOrDefault(a => a.IdArtiste == titre.IdArtiste);
-            if (artiste == null)
-            {
-                throw new InvalidOperationException($"Artiste ID {titre.IdArtiste} introuvable");
-            }
-
+            var artiste = Factory.Artistes.Single(a => a.IdArtiste == titre.IdArtiste);
             titre.Artiste = artiste;
 
             // Mettre à jour la relation inverse
-            artiste.Titres = artiste.Titres ?? new List<Titre>();
+            artiste.Titres ??= [];
             artiste.Titres.Add(titre);
 
             Factory.Titres.Add(titre);

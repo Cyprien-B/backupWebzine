@@ -7,7 +7,6 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Webzine.Entity;
     using Webzine.Repository.Contracts;
-    using Webzine.Repository.Db;
     using Webzine.WebApplication.Areas.Administration.ViewModels;
 
     /// <summary>
@@ -26,7 +25,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         {
             var paginationLimitArtiste = configuration.GetValue<int>("App:Pages:Administration:NbArtistesParPagination");
 
-            AdministrationArtisteModel administrationArtisteModel = new AdministrationArtisteModel()
+            AdministrationArtisteModel administrationArtisteModel = new()
             {
                 PaginationActuelle = (uint)page,
                 PaginationMax = (uint)Math.Ceiling((double)artisteRepository.Count() / paginationLimitArtiste),

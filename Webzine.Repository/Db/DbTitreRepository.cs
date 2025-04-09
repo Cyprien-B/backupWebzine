@@ -21,12 +21,7 @@ namespace Webzine.Repository.Db
             // Vérification de l'artiste
             var artisteExistant = context.Artistes
                 .Include(a => a.Titres) // Charger les titres existants
-                .FirstOrDefault(a => a.IdArtiste == titre.IdArtiste);
-
-            if (artisteExistant == null)
-            {
-                throw new InvalidDataException("L'artiste spécifié n'existe pas");
-            }
+                .Single(a => a.IdArtiste == titre.IdArtiste);
 
             // Vérification des doublons
             if (context.Titres.Any(t => t.Libelle == titre.Libelle && t.IdArtiste == titre.IdArtiste))
@@ -59,7 +54,7 @@ namespace Webzine.Repository.Db
         /// <inheritdoc/>
         public IEnumerable<Titre> AdministrationFindTitres(int offset, int limit)
         {
-            return context.Titres.Include(t => t.Artiste).OrderBy(t => t.Artiste.Nom).ThenBy(t => t.Libelle).Skip(limit * (int)(offset - 1)).Take(limit).AsNoTracking().ToList();
+            return [.. context.Titres.Include(t => t.Artiste).OrderBy(t => t.Artiste.Nom).ThenBy(t => t.Libelle).Skip(limit * (int)(offset - 1)).Take(limit).AsNoTracking()];
         }
 
         /// <inheritdoc/>
@@ -90,10 +85,7 @@ namespace Webzine.Repository.Db
                 context.Commentaires.RemoveRange(titreExistant.Commentaires);
 
                 // Retirer le titre de la collection de titres de l'artiste
-                if (titreExistant.Artiste != null)
-                {
-                    titreExistant.Artiste.Titres.Remove(titreExistant);
-                }
+                titreExistant.Artiste?.Titres.Remove(titreExistant);
 
                 // Retirer le titre des collections de titres des styles
                 foreach (var style in titreExistant.Styles.ToList())
@@ -118,26 +110,25 @@ namespace Webzine.Repository.Db
         /// <inheritdoc/>
         public IEnumerable<Titre> FindAll()
         {
-            return context.Titres.Include(t => t.Artiste).Include(t => t.Styles).ToList();
+            return [.. context.Titres.Include(t => t.Artiste).Include(t => t.Styles)];
         }
 
         /// <inheritdoc/>
         public IEnumerable<Titre> FindTitres(int offset, int limit)
         {
-            return context.Titres
+            return [.. context.Titres
                 .Include(t => t.Artiste)
                 .Include(t => t.Styles)
                 .OrderByDescending(t => t.DateCreation)
                 .Skip(limit * (offset - 1))
                 .Take(limit)
-                .AsNoTracking()
-                .ToList();
+                .AsNoTracking()];
         }
 
         /// <inheritdoc/>
         public IEnumerable<Titre> FindTitresPopulaires(int limit)
         {
-            return context.Titres.Include(t => t.Artiste).OrderByDescending(t => t.NbLikes).Take(limit).AsNoTracking().ToList();
+            return [.. context.Titres.Include(t => t.Artiste).OrderByDescending(t => t.NbLikes).Take(limit).AsNoTracking()];
         }
 
         /// <inheritdoc/>
@@ -149,22 +140,20 @@ namespace Webzine.Repository.Db
         /// <inheritdoc/>
         public IEnumerable<Titre> Search(string mot)
         {
-            return context.Titres
+            return [.. context.Titres
                 .Include(t => t.Artiste)
                 .Include(t => t.Styles)
                 .Where(t => t.Libelle.Contains(mot))
-                .AsNoTracking()
-                .ToList();
+                .AsNoTracking()];
         }
 
         /// <inheritdoc/>
         public IEnumerable<Titre> SearchByStyle(string libelle)
         {
-            return context.Titres
+            return [.. context.Titres
                 .Include(t => t.Artiste)
                 .Include(t => t.Styles)
-                .Where(t => t.Styles.Any(s => s.Libelle.Contains(libelle)))
-                .ToList();
+                .Where(t => t.Styles.Any(s => s.Libelle.Contains(libelle)))];
         }
 
         /// <inheritdoc/>
@@ -172,44 +161,38 @@ namespace Webzine.Repository.Db
         {
             var existingTitre = context.Titres
                 .Include(t => t.Artiste)
-                .Include(t => t.Styles)
+                .Include(t => t.Styles) // Charger les relations existantes
                 .Include(t => t.Commentaires)
-                .FirstOrDefault(t => t.IdTitre == titre.IdTitre);
-
-            if (existingTitre == null)
-            {
-                throw new InvalidDataException("Le titre à mettre à jour n'existe pas");
-            }
+                .Single(t => t.IdTitre == titre.IdTitre);
 
             // Mise à jour de l'artiste
-            var artisteExistant = context.Artistes.Find(titre.IdArtiste);
-            if (artisteExistant == null)
-            {
-                throw new InvalidDataException("L'artiste spécifié n'existe pas");
-            }
-
+            var artisteExistant = context.Artistes.Find(titre.IdArtiste)
+                ?? throw new InvalidDataException("Artiste introuvable");
             existingTitre.Artiste = artisteExistant;
 
-            // Mise à jour des styles
+            // Gestion des styles
+            var idsStyles = titre.Styles.Select(s => s.IdStyle).ToList();
             var stylesExistants = context.Styles
-                .Where(s => titre.Styles.Select(ts => ts.IdStyle).Contains(s.IdStyle))
+                .Where(s => idsStyles.Contains(s.IdStyle))
                 .ToList();
 
-            if (stylesExistants.Count != titre.Styles.Count())
+            if (stylesExistants.Count != idsStyles.Count)
             {
-                throw new InvalidDataException("Un ou plusieurs styles spécifiés n'existent pas");
+                throw new InvalidDataException("Styles invalides");
             }
 
-            existingTitre.Styles = [];
+            // Méthode 1 : Remplacement contrôlé avec Clear()
+            existingTitre.Styles.Clear(); // Supprime les relations existantes
             foreach (var style in stylesExistants)
             {
-                existingTitre.Styles.Append(style);
+                existingTitre.Styles.Add(style); // Ajoute les nouvelles relations
             }
 
-            // Mise à jour des propriétés simples
-            context.Entry(existingTitre).CurrentValues.SetValues(titre);
+            // Méthode alternative : Utilisation de la navigation inverse
+            // existingTitre.Styles = stylesExistants;
 
-            // Les commentaires ne sont généralement pas mis à jour lors de la mise à jour d'un titre
+            // Mise à jour des propriétés scalaires
+            context.Entry(existingTitre).CurrentValues.SetValues(titre);
             context.SaveChanges();
         }
     }
