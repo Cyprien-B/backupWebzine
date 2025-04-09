@@ -11,34 +11,24 @@ Vous pourrez donc accéder au projet dans votre navigateur en local à l'adresse
 suivante: http://localhost:5000
 
 Pour une configuration avec des données mockées, il faut modifier l'appsettings.
+
 ![dossier appsetting](image.png)
 
 Les options de configuration sont les suivantes :
 
-Seeder : il existe deux options, "Local" et "Deezer", ou "Ignore" si vous ne
-voulez pas seeder la base de données.
-
-SGBD : soit SQLite, soit SQLServer, soit PG ou Local (Si on ne veut pas se servir d'une BDD).
-
-Repository : Local ou Db, qui va dépendre de vos données mockées. Par défaut, il
-prendra Db.
-
-UsePathBase est utile en cas de déploiement de l'application et va permettre
-d'ajouter un path de base au moment du déploiement.
-
-NbTitresChroniquesParPaginations : spécifie le nombre de titres de chroniques à
-afficher par page sur l'acceuil.
-
-NbTitresPopulaires : spécifie le nombre de titres populaires à afficher.
-
-NbTitresParPagination : spécifie le nombre de titres à afficher par page.
-
-NbStylesParPagination : spécifie le nombre de styles à afficher par page.
-
-NbArtistesParPagination : spécifie le nombre d'artistes à afficher par page.
-
-NbCommentairesParPagination : spécifie le nombre de commentaires à afficher par
-page.
+| **Paramètre**            | **Description**                              | **Options/Valeurs**         | **Valeur par défaut** |
+|:-------------------------|:---------------------------------------------|:---------------------------:|:---------------------:|
+| **Seeder**               | Choix du type de données initiales           | `Local`, `Deezer`, `Ignore` | `Local`               |
+| **SGBD**                 | Système de gestion de base de données        | `SQLite`, `SQLServer`, `PG` | `SQLite`              |
+| **Repository**           | Source des données                           | `Local` (mock), `Db` (BDD)  | `Db`                  |
+| **UsePathBase**          | Path de base pour le déploiement             | Chaîne (ex: `/mon-app`)     | `/`                   |
+| **NbTitresChroniques...**| Chroniques par page (accueil)                | Entier positif              | `3`                   |
+| **DescriptionMax**       | Caractères max pour les chroniques           | Entier positif              | `200`                 |
+| **NbTitresPopulaires**   | Titres populaires à afficher                 | Entier positif              | `3`                   |
+| **NbTitresParPagination**| Titres par page                              | Entier positif              | `10`                  |
+| **NbStylesParPagination**| Styles par page                              | Entier positif              | `10`                  |
+| **NbArtistesParPagin...**| Artistes par page                            | Entier positif              | `10`                  |
+| **NbCommentairesPar...** | Commentaires par page                        | Entier positif              | `10`                  |
 
 Il est possible en mode Production d'implémenter un fichier exclusif appelé
 appsettings.Production.json.
