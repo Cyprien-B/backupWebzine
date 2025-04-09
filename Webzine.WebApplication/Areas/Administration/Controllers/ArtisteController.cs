@@ -55,7 +55,6 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         public IActionResult Create([FromForm] Artiste artiste)
         {
             // Vérifie si le libellé existe déjà dans la base de données
-            // TODO: Modifier l'emplacement et/ou créer un service ou une méthode de repository qui vient vérifier l'existence de l'artiste.
             bool artisteExiste = artisteRepository.NomAny(artiste);
 
             if (artisteExiste)
@@ -116,14 +115,19 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpPost]
         public IActionResult Edit([FromForm] Artiste artiste)
         {
-            // Vérifie si le libellé existe déjà dans la base de données
-            // TODO: Modifier l'emplacement et/ou créer un service ou une méthode de repository qui vient vérifier l'existence de l'artiste.
-            bool artisteExiste = artisteRepository.NomAny(artiste);
-
-            if (artisteExiste)
+            if (artisteRepository.Find(artiste.IdArtiste) == null)
             {
-                // Ajoute une erreur au ModelState pour le champ "Libelle"
-                this.ModelState.AddModelError("Nom", "Cette artiste existe déjà.");
+                this.ModelState.AddModelError("Nom", "L'identifiant de l'artiste ne correspond à aucun artiste. Ne modifiez pas le code source SVP.");
+            }
+            else
+            {
+                bool artisteExiste = artisteRepository.NomAny(artiste) && artisteRepository.Find(artiste.IdArtiste)!.Nom != artiste.Nom;
+
+                if (artisteExiste)
+                {
+                    // Ajoute une erreur au ModelState pour le champ "Libelle"
+                    this.ModelState.AddModelError("Nom", "Cette artiste existe déjà.");
+                }
             }
 
             if (this.ModelState.IsValid)

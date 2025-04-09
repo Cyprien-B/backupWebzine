@@ -49,7 +49,7 @@ namespace Webzine.Repository.Contracts
         /// </summary>
         /// <param name="id">L'identifiant de l'artiste recherché.</param>
         /// <returns>Retourne l'objet Artiste avec l'id correspondant.</returns>
-        Artiste Find(int id);
+        Artiste? Find(int id);
 
         /// <summary>
         /// Retourne une liste paginée d'artiste triés par nom dans l'ordre alphanumérique.

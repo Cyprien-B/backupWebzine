@@ -58,9 +58,9 @@ namespace Webzine.Repository.Local
         }
 
         /// <inheritdoc/>
-        public Artiste Find(int id)
+        public Artiste? Find(int id)
         {
-            return Factory.Artistes.Single(a => a.IdArtiste == id);
+            return Factory.Artistes.SingleOrDefault(a => a.IdArtiste == id);
         }
 
         /// <inheritdoc/>

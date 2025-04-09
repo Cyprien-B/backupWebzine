@@ -7,6 +7,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Webzine.Entity;
     using Webzine.Repository.Contracts;
+    using Webzine.Repository.Db;
     using Webzine.WebApplication.Areas.Administration.ViewModels;
 
     /// <summary>
@@ -113,14 +114,20 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpPost]
         public IActionResult Edit([FromForm] Style style)
         {
-            // Vérifie si le libellé existe déjà dans la base de données
-            // TODO: Modifier l'emplacement et/ou créer un service ou une méthode de repository qui vient vérifier l'existence du libelle.
-            bool styleExiste = styleRepository.LibelleAny(style);
-
-            if (styleExiste)
+            if (styleRepository.Find(style.IdStyle) == null)
             {
-                // Ajoute une erreur au ModelState pour le champ "Libelle"
-                this.ModelState.AddModelError("Libelle", "Le libellé de style existe déjà.");
+                this.ModelState.AddModelError("Libelle", "L'identifiant du style ne correspond à aucun style. Ne modifiez pas le code source SVP.");
+            }
+            else
+            {
+                // Vérifie si le libellé existe déjà dans la base de données
+                bool styleExiste = styleRepository.LibelleAny(style) && styleRepository.Find(style.IdStyle)!.Libelle != style.Libelle;
+
+                if (styleExiste)
+                {
+                    // Ajoute une erreur au ModelState pour le champ "Libelle"
+                    this.ModelState.AddModelError("Libelle", "Le libellé de style existe déjà.");
+                }
             }
 
             if (this.ModelState.IsValid)

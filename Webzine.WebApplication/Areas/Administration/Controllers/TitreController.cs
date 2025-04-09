@@ -142,14 +142,21 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpPost]
         public IActionResult Edit([FromForm] Titre titre, [FromForm] List<int> selectedStyleIds)
         {
-            // Vérifie si un titre avec le même libellé existe déjà pour le même artiste
-            bool titreExiste = titreRepository
-                .LibelleToArtisteAny(titre);
-
-            if (titreExiste)
+            if (titreRepository.Find(titre.IdTitre) == null)
             {
-                // Ajoute une erreur au ModelState pour le champ "Libelle"
-                this.ModelState.AddModelError("Titre.Libelle", "Un titre avec ce libellé existe déjà pour cet artiste.");
+                this.ModelState.AddModelError("Titre.Libelle", "L'identifiant du titre ne correspond à aucun titre. Ne modifiez pas le code source SVP.");
+            }
+            else
+            {
+                // Vérifie si un titre avec le même libellé existe déjà pour le même artiste
+                bool titreExiste = titreRepository
+                    .LibelleToArtisteAny(titre) && titreRepository.Find(titre.IdTitre)!.Libelle != titre.Libelle;
+
+                if (titreExiste)
+                {
+                    // Ajoute une erreur au ModelState pour le champ "Libelle"
+                    this.ModelState.AddModelError("Titre.Libelle", "Un titre avec ce libellé existe déjà pour cet artiste.");
+                }
             }
 
             titre.Styles = styleRepository.FindStylesByIds(selectedStyleIds).ToList();

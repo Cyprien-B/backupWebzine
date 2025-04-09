@@ -61,7 +61,7 @@ namespace Webzine.Repository.Local
         /// <inheritdoc/>
         public Style? Find(int id)
         {
-            return Factory.Styles.FirstOrDefault(s => s.IdStyle == id);
+            return Factory.Styles.SingleOrDefault(s => s.IdStyle == id);
         }
 
         /// <inheritdoc/>

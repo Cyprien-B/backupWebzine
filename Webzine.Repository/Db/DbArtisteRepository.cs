@@ -55,11 +55,9 @@ namespace Webzine.Repository.Db
         }
 
         /// <inheritdoc/>
-        public Artiste Find(int id)
+        public Artiste? Find(int id)
         {
-            var artisteFind = context.Artistes.AsNoTracking().Single(a => a.IdArtiste == id);
-
-            return artisteFind;
+            return context.Artistes.AsNoTracking().SingleOrDefault(a => a.IdArtiste == id);
         }
 
         /// <inheritdoc/>

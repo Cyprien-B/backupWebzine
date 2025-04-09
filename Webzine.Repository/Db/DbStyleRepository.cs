@@ -54,7 +54,7 @@ namespace Webzine.Repository.Local
         /// <inheritdoc/>
         public Style? Find(int id)
         {
-            return context.Styles.AsNoTracking().Single(s => s.IdStyle == id);
+            return context.Styles.AsNoTracking().SingleOrDefault(s => s.IdStyle == id);
         }
 
         /// <inheritdoc/>
