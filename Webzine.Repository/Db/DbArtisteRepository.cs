@@ -34,11 +34,11 @@ namespace Webzine.Repository.Db
         /// <inheritdoc/>
         public IEnumerable<Artiste> AdministrationFindArtistes(int offset, int limit)
         {
-            return context.Artistes
+            return [.. context.Artistes
                 .OrderBy(a => a.Nom)
                 .Skip(limit * (int)(offset - 1))
                 .Take(limit)
-                .AsNoTracking().ToList();
+                .AsNoTracking()];
         }
 
         /// <inheritdoc/>
@@ -77,10 +77,9 @@ namespace Webzine.Repository.Db
         /// <inheritdoc/>
         public IEnumerable<Artiste> Search(string mot)
         {
-            return context.Artistes
+            return [.. context.Artistes
                 .Where(a => a.Nom.ToLower().Contains(mot.ToLower()))
-                .AsNoTracking()
-                .ToList();
+                .AsNoTracking()];
         }
 
         /// <inheritdoc/>
