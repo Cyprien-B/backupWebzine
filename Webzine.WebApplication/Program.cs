@@ -108,7 +108,7 @@ public static class Program
     {
         // Vérification et configuration de SGBD
         string sgbd = Builder!.Configuration["App:SGBD"] ?? string.Empty;
-        if (!new[] { "Local", "SQLite" }.Contains(sgbd, StringComparer.OrdinalIgnoreCase))
+        if (!new[] { "Local", "SQLite", "SQLServer", "PG" }.Contains(sgbd, StringComparer.OrdinalIgnoreCase))
         {
             Builder.Configuration["App:SGBD"] = "SQLite";
         }
@@ -235,10 +235,37 @@ public static class Program
 
     private static void ConfigureConnexionSGBD()
     {
+        var sgbd = Builder!.Configuration.GetValue<string>("App:SGBD")?.ToLowerInvariant();
+        var connexionString = Builder!.Configuration.GetValue<string>("App:DbConnexion") ?? string.Empty;
+
         Builder!.Services.AddDbContext<WebzineDbContext>(options =>
-            options.UseSqlite(
-                Builder!.Configuration.GetValue<string>("App:DbConnexion") ?? string.Empty,
-                b => b.MigrationsAssembly("Webzine.WebApplication")));
+        {
+            switch (sgbd)
+            {
+                case "sqlite":
+                    options.UseSqlite(
+                        connexionString,
+                        b => b.MigrationsAssembly("Webzine.WebApplication"));
+                    break;
+
+                case "sqlserver":
+                    options.UseSqlServer(
+                        connexionString,
+                        b => b.MigrationsAssembly("Webzine.WebApplication"));
+                    break;
+
+                case "pg":
+                    options.UseNpgsql(
+                        connexionString,
+                        b => b.MigrationsAssembly("Webzine.WebApplication"));
+                    break;
+
+                default:
+                    throw new InvalidOperationException(
+                        $"SGBD non supporté : {sgbd}. " +
+                        "Valeurs possibles : SQLite, SQLServer, PostgreSQL");
+            }
+        });
     }
 
     private static void ConfigureCustomRoutes()

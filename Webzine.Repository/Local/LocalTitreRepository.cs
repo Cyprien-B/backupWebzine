@@ -43,7 +43,7 @@ namespace Webzine.Repository.Local
         /// <inheritdoc/>
         public IEnumerable<Titre> AdministrationFindTitres(int offset, int limit)
         {
-            return Factory.Titres.OrderBy(t => t.Artiste.Nom).Skip(limit * (int)(offset - 1)).Take(limit).ToList();
+            return Factory.Titres.OrderBy(t => t.Artiste.Nom).ThenBy(t => t.Libelle).Skip(limit * (int)(offset - 1)).Take(limit).ToList();
         }
 
         /// <inheritdoc/>

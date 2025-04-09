@@ -59,7 +59,7 @@ namespace Webzine.Repository.Db
         /// <inheritdoc/>
         public IEnumerable<Titre> AdministrationFindTitres(int offset, int limit)
         {
-            return context.Titres.Include(t => t.Artiste).OrderBy(t => t.Artiste.Nom).Skip(limit * (int)(offset - 1)).Take(limit).AsNoTracking().ToList();
+            return context.Titres.Include(t => t.Artiste).OrderBy(t => t.Artiste.Nom).ThenBy(t => t.Libelle).Skip(limit * (int)(offset - 1)).Take(limit).AsNoTracking().ToList();
         }
 
         /// <inheritdoc/>

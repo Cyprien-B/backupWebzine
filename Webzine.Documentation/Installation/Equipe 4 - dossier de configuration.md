@@ -18,7 +18,7 @@ Les options de configuration sont les suivantes :
 Seeder : il existe deux options, "Local" et "Deezer", ou "Ignore" si vous ne
 voulez pas seeder la base de données.
 
-SGBD : soit SQLite, soit SQLServer.
+SGBD : soit SQLite, soit SQLServer, soit PG ou Local (Si on ne veut pas se servir d'une BDD).
 
 Repository : Local ou Db, qui va dépendre de vos données mockées. Par défaut, il
 prendra Db.
@@ -40,6 +40,8 @@ NbArtistesParPagination : spécifie le nombre d'artistes à afficher par page.
 NbCommentairesParPagination : spécifie le nombre de commentaires à afficher par
 page.
 
-Il est possible en mode Production d'implémenter un fichier exclusif appelé appsettings.Production.json.
+Il est possible en mode Production d'implémenter un fichier exclusif appelé
+appsettings.Production.json.
 
-Il suffit d'ajouter dans les variable d'environnement la variable ASPNETCORE_ENVIRONMENT avec la valeur "Production".
+Il suffit d'ajouter dans les variable d'environnement la variable
+ASPNETCORE_ENVIRONMENT avec la valeur "Production".

@@ -23,7 +23,7 @@ namespace Webzine.Repository.Db
                 .Include(t => t.Artiste)
                 .Include(t => t.Styles)
                 .Include(t => t.Commentaires)
-                .FirstOrDefault(t => t.IdTitre == commentaire.IdTitre);
+                .SingleOrDefault(t => t.IdTitre == commentaire.IdTitre);
 
             if (titreExistant != null)
             {
@@ -45,7 +45,7 @@ namespace Webzine.Repository.Db
         {
             return context.Commentaires
                 .Include(c => c.Titre)
-                .OrderBy(c => c.DateCreation)
+                .OrderByDescending(c => c.DateCreation)
                 .Skip(limit * (int)(offset - 1))
                 .Take(limit)
                 .AsNoTracking().ToList();
