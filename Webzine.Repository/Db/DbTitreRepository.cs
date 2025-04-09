@@ -77,22 +77,10 @@ namespace Webzine.Repository.Db
                 .Include(t => t.Artiste)
                 .Include(t => t.Styles)
                 .Include(t => t.Commentaires)
-                .FirstOrDefault(t => t.IdTitre == titre.IdTitre);
+                .SingleOrDefault(t => t.IdTitre == titre.IdTitre);
 
             if (titreExistant != null)
             {
-                // Supprimer les commentaires associés
-                context.Commentaires.RemoveRange(titreExistant.Commentaires);
-
-                // Retirer le titre de la collection de titres de l'artiste
-                titreExistant.Artiste?.Titres.Remove(titreExistant);
-
-                // Retirer le titre des collections de titres des styles
-                foreach (var style in titreExistant.Styles.ToList())
-                {
-                    style.Titres.Remove(titreExistant);
-                }
-
                 // Supprimer le titre
                 context.Titres.Remove(titreExistant);
 
@@ -181,15 +169,11 @@ namespace Webzine.Repository.Db
                 throw new InvalidDataException("Styles invalides");
             }
 
-            // Méthode 1 : Remplacement contrôlé avec Clear()
             existingTitre.Styles.Clear(); // Supprime les relations existantes
             foreach (var style in stylesExistants)
             {
                 existingTitre.Styles.Add(style); // Ajoute les nouvelles relations
             }
-
-            // Méthode alternative : Utilisation de la navigation inverse
-            // existingTitre.Styles = stylesExistants;
 
             // Mise à jour des propriétés scalaires
             context.Entry(existingTitre).CurrentValues.SetValues(titre);
