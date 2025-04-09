@@ -25,8 +25,12 @@ namespace Webzine.Business
         /// <inheritdoc/>
         public void IncrementNbLectures(Titre titre)
         {
-            titre.NbLectures++;
-            titreRepository.Update(titre);
+            var newtitre = titreRepository.Find(titre.IdTitre);
+            if (newtitre != null)
+            {
+            newtitre.NbLectures++;
+            titreRepository.Update(newtitre);
+            }
         }
     }
 }
