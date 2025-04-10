@@ -24,7 +24,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         public IActionResult Index(int page = 1)
         {
             var paginationLimitStyle = configuration.GetValue<int>("App:Pages:Administration:NbStylesParPagination");
-            AdministrationStyleModel administrationStyleModel = new()
+            var administrationStyleModel = new AdministrationTitreModel()
             {
                 PaginationActuelle = (uint)page,
                 PaginationMax = (uint)Math.Ceiling((double)styleRepository.Count() / paginationLimitStyle),
@@ -52,8 +52,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         public IActionResult Create([FromForm] Style style)
         {
             // Vérifie si le libellé existe déjà dans la base de données
-            // TODO: Modifier l'emplacement et/ou créer un service ou une méthode de repository qui vient vérifier l'existence du libelle.
-            bool styleExiste = styleRepository.LibelleAny(style);
+            var styleExiste = styleRepository.LibelleAny(style);
 
             if (styleExiste)
             {
@@ -120,7 +119,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
             else
             {
                 // Vérifie si le libellé existe déjà dans la base de données
-                bool styleExiste = styleRepository.LibelleAny(style) && styleRepository.Find(style.IdStyle)!.Libelle != style.Libelle;
+                var styleExiste = styleRepository.LibelleAny(style) && styleRepository.Find(style.IdStyle)!.Libelle != style.Libelle;
 
                 if (styleExiste)
                 {

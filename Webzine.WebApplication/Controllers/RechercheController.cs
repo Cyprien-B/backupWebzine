@@ -29,7 +29,7 @@ namespace Webzine.WebApplication.Controllers
                 return this.Redirect(refererUrl); // Retourne la vue active avec les erreurs
             }
 
-            RechercheModel model = new()
+            var model = new RechercheModel()
             {
                 TermeRecherche = recherche,
                 Artistes = artisteRepository.Search(recherche).ToList(),

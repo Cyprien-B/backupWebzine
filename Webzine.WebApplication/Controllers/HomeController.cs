@@ -22,11 +22,11 @@ namespace Webzine.WebApplication.Controllers
         [HttpGet]
         public IActionResult Index(uint page = 1)
         {
-            int nbTitresChroniques = configuration.GetValue<int>("App:Pages:Home:NbTitresChroniquesParPaginations");
-            int nbTitresPopulaires = configuration.GetValue<int>("App:Pages:Home:NbTitresPopulaires");
-            int descriptionMax = configuration.GetValue<int>("App:Pages:Home:DescriptionMax");
+            var nbTitresChroniques = configuration.GetValue<int>("App:Pages:Home:NbTitresChroniquesParPaginations");
+            var nbTitresPopulaires = configuration.GetValue<int>("App:Pages:Home:NbTitresPopulaires");
+            var descriptionMax = configuration.GetValue<int>("App:Pages:Home:DescriptionMax");
 
-            HomeModel model = new()
+            var model = new HomeModel()
             {
                 PaginationMax = (uint)Math.Ceiling((double)titreRepository.Count() / nbTitresChroniques),
                 TitresRecemmentsChroniques = titreRepository.FindTitres((int)page, nbTitresChroniques).ToList(),

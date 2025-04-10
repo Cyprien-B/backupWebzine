@@ -25,7 +25,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         {
             var paginationLimitArtiste = configuration.GetValue<int>("App:Pages:Administration:NbArtistesParPagination");
 
-            AdministrationArtisteModel administrationArtisteModel = new()
+            var administrationArtisteModel = new AdministrationArtisteModel()
             {
                 PaginationActuelle = (uint)page,
                 PaginationMax = (uint)Math.Ceiling((double)artisteRepository.Count() / paginationLimitArtiste),
@@ -54,7 +54,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         public IActionResult Create([FromForm] Artiste artiste)
         {
             // Vérifie si le libellé existe déjà dans la base de données
-            bool artisteExiste = artisteRepository.NomAny(artiste);
+            var artisteExiste = artisteRepository.NomAny(artiste);
 
             if (artisteExiste)
             {
@@ -120,7 +120,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
             }
             else
             {
-                bool artisteExiste = artisteRepository.NomAny(artiste) && artisteRepository.Find(artiste.IdArtiste)!.Nom != artiste.Nom;
+                var artisteExiste = artisteRepository.NomAny(artiste) && artisteRepository.Find(artiste.IdArtiste)!.Nom != artiste.Nom;
 
                 if (artisteExiste)
                 {

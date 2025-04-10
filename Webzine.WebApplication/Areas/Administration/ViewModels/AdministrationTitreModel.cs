@@ -24,6 +24,6 @@ namespace Webzine.WebApplication.Areas.Administration.ViewModels
         /// <summary>
         /// Obtient ou définit la liste de titres paginées.
         /// </summary>
-        public IEnumerable<Titre> Titres { get; set; } = [];
+        public IEnumerable<Style> Styles { get; set; } = [];
     }
 }

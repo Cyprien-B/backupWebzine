@@ -25,7 +25,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         {
             var paginationLimitCommentaire = configuration.GetValue<int>("App:Pages:Administration:NbCommentairesParPagination");
 
-            AdministrationCommentaireModel administrationCommentaireModel = new()
+            var administrationCommentaireModel = new AdministrationCommentaireModel()
             {
                 PaginationActuelle = (uint)page,
                 PaginationMax = (uint)Math.Ceiling((double)commentaireRepository.Count() / paginationLimitCommentaire),

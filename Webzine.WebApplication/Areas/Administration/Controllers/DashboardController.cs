@@ -22,7 +22,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            AdministrationDashboardModel model = new()
+            var model = new AdministrationDashboardModel()
             {
                 NbArtistes = (uint)artisteRepository.Count(),
                 NbStyles = (uint)styleRepository.Count(),
