@@ -205,6 +205,19 @@ namespace Webzine.WebApplication.Seeders
                 .GroupBy(t => new { t.Libelle, t.IdArtiste }) // Grouper par Libelle et IdArtiste pour vérifier unicité
                 .Select(g => g.First()) // Conserver uniquement le premier titre pour chaque groupe unique
                 .ToList();
+
+            Titres.ForEach(t =>
+            {
+                if (t.Duree <= 0)
+                {
+                    t.Duree = 1;
+                }
+
+                if (t.Chronique.Length < 10)
+                {
+                    t.Chronique = "NOUS N'AVONS PAS DE CHRONIQUE POUR CET ARTISTE.";
+                }
+            });
         }
 
         /// <summary>
