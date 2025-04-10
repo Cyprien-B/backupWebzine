@@ -24,7 +24,7 @@ namespace Webzine.WebApplication.Areas.Administration.Controllers
         public IActionResult Index(int page = 1)
         {
             var paginationLimitStyle = configuration.GetValue<int>("App:Pages:Administration:NbStylesParPagination");
-            var administrationStyleModel = new AdministrationTitreModel()
+            var administrationStyleModel = new AdministrationStyleModel()
             {
                 PaginationActuelle = (uint)page,
                 PaginationMax = (uint)Math.Ceiling((double)styleRepository.Count() / paginationLimitStyle),

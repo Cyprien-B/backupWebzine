@@ -97,7 +97,7 @@ namespace Webzine.WebApplication.TagHelpers
 
             // Artiste
             var artistLink = new TagBuilder("a");
-            artistLink.Attributes["href"] = urlHelper.Action("Index", "Artiste", new { artiste = titre.Artiste.Nom });
+            artistLink.Attributes["href"] = $"/Artiste/{titre.Artiste.Nom}";
             artistLink.AddCssClass("text-decoration-none");
             artistLink.InnerHtml.Append(titre.Artiste.Nom);
 
