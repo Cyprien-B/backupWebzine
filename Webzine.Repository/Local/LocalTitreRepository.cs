@@ -56,7 +56,14 @@ namespace Webzine.Repository.Local
         /// <inheritdoc/>
         public void Delete(Titre titre)
         {
-            Factory.Titres.RemoveAll(s => s.IdTitre == titre.IdTitre);
+            Factory.Artistes.ForEach(a =>
+            {
+                a.Titres.Remove(this.Find(titre.IdTitre) ?? throw new ArgumentNullException("titre inexitant à supprimer"));
+            });
+
+            Factory.Titres.RemoveAll(t => t.IdTitre == titre.IdTitre);
+
+            Factory.Commentaires.RemoveAll(c => c.IdTitre == titre.IdTitre);
         }
 
         /// <inheritdoc/>

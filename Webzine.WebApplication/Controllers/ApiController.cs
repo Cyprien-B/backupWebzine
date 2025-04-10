@@ -21,7 +21,7 @@ namespace Webzine.WebApplication.Controllers
             var apiInfo = new
             {
                 name = "webzine",
-                version = "1.0",
+                version = "3.0",
             };
 
             return this.Ok(apiInfo);
