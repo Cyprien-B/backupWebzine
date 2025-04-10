@@ -8,7 +8,6 @@ namespace Webzine.Repository.Local
     using Webzine.Entity;
     using Webzine.Entity.Fixtures;
     using Webzine.Repository.Contracts;
-    using Webzine.Repository.Db;
 
     /// <inheritdoc/>
     public class LocalArtisteRepository : IArtisteRepository
@@ -55,6 +54,7 @@ namespace Webzine.Repository.Local
         public void Delete(Artiste artiste)
         {
             Factory.Artistes.RemoveAll(a => a.IdArtiste == artiste.IdArtiste);
+            Factory.Titres = Factory.Titres.Where(t => t.IdArtiste != artiste.IdArtiste).ToList();
         }
 
         /// <inheritdoc/>
