@@ -15,103 +15,160 @@ namespace Webzine.WebApplication.Seeders
     using Webzine.EntityContext;
 
     /// <summary>
-    /// Seeder pour récupérer et valider des données depuis l'API Deezer.
+    /// Classe pour peupler la base de données avec des données de Deezer.
     /// </summary>
     public static class SeedDataDeezer
     {
-        private static readonly HttpClient HttpClient = new();
+        private static readonly HttpClient HttpClient = new HttpClient();
 
         /// <summary>
         /// Obtient la liste des artistes.
-        /// Cette liste contient les artistes récupérés ou générés pour le peuplement de la base de données.
         /// </summary>
-        public static List<Artiste> Artistes { get; private set; } = [];
+        public static List<Artiste> Artistes { get; private set; } = new List<Artiste>();
 
         /// <summary>
         /// Obtient la liste des styles.
-        /// Cette liste contient les styles musicaux associés aux titres.
         /// </summary>
-        public static List<Style> Styles { get; private set; } = [];
+        public static List<Style> Styles { get; private set; } = new List<Style>();
 
         /// <summary>
         /// Obtient la liste des titres.
-        /// Cette liste contient les titres récupérés ou générés pour le peuplement de la base de données.
         /// </summary>
-        public static List<Titre> Titres { get; private set; } = [];
+        public static List<Titre> Titres { get; private set; } = new List<Titre>();
 
         /// <summary>
         /// Obtient la liste des commentaires.
-        /// Cette liste est vide par défaut et peut être utilisée pour gérer les commentaires associés aux titres.
         /// </summary>
-        public static List<Commentaire> Commentaires { get; private set; } = [];
+        public static List<Commentaire> Commentaires { get; private set; } = new List<Commentaire>();
 
         /// <summary>
-        /// Initialise la base de données avec les données validées.
+        /// Initialise la base de données avec les données de Deezer.
         /// </summary>
-        /// <param name="services">Fournisseur de services.</param>
-        /// <returns>Une tâche asynchrone.</returns>
+        /// <param name="services">Le fournisseur de services.</param>
+        /// <returns>Une tâche représentant l'opération asynchrone.</returns>
         public static async Task Initialize(IServiceProvider services)
         {
-            // Étape 1 : Récupérer les données depuis l'API Deezer
-            await FetchDataFromDeezerAsync();
-
-            // Étape 2 : Valider les données récupérées
+            // 1. Récupération et préparation des données
+            await FetchDataFromDeezerAsync().ConfigureAwait(false);
             ValidateData();
 
-            // Étape 3 : Insérer les données validées dans la base de données
-            using var scope = services.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<WebzineDbContext>();
+            using (var scope = services.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<WebzineDbContext>();
 
-            if (!context.Titres.Any())
-            {
-                Console.WriteLine("Insertion des données validées dans la base de données...");
-                SeedDatabase(context);
-                Console.WriteLine("Base de données peuplée avec succès !");
-            }
-            else
-            {
-                Console.WriteLine("La base de données est déjà peuplée.");
+                // Si aucun titre n'existe, on persiste nos données.
+                if (!context.Titres.Any())
+                {
+                    Console.WriteLine("Insertion des artistes et styles dans la base de données...");
+
+                    // Enregistrer artistes et styles
+                    context.Artistes.AddRange(Artistes);
+                    context.Styles.AddRange(Styles);
+                    context.SaveChanges();
+
+                    // IMPORTANT :
+                    // Après SaveChanges, les objets Artistes ont désormais leurs Ids attribués.
+                    // On permet de récupérer la liste mise à jour depuis le contexte.
+                    var artistesPersistes = context.Artistes.ToList();
+
+                    // Réassigner l'artiste persistant à chaque titre en recherchant par nom.
+                    foreach (var titre in Titres)
+                    {
+                        if (titre.Artiste != null)
+                        {
+                            // On recherche dans la liste persistée l'artiste dont le nom correspond.
+                            var artistePersistant = artistesPersistes
+                                .FirstOrDefault(a =>
+                                    a.Nom.Equals(titre.Artiste.Nom, StringComparison.OrdinalIgnoreCase));
+                            if (artistePersistant != null)
+                            {
+                                titre.Artiste = artistePersistant;
+                                titre.IdArtiste = artistePersistant.IdArtiste;
+                            }
+                        }
+
+                        // Pour les styles, on peut également réassigner
+                        if (titre.Styles != null && titre.Styles.Any())
+                        {
+                            var stylesPersistes = context.Styles.ToList();
+                            var stylesAssocies = new List<Style>();
+                            foreach (var st in titre.Styles)
+                            {
+                                var stylePers = stylesPersistes.FirstOrDefault(s =>
+                                    s.Libelle.Equals(st.Libelle, StringComparison.OrdinalIgnoreCase));
+                                if (stylePers != null)
+                                {
+                                    stylesAssocies.Add(stylePers);
+                                }
+                            }
+
+                            titre.Styles = stylesAssocies;
+                        }
+                    }
+
+                    // Enregistrer les titres et commentaires
+                    Console.WriteLine("Insertion des titres dans la base de données...");
+                    context.Titres.AddRange(Titres);
+                    context.Commentaires.AddRange(Commentaires);
+                    context.SaveChanges();
+
+                    Console.WriteLine("Base de données peuplée avec succès !");
+                }
+                else
+                {
+                    Console.WriteLine("La base de données est déjà peuplée.");
+                }
             }
         }
 
         /// <summary>
-        /// Récupère les données depuis l'API Deezer et remplit les listes d'entités.
+        /// Récupère les données depuis l'API Deezer.
         /// </summary>
-        /// <returns>Une tâche asynchrone.</returns>
+        /// <returns>Une tâche représentant l'opération asynchrone.</returns>
         public static async Task FetchDataFromDeezerAsync()
         {
-            const int total = 3000; // Nombre total de titres à récupérer
-            const int batchSize = 300; // Nombre de titres par lot
+            var tracks = await GetTracksAsync().ConfigureAwait(false);
 
-            var tracks = await GetTracksAsync(total, batchSize);
-
-            // Extraction des artistes uniques
+            // Créer la liste d'artistes uniques selon le nom
             Artistes = tracks
-                .Select(t => new Artiste { Nom = t.Artist.Name })
-                .GroupBy(a => a.Nom)
-                .Select(g => g.First())
+                .Select(t => t.Artist.Name)
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .Select(nom => new Artiste { Nom = nom })
                 .ToList();
 
-            // Extraction des styles uniques
+            // Créer la liste de styles uniques à partir des genres
             Styles = tracks
-                .SelectMany(t => t.Genres ?? [])
-                .Select(g => new Style { Libelle = g.Name })
-                .GroupBy(s => s.Libelle)
-                .Select(g => g.First())
+                .SelectMany(t => t.Genres ?? new List<DeezerGenre>())
+                .Select(g => g.Name)
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .Select(name => new Style { Libelle = name })
                 .ToList();
 
-            // Création des titres
+            var random = new Random();
+
+            // Création des titres : on associe initialement l'artiste de la liste Artistes (non persistée)
             Titres = tracks.Select(t =>
             {
+                var artisteAssocie = Artistes
+                    .FirstOrDefault(a => a.Nom.Equals(t.Artist.Name, StringComparison.OrdinalIgnoreCase));
+
+                var styleAleatoire = Styles.Count > 0
+    ? Styles[random.Next(Styles.Count)]
+    : new Style { Libelle = "Inconnu" };
+
                 var titre = new Titre
                 {
                     Libelle = t.Title,
                     Album = t.Album.Title,
                     UrlJaquette = t.Album.Cover,
-                    IdArtiste = 0, // Lien avec l'artiste sera vérifié plus tard
-                    Styles = t.Genres?.Select(g => new Style { Libelle = g.Name }).ToList() ?? [],
+                    Artiste = artisteAssocie!,
+
+                    // On n'affecte pas IdArtiste ici ; ce sera mis à jour après persistance.
+                    Styles = new List<Style> { styleAleatoire },
                     DateCreation = DateTime.UtcNow,
-                    DateSortie = DateTime.UtcNow, // Pas disponible dans l'API Deezer
+                    DateSortie = DateTime.UtcNow,
+                    Duree = 0,
+                    Chronique = string.Empty,
                 };
 
                 return titre;
@@ -119,18 +176,19 @@ namespace Webzine.WebApplication.Seeders
         }
 
         /// <summary>
-        /// Valide les données dans les listes et supprime les doublons.
+        /// Valide les données récupérées.
         /// </summary>
         public static void ValidateData()
         {
-            // Supprimer les doublons dans chaque liste
+            // Supprimer les doublons dans les artistes
             Artistes = Artistes
-                .GroupBy(a => a.Nom.Trim(), StringComparer.OrdinalIgnoreCase) // Insensible à la casse et aux espaces
+                .GroupBy(a => a.Nom.Trim(), StringComparer.OrdinalIgnoreCase)
                 .Select(g => g.First())
                 .ToList();
 
-            Styles =
-            [
+            // Pour test, ici on garde la liste prédéfinie des styles
+            Styles = new List<Style>
+            {
                 new Style { IdStyle = 1, Libelle = "Pop" },
                 new Style { IdStyle = 2, Libelle = "Rock" },
                 new Style { IdStyle = 3, Libelle = "Jazz" },
@@ -150,134 +208,76 @@ namespace Webzine.WebApplication.Seeders
                 new Style { IdStyle = 17, Libelle = "Trance" },
                 new Style { IdStyle = 18, Libelle = "Ambient" },
                 new Style { IdStyle = 19, Libelle = "Chillout" },
-                new Style { IdStyle = 20, Libelle = "Hard Rock" },
-                new Style { IdStyle = 21, Libelle = "Metal" },
-                new Style { IdStyle = 22, Libelle = "Punk" },
-                new Style { IdStyle = 23, Libelle = "Grunge" },
-                new Style { IdStyle = 24, Libelle = "K-Pop" },
-                new Style { IdStyle = 25, Libelle = "J-Pop" },
-                new Style { IdStyle = 26, Libelle = "World Music" },
-                new Style { IdStyle = 27, Libelle = "Latin Music" },
-                new Style { IdStyle = 28, Libelle = "Afrobeat" },
-                new Style { IdStyle = 29, Libelle = "Trap" },
-                new Style { IdStyle = 30, Libelle = "Dubstep" },
-                new Style { IdStyle = 31, Libelle = "Indie Rock" },
-                new Style { IdStyle = 32, Libelle = "Lo-fi Hip-Hop" },
-            ];
+            };
 
-            var validTitres = new List<Titre>();
-
-            foreach (var titre in Titres)
-            {
-                // Vider la liste des styles pour ce titre
-                titre.Styles.Clear();
-
-                // Vérifier si l'IdArtiste existe dans la liste des artistes
-                var artiste = Artistes.FirstOrDefault(a => a.IdArtiste == titre.IdArtiste);
-
-                if (artiste != null)
-                {
-                    // Associer l'objet Artiste au titre
-                    titre.Artiste = artiste;
-                    validTitres.Add(titre); // Ajouter le titre à la liste des titres valides
-                    continue;
-                }
-
-                // Si l'IdArtiste n'existe pas, chercher par le nom de l'artiste
-                artiste = Artistes.FirstOrDefault(a => a.Nom.Equals(titre.Artiste?.Nom, StringComparison.OrdinalIgnoreCase));
-
-                if (artiste != null)
-                {
-                    // Associer l'objet Artiste au titre et mettre à jour l'IdArtiste
-                    titre.IdArtiste = artiste.IdArtiste;
-                    titre.Artiste = artiste;
-                    validTitres.Add(titre); // Ajouter le titre à la liste des titres valides
-                    continue;
-                }
-
-                // Si aucun artiste valide n'est trouvé, supprimer le titre (ne pas l'ajouter aux titres valides)
-            }
-
-            // Remplacer la liste des titres par les titres valides uniquement
-            Titres = validTitres;
-
+            // On filtre les titres sans artiste.
             Titres = Titres
-                .GroupBy(t => new { t.Libelle, t.IdArtiste }) // Grouper par Libelle et IdArtiste pour vérifier unicité
-                .Select(g => g.First()) // Conserver uniquement le premier titre pour chaque groupe unique
+                .Where(t => t.Artiste != null && !string.IsNullOrWhiteSpace(t.Artiste.Nom))
+                .GroupBy(t => new { t.Libelle, NomArtiste = t.Artiste.Nom })
+                .Select(g => g.First())
                 .ToList();
 
-            Titres.ForEach(t =>
+            // Compléter les données manquantes dans les titres.
+            foreach (var titre in Titres)
             {
-                if (t.Duree <= 0)
+                if (titre.Duree <= 0)
                 {
-                    t.Duree = 1;
+                    titre.Duree = 1;
                 }
 
-                if (t.Chronique.Length < 10)
+                if (string.IsNullOrWhiteSpace(titre.Chronique) || titre.Chronique.Length < 10)
                 {
-                    t.Chronique = "NOUS N'AVONS PAS DE CHRONIQUE POUR CET ARTISTE.";
+                    titre.Chronique = "NOUS N'AVONS PAS DE CHRONIQUE POUR CET ARTISTE.";
                 }
-            });
+            }
         }
 
-        /// <summary>
-        /// Insère les données validées dans la base de données.
-        /// </summary>
-        private static void SeedDatabase(WebzineDbContext context)
+        private static async Task<List<DeezerTrack>> GetTracksAsync()
         {
-            context.Artistes.AddRange(Artistes);
-            context.Styles.AddRange(Styles);
-            context.Titres.AddRange(Titres);
-            context.Commentaires.AddRange(Commentaires); // Vide pour le moment
+            var urls = new List<string>
+            {
+                "https://api.deezer.com/search?q=%7Blove%7D&limit=300&index=300",
+                "https://api.deezer.com/chart/0/tracks?limit=300&index=100",
+                "https://api.deezer.com/search?q=%7Bintro%7D&limit=300&index=0",
+                "https://api.deezer.com/search?q=%7Blove%7D&limit=300&index=0",
+                "https://api.deezer.com/chart/0/tracks?limit=300",
+                "https://api.deezer.com/search?q=rock&limit=300&index=0",
+                "https://api.deezer.com/search?q=you&limit=300&index=100",
+                "https://api.deezer.com/search?q=rain&limit=300&index=100",
+                "https://api.deezer.com/search?q=cloud&limit=300&index=0",
+                "https://api.deezer.com/search?q=rain&limit=300&index=200",
+                "https://api.deezer.com/search?q=sun&limit=300&index=100",
+                "https://api.deezer.com/search?q=burn&limit=300&index=0",
+                "https://api.deezer.com/search?q=%7hello%7D&limit=300&index=0",
+                "https://api.deezer.com/search?q=%7by%7D&limit=300&index=0",
+                "https://api.deezer.com/search?q=%7despaire%7D&limit=300&index=0",
+                "https://api.deezer.com/search?q=%7deso%7D&limit=300&index=0",
+                "https://api.deezer.com/search?q=label%3A%22Universal%22&index=52",
+                "https://api.deezer.com/search?q=label%3A%22Universal%22&index=27",
+            };
 
-            context.SaveChanges();
-        }
-
-        /// <summary>
-        /// Récupère les titres depuis l'API Deezer par lots.
-        /// </summary>
-        private static async Task<List<DeezerTrack>> GetTracksAsync(int total, int limit)
-        {
             var allTracks = new List<DeezerTrack>();
-            int index = 0; // Indice de départ pour la pagination
-            string url = $"https://api.deezer.com/chart/0/tracks?limit={limit}";
 
-            while (allTracks.Count < total)
+            foreach (var url in urls)
             {
-                HttpResponseMessage response = await HttpClient.GetAsync(url);
+                HttpResponseMessage response = await HttpClient.GetAsync(url).ConfigureAwait(false);
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    throw new Exception($"Erreur lors de la récupération des titres Deezer : {response.StatusCode}");
+                    throw new Exception($"Erreur lors de la récupération des titres Deezer : {response.StatusCode} pour l'URL {url}");
                 }
 
-                string json = await response.Content.ReadAsStringAsync();
-                var result = JsonSerializer.Deserialize<DeezerResponse>(json, new JsonSerializerOptions
-                {
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                });
+                string json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                var result = JsonSerializer.Deserialize<DeezerResponse>(
+                    json, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
 
-                if (result?.Data == null || result.Data.Count == 0)
+                if (result?.Data != null && result.Data.Count > 0)
                 {
-                    break; // Arrêter si aucune donnée n'est retournée
+                    allTracks.AddRange(result.Data);
                 }
-
-                allTracks.AddRange(result.Data);
-
-                // Vérifier si nous avons atteint la fin des résultats ou le total souhaité
-                if (result.Data.Count < limit || allTracks.Count >= total)
-                {
-                    break;
-                }
-
-                // Mettre à jour l'URL pour paginer
-                index += limit; // Incrémenter l'index par la limite
-                url = $"https://api.deezer.com/chart/0/tracks?limit={limit}&index={index}";
-
-                await Task.Delay(500); // Pause pour éviter d'être bloqué par l'API
             }
 
-            return allTracks.Take(total).ToList();
+            return allTracks;
         }
 
         /// <summary>
